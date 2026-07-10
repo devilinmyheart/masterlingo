@@ -7,7 +7,7 @@ import { STARTER_VOCAB } from "@/data/vocabulary";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Check, Sparkles, Volume2, X } from "lucide-react";
+import { ArrowLeft, Check, Mic, MicOff, Sparkles, Volume2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { speakWithSlot, useVoicePrefs } from "@/lib/voice-prefs";
