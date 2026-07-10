@@ -77,7 +77,11 @@ function Vocabulary() {
   function speak(text: string, lang: LanguageId) {
     if (typeof window === "undefined" || !window.speechSynthesis) return;
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang === "french" ? "fr-FR" : lang === "german" ? "de-DE" : "ja-JP";
+    u.lang =
+      lang === "french" ? "fr-FR" :
+      lang === "german" ? "de-DE" :
+      lang === "japanese" ? "ja-JP" :
+      "en-US";
     window.speechSynthesis.speak(u);
   }
 
