@@ -35,7 +35,9 @@
               "enum": [
                 "french",
                 "german",
-                "japanese"
+                "japanese",
+                "english",
+                "hindi_english"
               ]
             },
             "limit": {
