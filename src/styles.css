@@ -72,6 +72,11 @@
   --color-german-ink: var(--german-ink);
   --color-japanese: var(--japanese);
   --color-japanese-soft: var(--japanese-soft);
+  --color-english: var(--english);
+  --color-english-soft: var(--english-soft);
+  --color-hindi: var(--hindi);
+  --color-hindi-soft: var(--hindi-soft);
+  --color-hindi-ink: var(--hindi-ink);
 
   --color-glass: var(--glass);
   --color-glass-border: var(--glass-border);
