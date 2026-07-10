@@ -9,7 +9,7 @@ export default defineTool({
     "Return the signed-in learner's LingoMaster progress: XP, streak, words learned, minutes studied, and per-language stats.",
   inputSchema: {
     language: z
-      .enum(["french", "german", "japanese"])
+      .enum(["french", "german", "japanese", "english", "hindi_english"])
       .optional()
       .describe("Filter to a single language; omit for all languages."),
   },
