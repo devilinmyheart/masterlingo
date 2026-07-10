@@ -161,25 +161,40 @@ function Onboarding() {
         {step === 1 && (
           <>
             <h1 className="font-display text-3xl font-bold md:text-4xl">What's your goal?</h1>
-            <p className="mt-2 text-muted-foreground">We'll tailor lessons to what matters most to you.</p>
+            <p className="mt-2 text-muted-foreground">
+              Pick up to <span className="font-semibold text-foreground">two</span> — we'll tailor lessons to what matters most to you.
+            </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
-              {GOALS.map((g) => (
-                <button
-                  key={g.id}
-                  onClick={() => setGoal(g.id)}
-                  className={cn(
-                    "flex items-start gap-4 rounded-2xl border-2 p-5 text-left transition-all",
-                    goal === g.id ? "border-brand bg-brand-soft" : "border-border bg-background/50 hover:border-brand/40"
-                  )}
-                >
-                  <span className="text-2xl">{g.emoji}</span>
-                  <div>
-                    <div className="font-semibold">{g.label}</div>
-                    <div className="text-sm text-muted-foreground">{g.description}</div>
-                  </div>
-                </button>
-              ))}
+              {GOALS.map((g) => {
+                const selected = goals.includes(g.id);
+                const order = goals.indexOf(g.id);
+                return (
+                  <button
+                    key={g.id}
+                    onClick={() => toggleGoal(g.id)}
+                    aria-pressed={selected}
+                    className={cn(
+                      "relative flex items-start gap-4 rounded-2xl border-2 p-5 text-left transition-all",
+                      selected ? "border-brand bg-brand-soft" : "border-border bg-background/50 hover:border-brand/40"
+                    )}
+                  >
+                    <span className="text-2xl">{g.emoji}</span>
+                    <div className="min-w-0">
+                      <div className="font-semibold">{g.label}</div>
+                      <div className="text-sm text-muted-foreground">{g.description}</div>
+                    </div>
+                    {selected && (
+                      <span className="absolute right-3 top-3 grid size-6 place-items-center rounded-full bg-brand text-[11px] font-bold text-brand-foreground shadow">
+                        {order + 1}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
+            <p className="mt-4 text-xs text-muted-foreground">
+              {goals.length}/2 selected{goals.length === 2 ? " · picking a third will replace your first choice" : ""}
+            </p>
           </>
         )}
 
