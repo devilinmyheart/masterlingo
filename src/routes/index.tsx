@@ -527,6 +527,7 @@ function SiteFooter() {
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
             <li><a href="#faq" className="hover:text-foreground">FAQ</a></li>
             <li><a href="#pricing" className="hover:text-foreground">Pricing</a></li>
+            <li><a href="/help" className="hover:text-foreground">Contact us</a></li>
           </ul>
         </div>
       </div>
