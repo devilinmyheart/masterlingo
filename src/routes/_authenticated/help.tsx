@@ -63,7 +63,32 @@ const SUBJECTS = [
 function HelpPage() {
   const qc = useQueryClient();
   const [subject, setSubject] = useState("general");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+
+  const { data: userData } = useQuery({
+    queryKey: ["user-email-name"],
+    queryFn: async () => {
+      const { data: authData } = await supabase.auth.getUser();
+      const { data: profileData } = await supabase
+        .from("profiles")
+        .select("display_name")
+        .eq("id", authData.user?.id ?? "")
+        .single();
+      return {
+        name: profileData?.display_name ?? authData.user?.user_metadata?.full_name ?? "",
+        email: authData.user?.email ?? "",
+      };
+    },
+  });
+
+  useState(() => {
+    if (userData) {
+      setName(userData.name);
+      setEmail(userData.email);
+    }
+  });
 
   const { data: submissions } = useQuery({
     queryKey: ["contact-submissions"],
@@ -78,11 +103,13 @@ function HelpPage() {
   });
 
   const submit = useMutation({
-    mutationFn: async (values: { subject: string; message: string }) => {
+    mutationFn: async (values: { subject: string; name: string; email: string; message: string }) => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData.user) throw new Error("Not signed in");
       const { error } = await supabase.from("contact_submissions").insert({
         user_id: userData.user.id,
+        name: values.name,
+        email: values.email,
         subject: values.subject,
         message: values.message,
       });
@@ -101,11 +128,24 @@ function HelpPage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!name.trim()) {
+      toast.error("Please enter your name");
+      return;
+    }
+    if (!email.trim() || !email.includes("@")) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
     if (!message.trim()) {
       toast.error("Please enter a message");
       return;
     }
-    submit.mutate({ subject: SUBJECTS.find((s) => s.value === subject)?.label ?? subject, message });
+    submit.mutate({
+      subject: SUBJECTS.find((s) => s.value === subject)?.label ?? subject,
+      name,
+      email,
+      message,
+    });
   }
 
   return (
