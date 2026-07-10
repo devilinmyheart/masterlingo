@@ -442,12 +442,12 @@ function Pricing() {
         </div>
         <div className="relative overflow-hidden rounded-3xl bg-foreground p-8 text-background shadow-2xl">
           <div className="absolute right-4 top-4 rounded-full bg-german px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-german-ink">Most Popular</div>
-          <h3 className="text-lg font-bold">Polyglot</h3>
+          <h3 className="text-lg font-bold">{"\n"}</h3>
           <div className="mt-4 font-display text-4xl font-bold">
-            $19<span className="text-base font-normal opacity-60">/mo</span>
+            $1<span className="text-base font-normal opacity-60">/month</span>
           </div>
           <ul className="mt-6 space-y-3 text-sm opacity-90">
-            {["All three languages", "Unlimited AI tutor", "Native audio downloads", "Offline mode", "No ads"].map((f) => (
+            {["All languages", "Unlimited AI tutor", "Native audio downloads", "Offline mode", "No ads"].map((f) => (
               <li key={f} className="flex items-center gap-2"><Check className="size-4 text-german" /> {f}</li>
             ))}
           </ul>
