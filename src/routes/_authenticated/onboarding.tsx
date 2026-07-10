@@ -36,6 +36,7 @@ const LEVELS: { id: Level; label: string; description: string }[] = [
 
 function Onboarding() {
   const navigate = useNavigate();
+  const qc = useQueryClient();
   const [step, setStep] = useState(0);
   const [language, setLanguage] = useState<LanguageId | null>(null);
   const [goal, setGoal] = useState<Goal | null>(null);
@@ -74,6 +75,7 @@ function Onboarding() {
       if (words.length) await supabase.from("vocabulary_items").insert(words);
 
       toast.success("You're all set! Let's start learning.");
+      await qc.invalidateQueries({ queryKey: ["onboarding-status", user.id] });
       navigate({ to: "/dashboard" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not save preferences");
