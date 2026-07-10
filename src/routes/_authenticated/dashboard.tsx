@@ -9,7 +9,14 @@ import { LineChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "rec
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard — LingoMaster" }] }),
+  head: () => ({
+    meta: [
+      { title: "Dashboard — LingoMaster" },
+      { name: "description", content: "Track your streak, XP, and next lesson across French, German, and Japanese on your LingoMaster dashboard." },
+      { name: "robots", content: "noindex" },
+    ],
+    links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/dashboard" }],
+  }),
   loader: ({ context }) => context.queryClient.ensureQueryData(dashboardQuery),
   component: Dashboard,
 });
