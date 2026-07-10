@@ -48,6 +48,8 @@ const LANG_ACCENT: Record<LanguageId, { chip: string; bar: string; ring: string;
   french: { chip: "bg-french-soft", bar: "bg-french", ring: "ring-french/30", ink: "text-french" },
   german: { chip: "bg-german-soft", bar: "bg-german", ring: "ring-german/30", ink: "text-german-ink" },
   japanese: { chip: "bg-japanese-soft", bar: "bg-japanese", ring: "ring-japanese/30", ink: "text-japanese" },
+  english: { chip: "bg-english-soft", bar: "bg-english", ring: "ring-english/30", ink: "text-english" },
+  hindi_english: { chip: "bg-hindi-soft", bar: "bg-hindi", ring: "ring-hindi/30", ink: "text-hindi-ink" },
 };
 
 function Dashboard() {
