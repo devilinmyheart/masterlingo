@@ -339,3 +339,173 @@ function shuffle<T>(arr: T[], seed: number): T[] {
   }
   return out;
 }
+
+function sttLangFor(id: LanguageId): string {
+  switch (id) {
+    case "french": return "fr-FR";
+    case "german": return "de-DE";
+    case "japanese": return "ja-JP";
+    case "english": return "en-US";
+    case "hindi_english": return "en-US";
+    default: return "en-US";
+  }
+}
+
+function normalize(s: string) {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\p{L}\p{N}\s]/gu, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function similarity(a: string, b: string): number {
+  const x = normalize(a);
+  const y = normalize(b);
+  if (!x || !y) return 0;
+  if (x === y) return 1;
+  // Levenshtein-based similarity
+  const dp: number[] = Array(y.length + 1).fill(0).map((_, i) => i);
+  for (let i = 1; i <= x.length; i++) {
+    let prev = dp[0];
+    dp[0] = i;
+    for (let j = 1; j <= y.length; j++) {
+      const tmp = dp[j];
+      dp[j] = x[i - 1] === y[j - 1] ? prev : 1 + Math.min(prev, dp[j], dp[j - 1]);
+      prev = tmp;
+    }
+  }
+  const dist = dp[y.length];
+  return 1 - dist / Math.max(x.length, y.length);
+}
+
+function SpeakStep({
+  target, pronunciation, langCode, onSkip, onDone, onSpeak, isLast,
+}: {
+  target: string;
+  pronunciation?: string;
+  langCode: string;
+  onSkip: () => void;
+  onDone: () => void;
+  onSpeak: () => void;
+  isLast: boolean;
+}) {
+  const [listening, setListening] = useState(false);
+  const [transcript, setTranscript] = useState("");
+  const [score, setScore] = useState<number | null>(null);
+  const [supported, setSupported] = useState(true);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const SR = (window as unknown as { SpeechRecognition?: unknown; webkitSpeechRecognition?: unknown }).SpeechRecognition
+      || (window as unknown as { webkitSpeechRecognition?: unknown }).webkitSpeechRecognition;
+    if (!SR) setSupported(false);
+  }, []);
+
+  function start() {
+    const w = window as unknown as {
+      SpeechRecognition?: new () => SpeechRecognitionLike;
+      webkitSpeechRecognition?: new () => SpeechRecognitionLike;
+    };
+    const SR = w.SpeechRecognition || w.webkitSpeechRecognition;
+    if (!SR) { setSupported(false); return; }
+    const rec = new SR();
+    rec.lang = langCode;
+    rec.interimResults = false;
+    rec.maxAlternatives = 3;
+    setTranscript("");
+    setScore(null);
+    setListening(true);
+    rec.onresult = (e) => {
+      const alts: string[] = [];
+      for (let i = 0; i < e.results[0].length; i++) alts.push(e.results[0][i].transcript);
+      const best = alts.reduce((acc, t) => Math.max(acc, similarity(t, target)), 0);
+      setTranscript(alts[0] ?? "");
+      setScore(Math.round(best * 100));
+    };
+    rec.onerror = () => setListening(false);
+    rec.onend = () => setListening(false);
+    rec.start();
+  }
+
+  const passed = score !== null && score >= 60;
+
+  return (
+    <>
+      <div className="text-xs font-bold uppercase tracking-widest text-brand">Say it out loud</div>
+      <div className="mt-4 flex items-center gap-3">
+        <div className="font-display text-4xl font-bold md:text-5xl">{target}</div>
+        <button onClick={onSpeak} aria-label="Hear it" className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground">
+          <Volume2 className="size-5" />
+        </button>
+      </div>
+      {pronunciation && (
+        <div className="mt-1 font-mono text-sm text-muted-foreground">/{pronunciation}/</div>
+      )}
+
+      <div className="mt-8 flex flex-col items-center gap-4">
+        {supported ? (
+          <button
+            onClick={start}
+            disabled={listening}
+            className={cn(
+              "grid size-24 place-items-center rounded-full border-4 transition-all",
+              listening
+                ? "animate-pulse border-destructive bg-destructive/10 text-destructive"
+                : "border-brand bg-brand-soft text-brand hover:scale-105"
+            )}
+            aria-label={listening ? "Listening" : "Tap to speak"}
+          >
+            {listening ? <MicOff className="size-9" /> : <Mic className="size-9" />}
+          </button>
+        ) : (
+          <div className="rounded-2xl border border-border bg-background/60 p-4 text-center text-sm text-muted-foreground">
+            Speech recognition isn't supported in this browser. Try Chrome, Edge, or Safari to practice pronunciation.
+          </div>
+        )}
+        <div className="text-center text-sm text-muted-foreground">
+          {listening ? "Listening…" : supported ? "Tap the mic and say the word" : ""}
+        </div>
+
+        {transcript && (
+          <div className={cn(
+            "w-full rounded-2xl border p-4 text-center",
+            passed ? "border-green-500/40 bg-green-500/5" : "border-amber-500/40 bg-amber-500/5"
+          )}>
+            <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">You said</div>
+            <div className="mt-1 font-display text-xl font-bold">{transcript}</div>
+            <div className="mt-2 text-sm font-semibold">
+              {passed ? (
+                <span className="text-green-600 inline-flex items-center gap-1"><Check className="size-4" /> Nice — {score}% match</span>
+              ) : (
+                <span className="text-amber-700">Close — {score}% match. Try again for a cleaner take.</span>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-8 flex justify-between">
+        <Button variant="ghost" onClick={onSkip} className="rounded-full">
+          Skip
+        </Button>
+        <Button onClick={onDone} className="rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/90">
+          {isLast ? "Finish lesson" : "Next word"}
+        </Button>
+      </div>
+    </>
+  );
+}
+
+// Minimal typing for the browser SpeechRecognition API (not in lib.dom by default in all TS setups).
+type SpeechRecognitionLike = {
+  lang: string;
+  interimResults: boolean;
+  maxAlternatives: number;
+  onresult: (e: { results: { [i: number]: { transcript: string }; length: number }[] & { [i: number]: { length: number; [j: number]: { transcript: string } } } }) => void;
+  onerror: (e: unknown) => void;
+  onend: () => void;
+  start: () => void;
+};
