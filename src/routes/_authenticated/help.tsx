@@ -83,12 +83,12 @@ function HelpPage() {
     },
   });
 
-  useState(() => {
+  useEffect(() => {
     if (userData) {
       setName(userData.name);
       setEmail(userData.email);
     }
-  });
+  }, [userData]);
 
   const { data: submissions } = useQuery({
     queryKey: ["contact-submissions"],
