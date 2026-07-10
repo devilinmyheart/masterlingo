@@ -14,7 +14,36 @@ const searchSchema = z.object({
 
 export const Route = createFileRoute("/_authenticated/learn/")({
   validateSearch: (s) => searchSchema.parse(s),
-  head: () => ({ meta: [{ title: "Learn — LingoMaster" }] }),
+  head: () => ({
+    meta: [
+      { title: "Learn — LingoMaster" },
+      { name: "description", content: "Structured CEFR A1–C2 learning paths for French, German, and Japanese with adaptive lessons and native audio." },
+      { property: "og:title", content: "Learn — LingoMaster" },
+      { property: "og:description", content: "Structured CEFR A1–C2 learning paths for French, German, and Japanese." },
+      { property: "og:url", content: "https://masterlingo.lovable.app/learn" },
+    ],
+    links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/learn" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": LANGUAGE_LIST.map((lang) => ({
+            "@type": "Course",
+            name: `${lang.name} — CEFR A1 to C2`,
+            description: `Learn ${lang.name} from beginner (A1) to advanced (C2) with AI-guided lessons on LingoMaster.`,
+            provider: {
+              "@type": "Organization",
+              name: "LingoMaster",
+              sameAs: "https://masterlingo.lovable.app/",
+            },
+            inLanguage: { french: "fr", german: "de", japanese: "ja" }[lang.id],
+            educationalLevel: "A1, A2, B1, B2, C1, C2",
+          })),
+        }),
+      },
+    ],
+  }),
   loaderDeps: ({ search }) => ({ language: search.language }),
   loader: ({ context }) => context.queryClient.ensureQueryData(learnQuery),
   component: Learn,

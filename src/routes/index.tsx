@@ -30,6 +30,41 @@ export const Route = createFileRoute("/")({
       { name: "twitter:description", content: "Premium AI-powered language learning. Master French, German, and Japanese from A1 to C2 with adaptive lessons, native audio, and an always-on AI tutor." },
     ],
     links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": "https://masterlingo.lovable.app/#organization",
+              name: "LingoMaster",
+              url: "https://masterlingo.lovable.app/",
+              logo: "https://masterlingo.lovable.app/favicon.ico",
+              description:
+                "Premium AI-powered language learning for French, German, and Japanese from A1 to C2.",
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://masterlingo.lovable.app/#website",
+              url: "https://masterlingo.lovable.app/",
+              name: "LingoMaster",
+              publisher: { "@id": "https://masterlingo.lovable.app/#organization" },
+              inLanguage: "en",
+            },
+            {
+              "@type": "FAQPage",
+              mainEntity: FAQS.map((f) => ({
+                "@type": "Question",
+                name: f.q,
+                acceptedAnswer: { "@type": "Answer", text: f.a },
+              })),
+            },
+          ],
+        }),
+      },
+    ],
   }),
   component: Landing,
 });
