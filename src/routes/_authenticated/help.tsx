@@ -186,6 +186,28 @@ function HelpPage() {
                   </select>
                 </div>
                 <div className="space-y-1.5">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Your name"
+                    className="rounded-xl bg-background/50"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="email">Email ID</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    className="rounded-xl bg-background/50"
+                  />
+                </div>
+                <div className="space-y-1.5">
                   <Label htmlFor="message">Message</Label>
                   <Textarea
                     id="message"
@@ -209,6 +231,10 @@ function HelpPage() {
                     </>
                   )}
                 </Button>
+                <p className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Clock className="size-3.5" />
+                  You will receive a response from our team within 24 hours.
+                </p>
               </form>
             </CardContent>
           </Card>
