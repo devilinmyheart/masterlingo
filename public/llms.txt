@@ -1,0 +1,9 @@
+# LingoMaster
+
+> A premium, AI-powered language learning platform that helps users learn French, German, and Japanese from beginner (A1) to advanced (C2) through interactive lessons, an AI tutor, vocabulary tracking, and gamified progress.
+
+LingoMaster combines a clean, modern learning experience with personalized AI tutoring. Users choose a language, set their level and goals, follow a structured CEFR curriculum, practice vocabulary with flashcards and quizzes, and chat with an AI tutor for grammar explanations and conversation practice.
+
+## Pages
+
+- [Home](/): Discover LingoMaster, explore supported languages, features, and pricing.
