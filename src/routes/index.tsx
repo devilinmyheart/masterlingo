@@ -427,7 +427,7 @@ function Pricing() {
       </div>
       <div className="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
         <div className="glass-panel rounded-3xl p-8 shadow-lg">
-          <h3 className="text-lg font-bold uppercase tracking-wide">BASIC</h3>
+          <h3 className="text-lg font-bold uppercase tracking-wide">{"\n"}</h3>
           <div className="mt-4 font-display text-4xl font-bold">
             Free
           </div>
