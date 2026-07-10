@@ -19,7 +19,17 @@ export const Route = createFileRoute("/")({
         content:
           "Premium AI-powered language learning. Master French, German, and Japanese from A1 to C2 with adaptive lessons, native audio, and an always-on AI tutor.",
       },
+      { property: "og:title", content: "LingoMaster — Learn French, German & Japanese with AI" },
+      {
+        property: "og:description",
+        content:
+          "Premium AI-powered language learning. Master French, German, and Japanese from A1 to C2 with adaptive lessons, native audio, and an always-on AI tutor.",
+      },
+      { property: "og:url", content: "https://masterlingo.lovable.app/" },
+      { name: "twitter:title", content: "LingoMaster — Learn French, German & Japanese with AI" },
+      { name: "twitter:description", content: "Premium AI-powered language learning. Master French, German, and Japanese from A1 to C2 with adaptive lessons, native audio, and an always-on AI tutor." },
     ],
+    links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/" }],
   }),
   component: Landing,
 });
