@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "sdk_version": "0.20.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://oymqandrjqxjftrfhaqi.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "lingomaster-mcp",
+      "version": "0.1.0",
+      "title": "LingoMaster MCP"
+    },
+    "tools": [
+      {
+        "name": "list_vocabulary",
+        "title": "List vocabulary",
+        "description": "List saved words from the signed-in learner's LingoMaster vocabulary notebook, optionally filtered by language.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "language": {
+              "description": "Filter by target language.",
+              "type": "string",
+              "enum": [
+                "french",
+                "german",
+                "japanese"
+              ]
+            },
+            "limit": {
+              "description": "Max items to return (default 50, max 200).",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "favorites_only": {
+              "description": "Only return favorited words.",
+              "type": "boolean"
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "add_vocabulary_word",
+        "title": "Add vocabulary word",
+        "description": "Save a new word into the signed-in learner's LingoMaster vocabulary notebook.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "language": {
+              "type": "string",
+              "enum": [
+                "french",
+                "german",
+                "japanese"
+              ],
+              "description": "Target language."
+            },
+            "word": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The word or phrase in the target language."
+            },
+            "translation": {
+              "type": "string",
+              "minLength": 1,
+              "description": "English translation."
+            },
+            "pronunciation": {
+              "description": "Optional pronunciation hint.",
+              "type": "string"
+            },
+            "example": {
+              "description": "Optional example sentence.",
+              "type": "string"
+            },
+            "favorite": {
+              "description": "Mark as favorite.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "language",
+            "word",
+            "translation"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_learning_progress",
+        "title": "Get learning progress",
+        "description": "Return the signed-in learner's LingoMaster progress: XP, streak, words learned, minutes studied, and per-language stats.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "language": {
+              "description": "Filter to a single language; omit for all languages.",
+              "type": "string",
+              "enum": [
+                "french",
+                "german",
+                "japanese"
+              ]
+            }
+          }
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}

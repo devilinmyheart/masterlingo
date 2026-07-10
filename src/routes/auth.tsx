@@ -14,7 +14,15 @@ import { motion } from "framer-motion";
 const searchSchema = z.object({
   mode: z.enum(["signin", "signup", "forgot"]).optional(),
   redirect: z.string().optional(),
+  next: z.string().optional(),
 });
+
+function safeNext(next: string | undefined): string | null {
+  if (!next) return null;
+  // same-origin relative path only
+  if (!next.startsWith("/") || next.startsWith("//")) return null;
+  return next;
+}
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (s) => searchSchema.parse(s),
@@ -43,14 +51,18 @@ function AuthPage() {
   const [remember, setRemember] = useState(true);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const next = safeNext(search.next);
 
-  // If already signed in, jump straight in
+  // If already signed in, jump straight in (or to `next` if provided)
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
-      if (data.user) navigate({ to: "/dashboard" });
+      if (data.user) {
+        if (next) window.location.href = next;
+        else navigate({ to: "/dashboard" });
+      }
     });
-  }, [pathname, navigate]);
+  }, [pathname, navigate, next]);
 
   async function handleEmail(e: React.FormEvent) {
     e.preventDefault();
@@ -61,18 +73,20 @@ function AuthPage() {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/dashboard`,
+            emailRedirectTo: `${window.location.origin}${next ?? "/dashboard"}`,
             data: { display_name: displayName || email.split("@")[0] },
           },
         });
         if (error) throw error;
         toast.success("Welcome to LingoMaster!");
-        navigate({ to: "/onboarding" });
+        if (next) window.location.href = next;
+        else navigate({ to: "/onboarding" });
       } else if (mode === "signin") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         toast.success("Welcome back!");
-        navigate({ to: "/dashboard" });
+        if (next) window.location.href = next;
+        else navigate({ to: "/dashboard" });
       } else {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: `${window.location.origin}/reset-password`,
@@ -91,13 +105,15 @@ function AuthPage() {
   async function handleGoogle() {
     setGoogleLoading(true);
     try {
+      const returnPath = next ?? "/dashboard";
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin + "/auth",
+        redirect_uri: `${window.location.origin}/auth?next=${encodeURIComponent(returnPath)}`,
       });
       if (result.error) throw result.error;
       if (result.redirected) return;
       toast.success("Signed in with Google");
-      navigate({ to: "/dashboard" });
+      if (next) window.location.href = next;
+      else navigate({ to: "/dashboard" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Google sign-in failed");
     } finally {
