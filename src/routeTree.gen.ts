@@ -20,6 +20,7 @@ import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedVocabularyRouteImport } from './routes/_authenticated/vocabulary'
 import { Route as AuthenticatedTutorRouteImport } from './routes/_authenticated/tutor'
 import { Route as AuthenticatedSpeakingRouteImport } from './routes/_authenticated/speaking'
+import { Route as AuthenticatedReviewRouteImport } from './routes/_authenticated/review'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedHelpRouteImport } from './routes/_authenticated/help'
@@ -85,6 +86,11 @@ const AuthenticatedTutorRoute = AuthenticatedTutorRouteImport.update({
 const AuthenticatedSpeakingRoute = AuthenticatedSpeakingRouteImport.update({
   id: '/speaking',
   path: '/speaking',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedReviewRoute = AuthenticatedReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
@@ -168,6 +174,7 @@ export interface FileRoutesByFullPath {
   '/help': typeof AuthenticatedHelpRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/review': typeof AuthenticatedReviewRoute
   '/speaking': typeof AuthenticatedSpeakingRoute
   '/tutor': typeof AuthenticatedTutorRoute
   '/vocabulary': typeof AuthenticatedVocabularyRoute
@@ -192,6 +199,7 @@ export interface FileRoutesByTo {
   '/help': typeof AuthenticatedHelpRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/review': typeof AuthenticatedReviewRoute
   '/speaking': typeof AuthenticatedSpeakingRoute
   '/tutor': typeof AuthenticatedTutorRoute
   '/vocabulary': typeof AuthenticatedVocabularyRoute
@@ -218,6 +226,7 @@ export interface FileRoutesById {
   '/_authenticated/help': typeof AuthenticatedHelpRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/review': typeof AuthenticatedReviewRoute
   '/_authenticated/speaking': typeof AuthenticatedSpeakingRoute
   '/_authenticated/tutor': typeof AuthenticatedTutorRoute
   '/_authenticated/vocabulary': typeof AuthenticatedVocabularyRoute
@@ -244,6 +253,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/onboarding'
     | '/profile'
+    | '/review'
     | '/speaking'
     | '/tutor'
     | '/vocabulary'
@@ -268,6 +278,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/onboarding'
     | '/profile'
+    | '/review'
     | '/speaking'
     | '/tutor'
     | '/vocabulary'
@@ -293,6 +304,7 @@ export interface FileRouteTypes {
     | '/_authenticated/help'
     | '/_authenticated/onboarding'
     | '/_authenticated/profile'
+    | '/_authenticated/review'
     | '/_authenticated/speaking'
     | '/_authenticated/tutor'
     | '/_authenticated/vocabulary'
@@ -397,6 +409,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSpeakingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/review': {
+      id: '/_authenticated/review'
+      path: '/review'
+      fullPath: '/review'
+      preLoaderRoute: typeof AuthenticatedReviewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/profile': {
       id: '/_authenticated/profile'
       path: '/profile'
@@ -491,6 +510,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHelpRoute: typeof AuthenticatedHelpRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedReviewRoute: typeof AuthenticatedReviewRoute
   AuthenticatedSpeakingRoute: typeof AuthenticatedSpeakingRoute
   AuthenticatedTutorRoute: typeof AuthenticatedTutorRoute
   AuthenticatedVocabularyRoute: typeof AuthenticatedVocabularyRoute
@@ -505,6 +525,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHelpRoute: AuthenticatedHelpRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedReviewRoute: AuthenticatedReviewRoute,
   AuthenticatedSpeakingRoute: AuthenticatedSpeakingRoute,
   AuthenticatedTutorRoute: AuthenticatedTutorRoute,
   AuthenticatedVocabularyRoute: AuthenticatedVocabularyRoute,
