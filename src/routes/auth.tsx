@@ -97,7 +97,7 @@ function AuthPage() {
   }
 
   return (
-    <div className="bg-aurora relative flex min-h-screen items-center justify-center px-4 py-10">
+    <main className="bg-aurora relative flex min-h-screen items-center justify-center px-4 py-10">
       <Link to="/" className="absolute left-6 top-6 flex items-center gap-2">
         <div className="grid size-8 place-items-center rounded-xl bg-gradient-to-tr from-brand via-french to-japanese">
           <Globe className="size-4 text-white" strokeWidth={2.5} />
@@ -187,7 +187,7 @@ function AuthPage() {
           )}
         </div>
       </motion.div>
-    </div>
+    </main>
   );
 }
 

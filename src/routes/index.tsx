@@ -49,13 +49,15 @@ function Landing() {
   return (
     <div className="bg-aurora min-h-screen text-foreground">
       <TopNav />
-      <Hero />
-      <LanguageSection />
-      <FeaturesSection />
-      <TutorPreview />
-      <Testimonials />
-      <Pricing />
-      <FAQ />
+      <main>
+        <Hero />
+        <LanguageSection />
+        <FeaturesSection />
+        <TutorPreview />
+        <Testimonials />
+        <Pricing />
+        <FAQ />
+      </main>
       <SiteFooter />
     </div>
   );
@@ -161,7 +163,7 @@ function AnimatedGlobe() {
         <div className="text-center">
           <Globe className="mx-auto size-10 text-brand" strokeWidth={1.5} />
           <div className="mt-2 font-display text-2xl font-bold">LingoMaster</div>
-          <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">A1 → C2</div>
+          <div className="text-[10px] font-semibold uppercase tracking-widest text-foreground/70">A1 → C2</div>
         </div>
       </div>
       {/* Floating language chips */}

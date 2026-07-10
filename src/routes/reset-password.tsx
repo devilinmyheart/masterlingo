@@ -33,7 +33,7 @@ function ResetPassword() {
   }
 
   return (
-    <div className="bg-aurora flex min-h-screen items-center justify-center px-4">
+    <main className="bg-aurora flex min-h-screen items-center justify-center px-4">
       <form onSubmit={handleSubmit} className="glass-panel w-full max-w-md rounded-3xl p-8 shadow-2xl">
         <h1 className="font-display text-3xl font-bold">Set a new password</h1>
         <p className="mt-2 text-sm text-muted-foreground">Enter your new password below.</p>
@@ -45,6 +45,6 @@ function ResetPassword() {
           {loading ? <Loader2 className="size-4 animate-spin" /> : "Update password"}
         </Button>
       </form>
-    </div>
+    </main>
   );
 }
