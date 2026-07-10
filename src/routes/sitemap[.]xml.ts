@@ -24,6 +24,8 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/tutor", changefreq: "weekly", priority: "0.7" },
           { path: "/vocabulary", changefreq: "weekly", priority: "0.7" },
           { path: "/learn", changefreq: "weekly", priority: "0.9" },
+          { path: "/certifications", changefreq: "weekly", priority: "0.7" },
+          { path: "/help", changefreq: "monthly", priority: "0.6" },
         ];
 
         // Dynamic lesson pages from the curriculum data source.
