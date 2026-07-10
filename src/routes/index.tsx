@@ -165,7 +165,7 @@ function Hero() {
             Fluency is a <em className="not-italic text-brand">feeling</em>,<br className="hidden sm:block" /> not a chore.
           </h1>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-            Master French, German, or Japanese with a curriculum that adapts to how you think — powered by an AI tutor that never sleeps.
+            Master English, French, German or Japanese with a curriculum that adapts to how you think — powered by an AI tutor that never sleeps.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg" className="rounded-full bg-brand px-8 py-6 text-base font-semibold text-brand-foreground shadow-2xl shadow-brand/25 hover:bg-brand/90">
