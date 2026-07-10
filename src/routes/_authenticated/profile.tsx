@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { VoicePreferences } from "@/components/VoicePreferences";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   head: () => ({
