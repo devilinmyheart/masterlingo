@@ -37,7 +37,7 @@ export const Route = createFileRoute("/_authenticated/learn/")({
               name: "LingoMaster",
               sameAs: "https://masterlingo.lovable.app/",
             },
-            inLanguage: { french: "fr", german: "de", japanese: "ja" }[lang.id],
+            inLanguage: { french: "fr", german: "de", japanese: "ja", english: "en", hindi_english: "en" }[lang.id],
             educationalLevel: "A1, A2, B1, B2, C1, C2",
           })),
         }),
