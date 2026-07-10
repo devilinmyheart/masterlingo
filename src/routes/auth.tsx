@@ -14,7 +14,15 @@ import { motion } from "framer-motion";
 const searchSchema = z.object({
   mode: z.enum(["signin", "signup", "forgot"]).optional(),
   redirect: z.string().optional(),
+  next: z.string().optional(),
 });
+
+function safeNext(next: string | undefined): string | null {
+  if (!next) return null;
+  // same-origin relative path only
+  if (!next.startsWith("/") || next.startsWith("//")) return null;
+  return next;
+}
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (s) => searchSchema.parse(s),
