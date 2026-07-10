@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -63,7 +63,32 @@ const SUBJECTS = [
 function HelpPage() {
   const qc = useQueryClient();
   const [subject, setSubject] = useState("general");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+
+  const { data: userData } = useQuery({
+    queryKey: ["user-email-name"],
+    queryFn: async () => {
+      const { data: authData } = await supabase.auth.getUser();
+      const { data: profileData } = await supabase
+        .from("profiles")
+        .select("display_name")
+        .eq("id", authData.user?.id ?? "")
+        .single();
+      return {
+        name: profileData?.display_name ?? authData.user?.user_metadata?.full_name ?? "",
+        email: authData.user?.email ?? "",
+      };
+    },
+  });
+
+  useEffect(() => {
+    if (userData) {
+      setName(userData.name);
+      setEmail(userData.email);
+    }
+  }, [userData]);
 
   const { data: submissions } = useQuery({
     queryKey: ["contact-submissions"],
@@ -78,11 +103,13 @@ function HelpPage() {
   });
 
   const submit = useMutation({
-    mutationFn: async (values: { subject: string; message: string }) => {
+    mutationFn: async (values: { subject: string; name: string; email: string; message: string }) => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData.user) throw new Error("Not signed in");
       const { error } = await supabase.from("contact_submissions").insert({
         user_id: userData.user.id,
+        name: values.name,
+        email: values.email,
         subject: values.subject,
         message: values.message,
       });
@@ -101,11 +128,24 @@ function HelpPage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!name.trim()) {
+      toast.error("Please enter your name");
+      return;
+    }
+    if (!email.trim() || !email.includes("@")) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
     if (!message.trim()) {
       toast.error("Please enter a message");
       return;
     }
-    submit.mutate({ subject: SUBJECTS.find((s) => s.value === subject)?.label ?? subject, message });
+    submit.mutate({
+      subject: SUBJECTS.find((s) => s.value === subject)?.label ?? subject,
+      name,
+      email,
+      message,
+    });
   }
 
   return (
@@ -146,6 +186,28 @@ function HelpPage() {
                   </select>
                 </div>
                 <div className="space-y-1.5">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Your name"
+                    className="rounded-xl bg-background/50"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="email">Email ID</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    className="rounded-xl bg-background/50"
+                  />
+                </div>
+                <div className="space-y-1.5">
                   <Label htmlFor="message">Message</Label>
                   <Textarea
                     id="message"
@@ -169,6 +231,10 @@ function HelpPage() {
                     </>
                   )}
                 </Button>
+                <p className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Clock className="size-3.5" />
+                  You will receive a response from our team within 24 hours.
+                </p>
               </form>
             </CardContent>
           </Card>
