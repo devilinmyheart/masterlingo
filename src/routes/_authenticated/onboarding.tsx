@@ -46,7 +46,7 @@ function Onboarding() {
   const qc = useQueryClient();
   const [step, setStep] = useState(0);
   const [language, setLanguage] = useState<LanguageId | null>(null);
-  const [goal, setGoal] = useState<Goal | null>(null);
+  const [goals, setGoals] = useState<Goal[]>([]);
   const [level, setLevel] = useState<Level>("beginner");
   const [minutes, setMinutes] = useState(15);
   const [saving, setSaving] = useState(false);
@@ -54,8 +54,19 @@ function Onboarding() {
   const next = () => setStep((s) => Math.min(s + 1, 3));
   const back = () => setStep((s) => Math.max(s - 1, 0));
 
+  function toggleGoal(id: Goal) {
+    setGoals((prev) => {
+      if (prev.includes(id)) return prev.filter((g) => g !== id);
+      if (prev.length >= 2) {
+        // Replace the oldest selection so users can freely swap up to 2.
+        return [prev[1], id];
+      }
+      return [...prev, id];
+    });
+  }
+
   async function finish() {
-    if (!language || !goal) return;
+    if (!language || goals.length === 0) return;
     setSaving(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -64,7 +75,8 @@ function Onboarding() {
       await supabase.from("user_onboarding").upsert({
         user_id: user.id,
         language,
-        goal,
+        goal: goals[0],
+        secondary_goal: goals[1] ?? null,
         level,
         daily_minutes: minutes,
       });
@@ -91,7 +103,11 @@ function Onboarding() {
     }
   }
 
-  const canNext = (step === 0 && language) || (step === 1 && goal) || step === 2 || step === 3;
+  const canNext =
+    (step === 0 && language) ||
+    (step === 1 && goals.length > 0) ||
+    step === 2 ||
+    step === 3;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 md:py-16">
@@ -145,25 +161,40 @@ function Onboarding() {
         {step === 1 && (
           <>
             <h1 className="font-display text-3xl font-bold md:text-4xl">What's your goal?</h1>
-            <p className="mt-2 text-muted-foreground">We'll tailor lessons to what matters most to you.</p>
+            <p className="mt-2 text-muted-foreground">
+              Pick up to <span className="font-semibold text-foreground">two</span> — we'll tailor lessons to what matters most to you.
+            </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
-              {GOALS.map((g) => (
-                <button
-                  key={g.id}
-                  onClick={() => setGoal(g.id)}
-                  className={cn(
-                    "flex items-start gap-4 rounded-2xl border-2 p-5 text-left transition-all",
-                    goal === g.id ? "border-brand bg-brand-soft" : "border-border bg-background/50 hover:border-brand/40"
-                  )}
-                >
-                  <span className="text-2xl">{g.emoji}</span>
-                  <div>
-                    <div className="font-semibold">{g.label}</div>
-                    <div className="text-sm text-muted-foreground">{g.description}</div>
-                  </div>
-                </button>
-              ))}
+              {GOALS.map((g) => {
+                const selected = goals.includes(g.id);
+                const order = goals.indexOf(g.id);
+                return (
+                  <button
+                    key={g.id}
+                    onClick={() => toggleGoal(g.id)}
+                    aria-pressed={selected}
+                    className={cn(
+                      "relative flex items-start gap-4 rounded-2xl border-2 p-5 text-left transition-all",
+                      selected ? "border-brand bg-brand-soft" : "border-border bg-background/50 hover:border-brand/40"
+                    )}
+                  >
+                    <span className="text-2xl">{g.emoji}</span>
+                    <div className="min-w-0">
+                      <div className="font-semibold">{g.label}</div>
+                      <div className="text-sm text-muted-foreground">{g.description}</div>
+                    </div>
+                    {selected && (
+                      <span className="absolute right-3 top-3 grid size-6 place-items-center rounded-full bg-brand text-[11px] font-bold text-brand-foreground shadow">
+                        {order + 1}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
+            <p className="mt-4 text-xs text-muted-foreground">
+              {goals.length}/2 selected{goals.length === 2 ? " · picking a third will replace your first choice" : ""}
+            </p>
           </>
         )}
 

@@ -143,6 +143,7 @@ export type Database = {
           goal: Database["public"]["Enums"]["learning_goal"]
           language: Database["public"]["Enums"]["language_code"]
           level: Database["public"]["Enums"]["skill_level"]
+          secondary_goal: Database["public"]["Enums"]["learning_goal"] | null
           updated_at: string
           user_id: string
         }
@@ -152,6 +153,7 @@ export type Database = {
           goal?: Database["public"]["Enums"]["learning_goal"]
           language: Database["public"]["Enums"]["language_code"]
           level?: Database["public"]["Enums"]["skill_level"]
+          secondary_goal?: Database["public"]["Enums"]["learning_goal"] | null
           updated_at?: string
           user_id: string
         }
@@ -161,6 +163,7 @@ export type Database = {
           goal?: Database["public"]["Enums"]["learning_goal"]
           language?: Database["public"]["Enums"]["language_code"]
           level?: Database["public"]["Enums"]["skill_level"]
+          secondary_goal?: Database["public"]["Enums"]["learning_goal"] | null
           updated_at?: string
           user_id?: string
         }
