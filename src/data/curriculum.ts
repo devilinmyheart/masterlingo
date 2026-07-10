@@ -261,12 +261,165 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
       }
     }),
   },
+
+  english: {
+    id: "english",
+    name: "English",
+    nativeName: "English",
+    tagline: "The global language of business, tech, and travel.",
+    flag: "🇬🇧",
+    levels: makeLevels((label) => {
+      switch (label) {
+        case "A1":
+          return {
+            headline: "Foundations: alphabet, greetings, and everyday words.",
+            topics: [
+              { id: "en-a1-greetings", title: "Greetings & Introductions", description: "Hello, nice to meet you, small talk basics.", minutes: 10, xp: 40 },
+              { id: "en-a1-alphabet", title: "Alphabet & Sounds", description: "26 letters, vowel sounds, common blends.", minutes: 12, xp: 50 },
+              { id: "en-a1-numbers", title: "Numbers, Time & Dates", description: "Count, tell time, say the date.", minutes: 10, xp: 40 },
+              { id: "en-a1-family", title: "Family & People", description: "Mother, brother, describe your family.", minutes: 12, xp: 50 },
+              { id: "en-a1-food", title: "Food & Ordering", description: "Café, restaurant, and grocery basics.", minutes: 15, xp: 60 },
+              { id: "en-a1-verbs", title: "To be, to have, to do", description: "The three most important verbs.", minutes: 18, xp: 80 },
+              { id: "en-a1-questions", title: "Asking Questions", description: "Who, what, where, when, why, how.", minutes: 12, xp: 50 },
+              { id: "en-a1-travel", title: "Travel Essentials", description: "At the airport, hotel, and taxi.", minutes: 15, xp: 60 },
+            ],
+          };
+        case "A2":
+          return {
+            headline: "Past tenses and everyday conversation.",
+            topics: [
+              { id: "en-a2-past", title: "Past Simple", description: "Regular and irregular past verbs.", minutes: 20, xp: 90 },
+              { id: "en-a2-daily", title: "Daily Routine", description: "Wake up, work, unwind — describe your day.", minutes: 15, xp: 60 },
+              { id: "en-a2-shopping", title: "Shopping & Prices", description: "Sizes, colors, negotiating.", minutes: 12, xp: 50 },
+              { id: "en-a2-directions", title: "Directions in a City", description: "Turn left, straight ahead, opposite.", minutes: 12, xp: 50 },
+              { id: "en-a2-weather", title: "Weather & Seasons", description: "Sunny, rainy, four seasons.", minutes: 10, xp: 40 },
+              { id: "en-a2-modals", title: "Can, Could, Should", description: "Ability, requests, and advice.", minutes: 18, xp: 80 },
+            ],
+          };
+        case "B1":
+          return {
+            headline: "Real conversations, opinions, and richer tenses.",
+            topics: [
+              { id: "en-b1-perfect", title: "Present Perfect", description: "Have you ever…? Life experience talk.", minutes: 20, xp: 90 },
+              { id: "en-b1-future", title: "Future Forms", description: "Will, going to, present continuous.", minutes: 18, xp: 80 },
+              { id: "en-b1-opinion", title: "Giving Opinions", description: "In my view, I think that…", minutes: 15, xp: 60 },
+              { id: "en-b1-news", title: "Reading the News", description: "Headlines and short articles.", minutes: 20, xp: 90 },
+              { id: "en-b1-work", title: "Work & Careers", description: "Interviews, CVs, and emails.", minutes: 18, xp: 80 },
+            ],
+          };
+        case "B2":
+          return {
+            headline: "Fluent expression with nuance and idiom.",
+            topics: [
+              { id: "en-b2-conditionals", title: "Conditionals", description: "Zero, first, second, and third.", minutes: 22, xp: 100 },
+              { id: "en-b2-passive", title: "Passive Voice", description: "When and why to use it.", minutes: 18, xp: 80 },
+              { id: "en-b2-idioms", title: "Idiomatic Expressions", description: "Break the ice, hit the sack.", minutes: 15, xp: 70 },
+              { id: "en-b2-debate", title: "Debate & Argumentation", description: "Structure a persuasive argument.", minutes: 20, xp: 90 },
+            ],
+          };
+        case "C1":
+          return {
+            headline: "Sophisticated writing, culture, and register.",
+            topics: [
+              { id: "en-c1-register", title: "Formal vs Informal Register", description: "Match tone to setting.", minutes: 20, xp: 90 },
+              { id: "en-c1-essay", title: "Argumentative Essays", description: "IELTS/TOEFL-style structure.", minutes: 25, xp: 110 },
+              { id: "en-c1-media", title: "Films & Podcasts", description: "Native speed listening.", minutes: 22, xp: 100 },
+            ],
+          };
+        default:
+          return {
+            headline: "Near-native mastery and literary depth.",
+            topics: [
+              { id: "en-c2-nuance", title: "Nuance & Subtext", description: "Read between the lines.", minutes: 25, xp: 110 },
+              { id: "en-c2-classics", title: "Classical Literature", description: "Shakespeare, Austen, Orwell.", minutes: 30, xp: 130 },
+              { id: "en-c2-academic", title: "Academic English", description: "Publish-ready writing.", minutes: 30, xp: 130 },
+            ],
+          };
+      }
+    }),
+  },
+
+  hindi_english: {
+    id: "hindi_english",
+    name: "English for Hindi speakers",
+    nativeName: "अंग्रेज़ी (हिन्दी से)",
+    tagline: "हिन्दी से अंग्रेज़ी सीखें — बुनियादी से लेकर धाराप्रवाह तक।",
+    flag: "🇮🇳",
+    levels: makeLevels((label) => {
+      switch (label) {
+        case "A1":
+          return {
+            headline: "बुनियाद: वर्णमाला, अभिवादन, और रोज़मर्रा के शब्द।",
+            topics: [
+              { id: "he-a1-greetings", title: "अभिवादन (Greetings)", description: "Hello, good morning, nice to meet you.", minutes: 10, xp: 40 },
+              { id: "he-a1-alphabet", title: "वर्णमाला (Alphabet)", description: "A–Z उच्चारण और स्वर-ध्वनियाँ।", minutes: 12, xp: 50 },
+              { id: "he-a1-numbers", title: "गिनती व समय (Numbers & Time)", description: "One, two, three… और घड़ी पढ़ना।", minutes: 10, xp: 40 },
+              { id: "he-a1-family", title: "परिवार (Family)", description: "Mother, father, brother — अपना परिवार बताइए।", minutes: 12, xp: 50 },
+              { id: "he-a1-food", title: "खाना (Food)", description: "रेस्तराँ और दुकान में ऑर्डर करना।", minutes: 15, xp: 60 },
+              { id: "he-a1-verbs", title: "क्रियाएँ: is / have / do", description: "अंग्रेज़ी की तीन ज़रूरी क्रियाएँ।", minutes: 18, xp: 80 },
+              { id: "he-a1-questions", title: "प्रश्न पूछना", description: "Who, what, where, when, why, how.", minutes: 12, xp: 50 },
+              { id: "he-a1-travel", title: "यात्रा (Travel)", description: "एयरपोर्ट, होटल, टैक्सी में बात।", minutes: 15, xp: 60 },
+            ],
+          };
+        case "A2":
+          return {
+            headline: "बीता हुआ काल और रोज़मर्रा बातचीत।",
+            topics: [
+              { id: "he-a2-past", title: "Past Simple", description: "बीते समय की बात करना।", minutes: 20, xp: 90 },
+              { id: "he-a2-daily", title: "दिनचर्या (Daily Routine)", description: "उठना, काम, आराम — अपना दिन बताइए।", minutes: 15, xp: 60 },
+              { id: "he-a2-shopping", title: "खरीदारी (Shopping)", description: "साइज़, रंग, मोल-भाव।", minutes: 12, xp: 50 },
+              { id: "he-a2-directions", title: "रास्ता पूछना", description: "Turn left, straight, opposite.", minutes: 12, xp: 50 },
+              { id: "he-a2-modals", title: "Can / Could / Should", description: "क्षमता, अनुरोध, सलाह।", minutes: 18, xp: 80 },
+            ],
+          };
+        case "B1":
+          return {
+            headline: "असली बातचीत, विचार, और गहरे व्याकरण के रूप।",
+            topics: [
+              { id: "he-b1-perfect", title: "Present Perfect", description: "अनुभव और हाल के काम।", minutes: 20, xp: 90 },
+              { id: "he-b1-future", title: "Future Forms", description: "Will और going to का सही उपयोग।", minutes: 18, xp: 80 },
+              { id: "he-b1-opinion", title: "अपनी राय देना", description: "In my opinion, I think that…", minutes: 15, xp: 60 },
+              { id: "he-b1-work", title: "काम व करियर (Work)", description: "इंटरव्यू, ईमेल, फ़ोन कॉल।", minutes: 18, xp: 80 },
+            ],
+          };
+        case "B2":
+          return {
+            headline: "धाराप्रवाह अभिव्यक्ति, मुहावरे और नुक्ते।",
+            topics: [
+              { id: "he-b2-conditionals", title: "Conditionals", description: "If clauses के चार रूप।", minutes: 22, xp: 100 },
+              { id: "he-b2-passive", title: "Passive Voice", description: "कब और क्यों इस्तेमाल करें।", minutes: 18, xp: 80 },
+              { id: "he-b2-idioms", title: "मुहावरे (Idioms)", description: "Break the ice, piece of cake.", minutes: 15, xp: 70 },
+            ],
+          };
+        case "C1":
+          return {
+            headline: "उन्नत लेखन, संस्कृति, और formal register।",
+            topics: [
+              { id: "he-c1-essay", title: "निबंध लेखन (Essays)", description: "IELTS/TOEFL स्तर के essay।", minutes: 25, xp: 110 },
+              { id: "he-c1-register", title: "Formal vs Informal", description: "Tone को situation के अनुरूप ढालना।", minutes: 20, xp: 90 },
+              { id: "he-c1-media", title: "फ़िल्में व पॉडकास्ट", description: "Native speed सुनना और समझना।", minutes: 22, xp: 100 },
+            ],
+          };
+        default:
+          return {
+            headline: "लगभग native स्तर की महारत।",
+            topics: [
+              { id: "he-c2-nuance", title: "गहरे अर्थ और subtext", description: "पंक्तियों के बीच पढ़ना।", minutes: 25, xp: 110 },
+              { id: "he-c2-classics", title: "शास्त्रीय साहित्य", description: "Shakespeare, Orwell के अंश।", minutes: 30, xp: 130 },
+              { id: "he-c2-academic", title: "Academic English", description: "शोध और publish-ready लेखन।", minutes: 30, xp: 130 },
+            ],
+          };
+      }
+    }),
+  },
 };
 
 export const LANGUAGE_LIST: LanguageCourse[] = [
   CURRICULUM.french,
   CURRICULUM.german,
   CURRICULUM.japanese,
+  CURRICULUM.english,
+  CURRICULUM.hindi_english,
 ];
 
 export function findTopic(lessonId: string): { language: LanguageCourse; level: Level; topic: Topic } | null {
