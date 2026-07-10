@@ -10,6 +10,7 @@ import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, Check, Sparkles, Volume2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { speakWithSlot, useVoicePrefs } from "@/lib/voice-prefs";
 
 export const Route = createFileRoute("/_authenticated/learn/$lessonId")({
   head: ({ params }) => {
@@ -123,15 +124,23 @@ function LessonPage() {
     }
   }
 
+  const [voicePrefs] = useVoicePrefs();
+
   function speak(text: string) {
+    if (language.id === "english") return speakWithSlot(text, voicePrefs.english);
+    if (language.id === "hindi_english") return speakWithSlot(text, voicePrefs.hindi_english.target);
     if (typeof window === "undefined" || !window.speechSynthesis) return;
     const u = new SpeechSynthesisUtterance(text);
     u.lang =
       language.id === "french" ? "fr-FR" :
       language.id === "german" ? "de-DE" :
-      language.id === "japanese" ? "ja-JP" :
-      "en-US"; // english + hindi_english both drill English words
+      "ja-JP";
     window.speechSynthesis.speak(u);
+  }
+
+  function speakGloss(text: string) {
+    // Hindi-for-English: speak the translation in Hindi using the gloss voice.
+    if (language.id === "hindi_english") return speakWithSlot(text, voicePrefs.hindi_english.gloss);
   }
 
   return (
@@ -180,8 +189,21 @@ function LessonPage() {
                   <div className="mt-1 font-mono text-sm text-muted-foreground">/{current.pronunciation}/</div>
                 )}
                 <div className="mt-6 rounded-2xl border border-border bg-background/60 p-5">
-                  <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Meaning in English</div>
-                  <div className="mt-1 font-display text-2xl font-bold md:text-3xl">{current.back}</div>
+                  <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                    {language.id === "hindi_english" ? "अर्थ (Hindi)" : "Meaning in English"}
+                  </div>
+                  <div className="mt-1 flex items-center gap-3">
+                    <div className="font-display text-2xl font-bold md:text-3xl">{current.back}</div>
+                    {language.id === "hindi_english" && (
+                      <button
+                        onClick={() => speakGloss(current.back)}
+                        aria-label="Play Hindi translation"
+                        className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground"
+                      >
+                        <Volume2 className="size-5" />
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <p className="mt-6 text-sm text-muted-foreground">
                   Take a moment to say it out loud. When you're ready, we'll check your recall.

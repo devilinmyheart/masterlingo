@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Star, Volume2, Search, Plus, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { speakWithSlot, useVoicePrefs } from "@/lib/voice-prefs";
 
 export const Route = createFileRoute("/_authenticated/vocabulary")({
   head: () => ({
@@ -42,6 +43,7 @@ function Vocabulary() {
   const [query, setQuery] = useState("");
   const [adding, setAdding] = useState(false);
   const [newWord, setNewWord] = useState({ word: "", translation: "", language: "french" as LanguageId });
+  const [voicePrefs] = useVoicePrefs();
 
   const visible = items.filter((i) => {
     if (filter !== "all" && i.language !== filter) return false;
@@ -75,13 +77,14 @@ function Vocabulary() {
   }
 
   function speak(text: string, lang: LanguageId) {
+    if (lang === "english") return speakWithSlot(text, voicePrefs.english);
+    if (lang === "hindi_english") return speakWithSlot(text, voicePrefs.hindi_english.target);
     if (typeof window === "undefined" || !window.speechSynthesis) return;
     const u = new SpeechSynthesisUtterance(text);
     u.lang =
       lang === "french" ? "fr-FR" :
       lang === "german" ? "de-DE" :
-      lang === "japanese" ? "ja-JP" :
-      "en-US";
+      "ja-JP";
     window.speechSynthesis.speak(u);
   }
 
