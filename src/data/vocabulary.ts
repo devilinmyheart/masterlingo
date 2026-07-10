@@ -36,4 +36,22 @@ export const STARTER_VOCAB: Record<LanguageId, Word[]> = {
     { word: "今日", translation: "today", pronunciation: "kyou", example: "今日は暑いです。", exampleTranslation: "It's hot today." },
     { word: "明日", translation: "tomorrow", pronunciation: "a-shi-ta", example: "また明日!", exampleTranslation: "See you tomorrow!" },
   ],
+  english: [
+    { word: "hello", translation: "a greeting", pronunciation: "heh-LOH", example: "Hello, how are you today?", exampleTranslation: "A friendly greeting." },
+    { word: "thank you", translation: "expression of gratitude", pronunciation: "THANK yoo", example: "Thank you for your help.", exampleTranslation: "Used to show appreciation." },
+    { word: "please", translation: "polite request word", pronunciation: "PLEEZ", example: "A coffee, please.", exampleTranslation: "Softens any request." },
+    { word: "sorry", translation: "apology", pronunciation: "SOR-ee", example: "Sorry, I'm late.", exampleTranslation: "Used to apologize." },
+    { word: "today", translation: "this day", pronunciation: "tuh-DAY", example: "The weather is nice today.", exampleTranslation: "Refers to the current day." },
+    { word: "tomorrow", translation: "the next day", pronunciation: "tuh-MOR-oh", example: "See you tomorrow!", exampleTranslation: "The day after today." },
+    { word: "beautiful", translation: "very attractive", pronunciation: "BYOO-ti-ful", example: "What a beautiful morning.", exampleTranslation: "Describes something lovely." },
+  ],
+  hindi_english: [
+    { word: "hello", translation: "नमस्ते / अभिवादन", pronunciation: "हेलो", example: "Hello, how are you?", exampleTranslation: "नमस्ते, आप कैसे हैं?" },
+    { word: "thank you", translation: "धन्यवाद", pronunciation: "थैंक यू", example: "Thank you very much.", exampleTranslation: "बहुत बहुत धन्यवाद।" },
+    { word: "please", translation: "कृपया", pronunciation: "प्लीज़", example: "A tea, please.", exampleTranslation: "एक चाय, कृपया।" },
+    { word: "sorry", translation: "माफ़ कीजिए", pronunciation: "सॉरी", example: "Sorry, I'm late.", exampleTranslation: "माफ़ कीजिए, मुझे देर हो गई।" },
+    { word: "yes", translation: "हाँ", pronunciation: "येस", example: "Yes, of course.", exampleTranslation: "हाँ, ज़रूर।" },
+    { word: "no", translation: "नहीं", pronunciation: "नो", example: "No, thank you.", exampleTranslation: "नहीं, धन्यवाद।" },
+    { word: "today", translation: "आज", pronunciation: "टुडे", example: "It is hot today.", exampleTranslation: "आज गर्मी है।" },
+  ],
 };

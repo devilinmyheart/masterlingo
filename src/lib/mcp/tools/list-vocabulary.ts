@@ -9,7 +9,7 @@ export default defineTool({
     "List saved words from the signed-in learner's LingoMaster vocabulary notebook, optionally filtered by language.",
   inputSchema: {
     language: z
-      .enum(["french", "german", "japanese"])
+      .enum(["french", "german", "japanese", "english", "hindi_english"])
       .optional()
       .describe("Filter by target language."),
     limit: z

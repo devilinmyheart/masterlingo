@@ -37,7 +37,12 @@ export const Route = createFileRoute("/api/chat")({
         if (!key) return new Response("Missing LOVABLE_API_KEY", { status: 500 });
 
 
-        const langName = language === "german" ? "German" : language === "japanese" ? "Japanese" : "French";
+        const langName =
+          language === "german" ? "German" :
+          language === "japanese" ? "Japanese" :
+          language === "english" ? "English" :
+          language === "hindi_english" ? "English (with Hindi explanations for a Hindi-speaking learner)" :
+          "French";
         const system = `You are a friendly, patient LingoMaster AI tutor helping the learner master ${langName}.
 - Answer in clear English by default, but include ${langName} examples with translations.
 - When the user asks about grammar, explain the rule concisely, then give 2-3 examples.

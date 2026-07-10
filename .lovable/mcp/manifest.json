@@ -35,7 +35,9 @@
               "enum": [
                 "french",
                 "german",
-                "japanese"
+                "japanese",
+                "english",
+                "hindi_english"
               ]
             },
             "limit": {
@@ -70,7 +72,9 @@
               "enum": [
                 "french",
                 "german",
-                "japanese"
+                "japanese",
+                "english",
+                "hindi_english"
               ],
               "description": "Target language."
             },
@@ -124,7 +128,9 @@
               "enum": [
                 "french",
                 "german",
-                "japanese"
+                "japanese",
+                "english",
+                "hindi_english"
               ]
             }
           }

@@ -88,6 +88,18 @@ const LANG_STYLES: Record<string, { chipBg: string; chipText: string; ring: stri
     ring: "hover:shadow-japanese/20",
     bar: "bg-japanese",
   },
+  english: {
+    chipBg: "bg-english-soft",
+    chipText: "text-english",
+    ring: "hover:shadow-english/20",
+    bar: "bg-english",
+  },
+  hindi_english: {
+    chipBg: "bg-hindi-soft",
+    chipText: "text-hindi-ink",
+    ring: "hover:shadow-hindi/20",
+    bar: "bg-hindi",
+  },
 };
 
 function Landing() {
@@ -215,7 +227,9 @@ function AnimatedGlobe() {
       {[
         { label: "🇫🇷 Bonjour", pos: "top-4 left-8", color: "text-french", delay: 0 },
         { label: "🇩🇪 Hallo", pos: "top-14 right-6", color: "text-german-ink", delay: 0.6 },
-        { label: "🇯🇵 こんにちは", pos: "bottom-16 left-2", color: "text-japanese", delay: 1.2 },
+        { label: "🇯🇵 こんにちは", pos: "bottom-24 left-2", color: "text-japanese", delay: 1.2 },
+        { label: "🇬🇧 Hello", pos: "top-32 left-4", color: "text-english", delay: 0.9 },
+        { label: "🇮🇳 नमस्ते", pos: "bottom-6 left-16", color: "text-hindi-ink", delay: 1.5 },
         { label: "🇫🇷 Merci", pos: "bottom-4 right-12", color: "text-french", delay: 0.3 },
       ].map((chip) => (
         <div
@@ -504,6 +518,8 @@ function SiteFooter() {
             <li><a href="#languages" className="text-muted-foreground hover:text-french">French</a></li>
             <li><a href="#languages" className="text-muted-foreground hover:text-german-ink">German</a></li>
             <li><a href="#languages" className="text-muted-foreground hover:text-japanese">Japanese</a></li>
+            <li><a href="#languages" className="text-muted-foreground hover:text-english">English</a></li>
+            <li><a href="#languages" className="text-muted-foreground hover:text-hindi-ink">English (Hindi speakers)</a></li>
           </ul>
         </div>
         <div>

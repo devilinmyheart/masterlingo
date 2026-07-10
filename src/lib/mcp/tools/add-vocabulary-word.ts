@@ -8,7 +8,7 @@ export default defineTool({
   description:
     "Save a new word into the signed-in learner's LingoMaster vocabulary notebook.",
   inputSchema: {
-    language: z.enum(["french", "german", "japanese"]).describe("Target language."),
+    language: z.enum(["french", "german", "japanese", "english", "hindi_english"]).describe("Target language."),
     word: z.string().trim().min(1).describe("The word or phrase in the target language."),
     translation: z.string().trim().min(1).describe("English translation."),
     pronunciation: z.string().trim().optional().describe("Optional pronunciation hint."),

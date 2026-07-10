@@ -126,7 +126,11 @@ function LessonPage() {
   function speak(text: string) {
     if (typeof window === "undefined" || !window.speechSynthesis) return;
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = language.id === "french" ? "fr-FR" : language.id === "german" ? "de-DE" : "ja-JP";
+    u.lang =
+      language.id === "french" ? "fr-FR" :
+      language.id === "german" ? "de-DE" :
+      language.id === "japanese" ? "ja-JP" :
+      "en-US"; // english + hindi_english both drill English words
     window.speechSynthesis.speak(u);
   }
 
