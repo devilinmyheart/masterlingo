@@ -10,6 +10,7 @@ import { STARTER_VOCAB } from "@/data/vocabulary";
 import { toast } from "sonner";
 import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Goal = "travel" | "work" | "exams" | "conversation" | "culture";
 type Level = "beginner" | "intermediate" | "advanced";
