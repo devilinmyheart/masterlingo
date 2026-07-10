@@ -13,13 +13,13 @@
     "server": {
       "name": "lingomaster-mcp",
       "version": "0.1.0",
-      "title": "LingoMaster MCP"
+      "title": "Master Lingo MCP"
     },
     "tools": [
       {
         "name": "list_vocabulary",
         "title": "List vocabulary",
-        "description": "List saved words from the signed-in learner's LingoMaster vocabulary notebook, optionally filtered by language.",
+        "description": "List saved words from the signed-in learner's Master Lingo vocabulary notebook, optionally filtered by language.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,
@@ -57,7 +57,7 @@
       {
         "name": "add_vocabulary_word",
         "title": "Add vocabulary word",
-        "description": "Save a new word into the signed-in learner's LingoMaster vocabulary notebook.",
+        "description": "Save a new word into the signed-in learner's Master Lingo vocabulary notebook.",
         "annotations": {
           "readOnlyHint": false,
           "destructiveHint": false,
@@ -112,7 +112,7 @@
       {
         "name": "get_learning_progress",
         "title": "Get learning progress",
-        "description": "Return the signed-in learner's LingoMaster progress: XP, streak, words learned, minutes studied, and per-language stats.",
+        "description": "Return the signed-in learner's Master Lingo progress: XP, streak, words learned, minutes studied, and per-language stats.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,

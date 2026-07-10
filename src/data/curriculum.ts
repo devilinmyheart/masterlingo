@@ -1,4 +1,4 @@
-// Full LingoMaster curriculum data. Kept as a static module so the router
+// Full Master Lingo curriculum data. Kept as a static module so the router
 // tree and dashboards can render without a network round-trip.
 
 export type LanguageId = "french" | "german" | "japanese" | "english" | "hindi_english";

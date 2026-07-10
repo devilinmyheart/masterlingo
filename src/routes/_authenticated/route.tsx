@@ -85,7 +85,7 @@ function AuthedLayout() {
           <div className="grid size-8 place-items-center rounded-lg bg-gradient-to-tr from-brand via-french to-japanese">
             <Globe className="size-4 text-white" strokeWidth={2.5} />
           </div>
-          <span className="font-display text-lg font-bold">LingoMaster</span>
+          <span className="font-display text-lg font-bold">Master Lingo</span>
         </Link>
         <button onClick={() => setMobileOpen(!mobileOpen)} className="rounded-lg p-2 hover:bg-accent">
           {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
@@ -99,7 +99,7 @@ function AuthedLayout() {
             <div className="grid size-9 place-items-center rounded-xl bg-gradient-to-tr from-brand via-french to-japanese shadow-lg shadow-brand/20">
               <Globe className="size-5 text-white" strokeWidth={2.5} />
             </div>
-            <span className="font-display text-xl font-bold">LingoMaster</span>
+            <span className="font-display text-xl font-bold">Master Lingo</span>
           </Link>
           <nav className="mt-10 flex flex-1 flex-col gap-1">
             {NAV.map((item) => {

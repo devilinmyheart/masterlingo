@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * LingoMaster design system
+ * Master Lingo design system
  * - Glassmorphism cards over soft gradient backdrops
  * - Language color coding: French blue, German gold/black, Japanese red
  * - Typography: Plus Jakarta Sans (body) + Playfair Display (display serif)
@@ -59,7 +59,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Brand: LingoMaster indigo */
+  /* Brand: Master Lingo indigo */
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
   --color-brand-soft: var(--brand-soft);
@@ -107,7 +107,7 @@
   --input: oklch(0.94 0.01 260);
   --ring: oklch(0.55 0.15 260);
 
-  /* LingoMaster brand (indigo — the "AI/premium" accent that ties the languages together) */
+  /* Master Lingo brand (indigo — the "AI/premium" accent that ties the languages together) */
   --brand: oklch(0.55 0.19 268);
   --brand-foreground: oklch(0.99 0.005 260);
   --brand-soft: oklch(0.95 0.03 268);

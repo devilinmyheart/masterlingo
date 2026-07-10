@@ -11,7 +11,7 @@ import {
   type VoiceSlot,
 } from "@/lib/voice-prefs";
 
-const EN_SAMPLE = "Hello, welcome to LingoMaster. How are you today?";
+const EN_SAMPLE = "Hello, welcome to Master Lingo. How are you today?";
 const HI_SAMPLE = "नमस्ते! आज हम अंग्रेज़ी सीखेंगे।";
 
 export function VoicePreferences() {

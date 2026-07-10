@@ -6,7 +6,7 @@ export default defineTool({
   name: "add_vocabulary_word",
   title: "Add vocabulary word",
   description:
-    "Save a new word into the signed-in learner's LingoMaster vocabulary notebook.",
+    "Save a new word into the signed-in learner's Master Lingo vocabulary notebook.",
   inputSchema: {
     language: z.enum(["french", "german", "japanese", "english", "hindi_english"]).describe("Target language."),
     word: z.string().trim().min(1).describe("The word or phrase in the target language."),

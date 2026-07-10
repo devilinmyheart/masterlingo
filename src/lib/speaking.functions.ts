@@ -53,7 +53,7 @@ export const analyzeSpeaking = createServerFn({ method: "POST" })
       ? "Hindi in Devanagari script (short, warm, encouraging — Hinglish is fine when it's clearer)"
       : "clear, level-appropriate English";
 
-    const system = `You are a supportive English-speaking coach for LingoMaster.
+    const system = `You are a supportive English-speaking coach for Master Lingo.
 The learner is practising SPOKEN English at CEFR level ${data.level}.
 Their speech was captured by browser speech-to-text, so expect small transcription artefacts — infer intent charitably.
 

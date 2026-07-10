@@ -160,7 +160,7 @@ export const reviewWord = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => WordInput.parse(input))
   .handler(async ({ data }): Promise<WordReview> => {
     const p = languageProfile(data.language);
-    const system = `You are a LingoMaster word coach helping a CEFR ${data.level} learner master ${p.targetLang} vocabulary.
+    const system = `You are a Master Lingo word coach helping a CEFR ${data.level} learner master ${p.targetLang} vocabulary.
 Write ALL explanation fields in ${p.explainIn}.
 ${p.scriptNote}
 
@@ -193,7 +193,7 @@ export const reviewGrammar = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => GrammarInput.parse(input))
   .handler(async ({ data }): Promise<GrammarReview> => {
     const p = languageProfile(data.language);
-    const system = `You are a LingoMaster grammar coach helping a CEFR ${data.level} learner master ${p.targetLang}.
+    const system = `You are a Master Lingo grammar coach helping a CEFR ${data.level} learner master ${p.targetLang}.
 Write ALL explanation fields in ${p.explainIn}.
 ${p.scriptNote}
 

@@ -14,7 +14,7 @@ export const Route = createFileRoute("/_authenticated/certifications")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Certifications & Degrees — LingoMaster" },
+      { title: "Certifications & Degrees — Master Lingo" },
       {
         name: "description",
         content:

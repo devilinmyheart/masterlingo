@@ -99,7 +99,7 @@ function Consent() {
           </div>
           <div>
             <div className="text-xs uppercase tracking-widest text-muted-foreground">
-              LingoMaster
+              Master Lingo
             </div>
             <div className="font-display text-lg font-bold">Connect an app</div>
           </div>
@@ -109,12 +109,12 @@ function Consent() {
           Connect {clientName} to your account
         </h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          {clientName} will be able to use LingoMaster tools while you are
+          {clientName} will be able to use Master Lingo tools while you are
           signed in — including reading your vocabulary notebook and learning
           progress, and adding new words on your behalf.
         </p>
         <p className="mt-3 text-xs text-muted-foreground">
-          This does not bypass LingoMaster's permissions or backend policies.
+          This does not bypass Master Lingo's permissions or backend policies.
           You can disconnect at any time from the connected app.
         </p>
 

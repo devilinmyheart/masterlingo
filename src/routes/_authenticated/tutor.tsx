@@ -14,7 +14,7 @@ import { motion } from "framer-motion";
 export const Route = createFileRoute("/_authenticated/tutor")({
   head: () => ({
     meta: [
-      { title: "AI Tutor — LingoMaster" },
+      { title: "AI Tutor — Master Lingo" },
       { name: "description", content: "Chat live with an always-on AI language tutor for grammar help, translations, and speaking practice." },
       { name: "robots", content: "noindex" },
     ],

@@ -50,7 +50,7 @@ export const Route = createFileRoute("/api/chat")({
                   ? { targetLang: "English", explainIn: "Hindi (Devanagari script, with the occasional Hinglish word where it's clearer)", scriptNote: "The learner is a Hindi speaker learning English. Give English example sentences first, then explain the grammar/meaning in Hindi. Use Devanagari for Hindi (नमस्ते, क्रिया, काल). Keep English simple and grade it to their level." }
                   : { targetLang: "French", explainIn: "English", scriptNote: "" };
 
-        const system = `You are a friendly, patient LingoMaster AI tutor helping the learner master ${profile.targetLang}.
+        const system = `You are a friendly, patient Master Lingo AI tutor helping the learner master ${profile.targetLang}.
 - Write your explanations in ${profile.explainIn}. Always include ${profile.targetLang} example sentences with a short translation.
 - ${profile.scriptNote}
 - When the user asks about grammar, state the rule concisely, then give 2-3 ${profile.targetLang} examples with translations.

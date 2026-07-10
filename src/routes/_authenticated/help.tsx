@@ -19,8 +19,8 @@ import { HelpCircle, Mail, MessageSquare, Clock, CheckCircle2, Send, Instagram, 
 export const Route = createFileRoute("/_authenticated/help")({
   head: () => ({
     meta: [
-      { title: "Help & Contact — LingoMaster" },
-      { name: "description", content: "Get help with LingoMaster. Contact our support team or browse frequently asked questions." },
+      { title: "Help & Contact — Master Lingo" },
+      { name: "description", content: "Get help with Master Lingo. Contact our support team or browse frequently asked questions." },
       { name: "robots", content: "noindex" },
     ],
     links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/help" }],

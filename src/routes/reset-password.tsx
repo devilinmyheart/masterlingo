@@ -10,10 +10,10 @@ import { Loader2 } from "lucide-react";
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
     meta: [
-      { title: "Reset password — LingoMaster" },
-      { name: "description", content: "Set a new password for your LingoMaster account." },
-      { property: "og:title", content: "Reset password — LingoMaster" },
-      { property: "og:description", content: "Set a new password for your LingoMaster account." },
+      { title: "Reset password — Master Lingo" },
+      { name: "description", content: "Set a new password for your Master Lingo account." },
+      { property: "og:title", content: "Reset password — Master Lingo" },
+      { property: "og:description", content: "Set a new password for your Master Lingo account." },
       { property: "og:url", content: "https://masterlingo.lovable.app/reset-password" },
       { name: "robots", content: "noindex" },
     ],

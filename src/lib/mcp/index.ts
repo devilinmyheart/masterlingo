@@ -9,10 +9,10 @@ const projectRef =
 
 export default defineMcp({
   name: "lingomaster-mcp",
-  title: "LingoMaster MCP",
+  title: "Master Lingo MCP",
   version: "0.1.0",
   instructions:
-    "Tools for a LingoMaster learner. Read the learner's vocabulary notebook and progress across French, German, and Japanese, and add new vocabulary words. All actions run as the signed-in user.",
+    "Tools for a Master Lingo learner. Read the learner's vocabulary notebook and progress across French, German, and Japanese, and add new vocabulary words. All actions run as the signed-in user.",
   auth: auth.oauth.issuer({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated",

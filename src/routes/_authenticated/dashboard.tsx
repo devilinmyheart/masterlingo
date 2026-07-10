@@ -11,8 +11,8 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
-      { title: "Dashboard — LingoMaster" },
-      { name: "description", content: "Track your streak, XP, and next lesson across French, German, and Japanese on your LingoMaster dashboard." },
+      { title: "Dashboard — Master Lingo" },
+      { name: "description", content: "Track your streak, XP, and next lesson across French, German, and Japanese on your Master Lingo dashboard." },
       { name: "robots", content: "noindex" },
     ],
     links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/dashboard" }],

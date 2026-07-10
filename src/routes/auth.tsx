@@ -28,13 +28,13 @@ export const Route = createFileRoute("/auth")({
   validateSearch: (s) => searchSchema.parse(s),
   head: () => ({
     meta: [
-      { title: "Sign in — LingoMaster" },
-      { name: "description", content: "Sign in or create your LingoMaster account to start learning French, German, or Japanese with AI." },
-      { property: "og:title", content: "Sign in — LingoMaster" },
-      { property: "og:description", content: "Sign in or create your LingoMaster account to start learning French, German, or Japanese with AI." },
+      { title: "Sign in — Master Lingo" },
+      { name: "description", content: "Sign in or create your Master Lingo account to start learning French, German, or Japanese with AI." },
+      { property: "og:title", content: "Sign in — Master Lingo" },
+      { property: "og:description", content: "Sign in or create your Master Lingo account to start learning French, German, or Japanese with AI." },
       { property: "og:url", content: "https://masterlingo.lovable.app/auth" },
-      { name: "twitter:title", content: "Sign in — LingoMaster" },
-      { name: "twitter:description", content: "Sign in or create your LingoMaster account to start learning French, German, or Japanese with AI." },
+      { name: "twitter:title", content: "Sign in — Master Lingo" },
+      { name: "twitter:description", content: "Sign in or create your Master Lingo account to start learning French, German, or Japanese with AI." },
     ],
     links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/auth" }],
   }),
@@ -78,7 +78,7 @@ function AuthPage() {
           },
         });
         if (error) throw error;
-        toast.success("Welcome to LingoMaster!");
+        toast.success("Welcome to Master Lingo!");
         if (next) window.location.href = next;
         else navigate({ to: "/onboarding" });
       } else if (mode === "signin") {
@@ -127,7 +127,7 @@ function AuthPage() {
         <div className="grid size-8 place-items-center rounded-xl bg-gradient-to-tr from-brand via-french to-japanese">
           <Globe className="size-4 text-white" strokeWidth={2.5} />
         </div>
-        <span className="font-display text-lg font-bold">LingoMaster</span>
+        <span className="font-display text-lg font-bold">Master Lingo</span>
       </Link>
 
       <motion.div
@@ -206,7 +206,7 @@ function AuthPage() {
           {mode === "signup" ? (
             <>Already have an account? <button onClick={() => setMode("signin")} className="font-semibold text-brand hover:underline">Sign in</button></>
           ) : mode === "signin" ? (
-            <>New to LingoMaster? <button onClick={() => setMode("signup")} className="font-semibold text-brand hover:underline">Create account</button></>
+            <>New to Master Lingo? <button onClick={() => setMode("signup")} className="font-semibold text-brand hover:underline">Create account</button></>
           ) : (
             <button onClick={() => setMode("signin")} className="font-semibold text-brand hover:underline">Back to sign in</button>
           )}

@@ -6,7 +6,7 @@ export default defineTool({
   name: "get_learning_progress",
   title: "Get learning progress",
   description:
-    "Return the signed-in learner's LingoMaster progress: XP, streak, words learned, minutes studied, and per-language stats.",
+    "Return the signed-in learner's Master Lingo progress: XP, streak, words learned, minutes studied, and per-language stats.",
   inputSchema: {
     language: z
       .enum(["french", "german", "japanese", "english", "hindi_english"])
