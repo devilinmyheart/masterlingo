@@ -93,7 +93,7 @@ function Dashboard() {
               {greeting()}
             </div>
             <h1 className="mt-1 font-display text-4xl font-bold tracking-tight md:text-5xl">
-              Bonjour, {displayName} 👋
+              {({ french: "Bonjour", german: "Hallo", japanese: "こんにちは", english: "Hello", hindi_english: "नमस्ते" } as Record<LanguageId, string>)[language]}, {displayName} 👋
             </h1>
             <p className="mt-1 text-muted-foreground">
               Currently learning <span className={`font-semibold ${accent.ink}`}>{course.flag} {course.nativeName}</span> · {levelObj.label}
