@@ -124,15 +124,23 @@ function LessonPage() {
     }
   }
 
+  const [voicePrefs] = useVoicePrefs();
+
   function speak(text: string) {
+    if (language.id === "english") return speakWithSlot(text, voicePrefs.english);
+    if (language.id === "hindi_english") return speakWithSlot(text, voicePrefs.hindi_english.target);
     if (typeof window === "undefined" || !window.speechSynthesis) return;
     const u = new SpeechSynthesisUtterance(text);
     u.lang =
       language.id === "french" ? "fr-FR" :
       language.id === "german" ? "de-DE" :
-      language.id === "japanese" ? "ja-JP" :
-      "en-US"; // english + hindi_english both drill English words
+      "ja-JP";
     window.speechSynthesis.speak(u);
+  }
+
+  function speakGloss(text: string) {
+    // Hindi-for-English: speak the translation in Hindi using the gloss voice.
+    if (language.id === "hindi_english") return speakWithSlot(text, voicePrefs.hindi_english.gloss);
   }
 
   return (
