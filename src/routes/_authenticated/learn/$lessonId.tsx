@@ -7,7 +7,7 @@ import { STARTER_VOCAB } from "@/data/vocabulary";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Check, Sparkles, Volume2, X } from "lucide-react";
+import { ArrowLeft, Check, Mic, MicOff, Sparkles, Volume2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { speakWithSlot, useVoicePrefs } from "@/lib/voice-prefs";
@@ -49,7 +49,7 @@ function LessonPage() {
   const cards = useMemo<Card[]>(() => buildDeck(language.id, lessonId), [language.id, lessonId]);
 
   const [idx, setIdx] = useState(0);
-  const [phase, setPhase] = useState<"learn" | "quiz">("learn");
+  const [phase, setPhase] = useState<"learn" | "quiz" | "speak">("learn");
   const [correct, setCorrect] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
   const [showBack, setShowBack] = useState(false);
@@ -59,7 +59,9 @@ function LessonPage() {
 
   const total = cards.length;
   const current = cards[idx];
-  const progress = ((idx + (phase === "quiz" ? 0.5 : 0) + (chosen ? 0.5 : 0)) / total) * 100;
+  const phaseFrac = phase === "learn" ? 0 : phase === "quiz" ? 0.33 : 0.66;
+  const answered = phase === "quiz" && chosen ? 0.17 : 0;
+  const progress = ((idx + phaseFrac + answered) / total) * 100;
   const isCorrect = chosen === current?.back;
 
   function chooseAnswer(option: string) {
@@ -176,7 +178,7 @@ function LessonPage() {
             transition={{ duration: 0.35 }}
             className="glass-panel mt-8 rounded-3xl p-8 shadow-xl md:p-12"
           >
-            {phase === "learn" ? (
+            {phase === "learn" && (
               <>
                 <div className="text-xs font-bold uppercase tracking-widest text-brand">New word · {idx + 1} of {total}</div>
                 <div className="mt-4 flex items-center gap-3">
@@ -214,7 +216,8 @@ function LessonPage() {
                   </Button>
                 </div>
               </>
-            ) : (
+            )}
+            {phase === "quiz" && (
               <>
                 <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">What does this mean?</div>
                 <div className="mt-4 flex items-center gap-3">
@@ -255,13 +258,24 @@ function LessonPage() {
                       {isCorrect ? <><Check className="size-4 text-green-600" /> Correct!</> : <><X className="size-4 text-destructive" /> Not quite — it's <span className="ml-1 font-bold">{current.back}</span></>}
                     </div>
                     <div className="mt-3 flex justify-end">
-                      <Button onClick={nextCard} className="rounded-full bg-foreground text-background hover:bg-foreground/90">
-                        {idx + 1 === total ? "Finish" : "Next word"}
+                      <Button onClick={() => { setChosen(null); setShowBack(false); setPhase("speak"); }} className="rounded-full bg-foreground text-background hover:bg-foreground/90">
+                        Now say it out loud
                       </Button>
                     </div>
                   </div>
                 )}
               </>
+            )}
+            {phase === "speak" && (
+              <SpeakStep
+                target={current.front}
+                pronunciation={current.pronunciation}
+                langCode={sttLangFor(language.id)}
+                onSkip={nextCard}
+                onDone={nextCard}
+                onSpeak={() => speak(current.front)}
+                isLast={idx + 1 === total}
+              />
             )}
           </motion.div>
         ) : (
@@ -325,3 +339,173 @@ function shuffle<T>(arr: T[], seed: number): T[] {
   }
   return out;
 }
+
+function sttLangFor(id: LanguageId): string {
+  switch (id) {
+    case "french": return "fr-FR";
+    case "german": return "de-DE";
+    case "japanese": return "ja-JP";
+    case "english": return "en-US";
+    case "hindi_english": return "en-US";
+    default: return "en-US";
+  }
+}
+
+function normalize(s: string) {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\p{L}\p{N}\s]/gu, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function similarity(a: string, b: string): number {
+  const x = normalize(a);
+  const y = normalize(b);
+  if (!x || !y) return 0;
+  if (x === y) return 1;
+  // Levenshtein-based similarity
+  const dp: number[] = Array(y.length + 1).fill(0).map((_, i) => i);
+  for (let i = 1; i <= x.length; i++) {
+    let prev = dp[0];
+    dp[0] = i;
+    for (let j = 1; j <= y.length; j++) {
+      const tmp = dp[j];
+      dp[j] = x[i - 1] === y[j - 1] ? prev : 1 + Math.min(prev, dp[j], dp[j - 1]);
+      prev = tmp;
+    }
+  }
+  const dist = dp[y.length];
+  return 1 - dist / Math.max(x.length, y.length);
+}
+
+function SpeakStep({
+  target, pronunciation, langCode, onSkip, onDone, onSpeak, isLast,
+}: {
+  target: string;
+  pronunciation?: string;
+  langCode: string;
+  onSkip: () => void;
+  onDone: () => void;
+  onSpeak: () => void;
+  isLast: boolean;
+}) {
+  const [listening, setListening] = useState(false);
+  const [transcript, setTranscript] = useState("");
+  const [score, setScore] = useState<number | null>(null);
+  const [supported, setSupported] = useState(true);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const SR = (window as unknown as { SpeechRecognition?: unknown; webkitSpeechRecognition?: unknown }).SpeechRecognition
+      || (window as unknown as { webkitSpeechRecognition?: unknown }).webkitSpeechRecognition;
+    if (!SR) setSupported(false);
+  }, []);
+
+  function start() {
+    const w = window as unknown as {
+      SpeechRecognition?: new () => SpeechRecognitionLike;
+      webkitSpeechRecognition?: new () => SpeechRecognitionLike;
+    };
+    const SR = w.SpeechRecognition || w.webkitSpeechRecognition;
+    if (!SR) { setSupported(false); return; }
+    const rec = new SR();
+    rec.lang = langCode;
+    rec.interimResults = false;
+    rec.maxAlternatives = 3;
+    setTranscript("");
+    setScore(null);
+    setListening(true);
+    rec.onresult = (e) => {
+      const alts: string[] = [];
+      for (let i = 0; i < e.results[0].length; i++) alts.push(e.results[0][i].transcript);
+      const best = alts.reduce((acc, t) => Math.max(acc, similarity(t, target)), 0);
+      setTranscript(alts[0] ?? "");
+      setScore(Math.round(best * 100));
+    };
+    rec.onerror = () => setListening(false);
+    rec.onend = () => setListening(false);
+    rec.start();
+  }
+
+  const passed = score !== null && score >= 60;
+
+  return (
+    <>
+      <div className="text-xs font-bold uppercase tracking-widest text-brand">Say it out loud</div>
+      <div className="mt-4 flex items-center gap-3">
+        <div className="font-display text-4xl font-bold md:text-5xl">{target}</div>
+        <button onClick={onSpeak} aria-label="Hear it" className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground">
+          <Volume2 className="size-5" />
+        </button>
+      </div>
+      {pronunciation && (
+        <div className="mt-1 font-mono text-sm text-muted-foreground">/{pronunciation}/</div>
+      )}
+
+      <div className="mt-8 flex flex-col items-center gap-4">
+        {supported ? (
+          <button
+            onClick={start}
+            disabled={listening}
+            className={cn(
+              "grid size-24 place-items-center rounded-full border-4 transition-all",
+              listening
+                ? "animate-pulse border-destructive bg-destructive/10 text-destructive"
+                : "border-brand bg-brand-soft text-brand hover:scale-105"
+            )}
+            aria-label={listening ? "Listening" : "Tap to speak"}
+          >
+            {listening ? <MicOff className="size-9" /> : <Mic className="size-9" />}
+          </button>
+        ) : (
+          <div className="rounded-2xl border border-border bg-background/60 p-4 text-center text-sm text-muted-foreground">
+            Speech recognition isn't supported in this browser. Try Chrome, Edge, or Safari to practice pronunciation.
+          </div>
+        )}
+        <div className="text-center text-sm text-muted-foreground">
+          {listening ? "Listening…" : supported ? "Tap the mic and say the word" : ""}
+        </div>
+
+        {transcript && (
+          <div className={cn(
+            "w-full rounded-2xl border p-4 text-center",
+            passed ? "border-green-500/40 bg-green-500/5" : "border-amber-500/40 bg-amber-500/5"
+          )}>
+            <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">You said</div>
+            <div className="mt-1 font-display text-xl font-bold">{transcript}</div>
+            <div className="mt-2 text-sm font-semibold">
+              {passed ? (
+                <span className="text-green-600 inline-flex items-center gap-1"><Check className="size-4" /> Nice — {score}% match</span>
+              ) : (
+                <span className="text-amber-700">Close — {score}% match. Try again for a cleaner take.</span>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-8 flex justify-between">
+        <Button variant="ghost" onClick={onSkip} className="rounded-full">
+          Skip
+        </Button>
+        <Button onClick={onDone} className="rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/90">
+          {isLast ? "Finish lesson" : "Next word"}
+        </Button>
+      </div>
+    </>
+  );
+}
+
+// Minimal typing for the browser SpeechRecognition API (not in lib.dom by default in all TS setups).
+type SpeechRecognitionLike = {
+  lang: string;
+  interimResults: boolean;
+  maxAlternatives: number;
+  onresult: (e: { results: { [i: number]: { transcript: string }; length: number }[] & { [i: number]: { length: number; [j: number]: { transcript: string } } } }) => void;
+  onerror: (e: unknown) => void;
+  onend: () => void;
+  start: () => void;
+};
