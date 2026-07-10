@@ -46,7 +46,7 @@ function Onboarding() {
   const qc = useQueryClient();
   const [step, setStep] = useState(0);
   const [language, setLanguage] = useState<LanguageId | null>(null);
-  const [goal, setGoal] = useState<Goal | null>(null);
+  const [goals, setGoals] = useState<Goal[]>([]);
   const [level, setLevel] = useState<Level>("beginner");
   const [minutes, setMinutes] = useState(15);
   const [saving, setSaving] = useState(false);
@@ -54,8 +54,19 @@ function Onboarding() {
   const next = () => setStep((s) => Math.min(s + 1, 3));
   const back = () => setStep((s) => Math.max(s - 1, 0));
 
+  function toggleGoal(id: Goal) {
+    setGoals((prev) => {
+      if (prev.includes(id)) return prev.filter((g) => g !== id);
+      if (prev.length >= 2) {
+        // Replace the oldest selection so users can freely swap up to 2.
+        return [prev[1], id];
+      }
+      return [...prev, id];
+    });
+  }
+
   async function finish() {
-    if (!language || !goal) return;
+    if (!language || goals.length === 0) return;
     setSaving(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -64,7 +75,8 @@ function Onboarding() {
       await supabase.from("user_onboarding").upsert({
         user_id: user.id,
         language,
-        goal,
+        goal: goals[0],
+        secondary_goal: goals[1] ?? null,
         level,
         daily_minutes: minutes,
       });
@@ -91,7 +103,11 @@ function Onboarding() {
     }
   }
 
-  const canNext = (step === 0 && language) || (step === 1 && goal) || step === 2 || step === 3;
+  const canNext =
+    (step === 0 && language) ||
+    (step === 1 && goals.length > 0) ||
+    step === 2 ||
+    step === 3;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 md:py-16">
