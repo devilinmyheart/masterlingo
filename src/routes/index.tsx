@@ -427,9 +427,9 @@ function Pricing() {
       </div>
       <div className="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
         <div className="glass-panel rounded-3xl p-8 shadow-lg">
-          <h3 className="text-lg font-bold">Explorer</h3>
+          <h3 className="text-lg font-bold uppercase tracking-wide">BASIC</h3>
           <div className="mt-4 font-display text-4xl font-bold">
-            $0<span className="text-base font-normal text-muted-foreground">/mo</span>
+            Free
           </div>
           <ul className="mt-6 space-y-3 text-sm text-muted-foreground">
             {["Daily lessons in one language", "Basic vocabulary tracker", "Community leaderboards"].map((f) => (
