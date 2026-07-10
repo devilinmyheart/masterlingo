@@ -139,7 +139,7 @@ function Onboarding() {
           <>
             <h1 className="font-display text-3xl font-bold md:text-4xl">Which language calls to you?</h1>
             <p className="mt-2 text-muted-foreground">Pick one to start. You can add more later.</p>
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
               {LANGUAGE_LIST.map((lang) => (
                 <button
                   key={lang.id}
