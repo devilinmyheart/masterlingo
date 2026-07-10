@@ -189,8 +189,21 @@ function LessonPage() {
                   <div className="mt-1 font-mono text-sm text-muted-foreground">/{current.pronunciation}/</div>
                 )}
                 <div className="mt-6 rounded-2xl border border-border bg-background/60 p-5">
-                  <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Meaning in English</div>
-                  <div className="mt-1 font-display text-2xl font-bold md:text-3xl">{current.back}</div>
+                  <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                    {language.id === "hindi_english" ? "अर्थ (Hindi)" : "Meaning in English"}
+                  </div>
+                  <div className="mt-1 flex items-center gap-3">
+                    <div className="font-display text-2xl font-bold md:text-3xl">{current.back}</div>
+                    {language.id === "hindi_english" && (
+                      <button
+                        onClick={() => speakGloss(current.back)}
+                        aria-label="Play Hindi translation"
+                        className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground"
+                      >
+                        <Volume2 className="size-5" />
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <p className="mt-6 text-sm text-muted-foreground">
                   Take a moment to say it out loud. When you're ready, we'll check your recall.
