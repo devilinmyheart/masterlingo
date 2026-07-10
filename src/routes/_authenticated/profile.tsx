@@ -107,6 +107,14 @@ function Profile() {
           {saving ? "Saving…" : "Save changes"}
         </Button>
       </div>
+
+      <h2 className="mt-10 font-display text-2xl font-bold">Voice & pronunciation</h2>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Choose separate voices for English and the Hindi → English track. Preferences are saved on this device and applied to lesson audio and vocabulary playback.
+      </p>
+      <div className="glass-panel mt-4 rounded-2xl p-6 shadow-sm">
+        <VoicePreferences />
+      </div>
     </div>
   );
 }
