@@ -525,6 +525,7 @@ function SiteFooter() {
         <div>
           <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Company</div>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+            <li><Link to="/about" className="hover:text-foreground">About us</Link></li>
             <li><a href="#faq" className="hover:text-foreground">FAQ</a></li>
             <li><a href="#pricing" className="hover:text-foreground">Pricing</a></li>
             <li><a href="/help" className="hover:text-foreground">Contact us</a></li>
