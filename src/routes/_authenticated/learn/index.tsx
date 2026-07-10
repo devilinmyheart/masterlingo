@@ -115,6 +115,24 @@ const LANG_ACCENT: Record<LanguageId, Accent> = {
     shadow: "shadow-[0_6px_0_0_rgba(160,20,40,0.55)]",
     softBg: "bg-japanese-soft",
   },
+  english: {
+    ring: "border-english",
+    solidBg: "bg-english",
+    solidText: "text-white",
+    chip: "bg-english-soft",
+    ink: "text-english",
+    shadow: "shadow-[0_6px_0_0_rgba(20,110,120,0.55)]",
+    softBg: "bg-english-soft",
+  },
+  hindi_english: {
+    ring: "border-hindi",
+    solidBg: "bg-hindi",
+    solidText: "text-hindi-ink",
+    chip: "bg-hindi-soft",
+    ink: "text-hindi-ink",
+    shadow: "shadow-[0_6px_0_0_rgba(170,110,10,0.55)]",
+    softBg: "bg-hindi-soft",
+  },
 };
 
 // Icons for path nodes, cycled per lesson
