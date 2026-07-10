@@ -22,6 +22,7 @@ import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authentic
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated/learn/index'
 import { Route as AuthenticatedLearnLessonIdRouteImport } from './routes/_authenticated/learn/$lessonId'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -88,6 +89,11 @@ const AuthenticatedLearnLessonIdRoute =
     path: '/learn/$lessonId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/tutor': typeof AuthenticatedTutorRoute
   '/vocabulary': typeof AuthenticatedVocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/learn/$lessonId': typeof AuthenticatedLearnLessonIdRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
 }
@@ -114,6 +121,7 @@ export interface FileRoutesByTo {
   '/tutor': typeof AuthenticatedTutorRoute
   '/vocabulary': typeof AuthenticatedVocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/learn/$lessonId': typeof AuthenticatedLearnLessonIdRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
 }
@@ -130,6 +138,7 @@ export interface FileRoutesById {
   '/_authenticated/tutor': typeof AuthenticatedTutorRoute
   '/_authenticated/vocabulary': typeof AuthenticatedVocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/_authenticated/learn/$lessonId': typeof AuthenticatedLearnLessonIdRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
 }
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/tutor'
     | '/vocabulary'
     | '/api/chat'
+    | '/.lovable/oauth/consent'
     | '/learn/$lessonId'
     | '/learn/'
   fileRoutesByTo: FileRoutesByTo
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/tutor'
     | '/vocabulary'
     | '/api/chat'
+    | '/.lovable/oauth/consent'
     | '/learn/$lessonId'
     | '/learn'
   id:
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/_authenticated/tutor'
     | '/_authenticated/vocabulary'
     | '/api/chat'
+    | '/.lovable/oauth/consent'
     | '/_authenticated/learn/$lessonId'
     | '/_authenticated/learn/'
   fileRoutesById: FileRoutesById
@@ -186,6 +198,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiChatRoute: typeof ApiChatRoute
+  DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -281,6 +294,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLearnLessonIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -314,6 +334,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiChatRoute: ApiChatRoute,
+  DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
