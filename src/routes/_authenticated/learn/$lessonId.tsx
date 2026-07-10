@@ -257,13 +257,23 @@ function LessonPage() {
                       {isCorrect ? <><Check className="size-4 text-green-600" /> Correct!</> : <><X className="size-4 text-destructive" /> Not quite — it's <span className="ml-1 font-bold">{current.back}</span></>}
                     </div>
                     <div className="mt-3 flex justify-end">
-                      <Button onClick={nextCard} className="rounded-full bg-foreground text-background hover:bg-foreground/90">
-                        {idx + 1 === total ? "Finish" : "Next word"}
+                      <Button onClick={() => { setChosen(null); setShowBack(false); setPhase("speak"); }} className="rounded-full bg-foreground text-background hover:bg-foreground/90">
+                        Now say it out loud
                       </Button>
                     </div>
                   </div>
                 )}
               </>
+            )}
+            {phase === "speak" && (
+              <SpeakStep
+                target={current.front}
+                pronunciation={current.pronunciation}
+                langCode={sttLangFor(language.id)}
+                onSkip={nextCard}
+                onDone={nextCard}
+                onSpeak={() => speak(current.front)}
+              />
             )}
           </motion.div>
         ) : (
