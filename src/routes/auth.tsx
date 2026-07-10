@@ -19,7 +19,16 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/auth")({
   validateSearch: (s) => searchSchema.parse(s),
   head: () => ({
-    meta: [{ title: "Sign in — LingoMaster" }],
+    meta: [
+      { title: "Sign in — LingoMaster" },
+      { name: "description", content: "Sign in or create your LingoMaster account to start learning French, German, or Japanese with AI." },
+      { property: "og:title", content: "Sign in — LingoMaster" },
+      { property: "og:description", content: "Sign in or create your LingoMaster account to start learning French, German, or Japanese with AI." },
+      { property: "og:url", content: "https://masterlingo.lovable.app/auth" },
+      { name: "twitter:title", content: "Sign in — LingoMaster" },
+      { name: "twitter:description", content: "Sign in or create your LingoMaster account to start learning French, German, or Japanese with AI." },
+    ],
+    links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/auth" }],
   }),
   component: AuthPage,
 });

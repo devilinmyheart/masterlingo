@@ -8,7 +8,17 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/reset-password")({
-  head: () => ({ meta: [{ title: "Reset password — LingoMaster" }] }),
+  head: () => ({
+    meta: [
+      { title: "Reset password — LingoMaster" },
+      { name: "description", content: "Set a new password for your LingoMaster account." },
+      { property: "og:title", content: "Reset password — LingoMaster" },
+      { property: "og:description", content: "Set a new password for your LingoMaster account." },
+      { property: "og:url", content: "https://masterlingo.lovable.app/reset-password" },
+      { name: "robots", content: "noindex" },
+    ],
+    links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/reset-password" }],
+  }),
   component: ResetPassword,
 });
 
