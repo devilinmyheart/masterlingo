@@ -6,7 +6,7 @@ import { Home, BookOpen, Sparkles, Library, User as UserIcon, LogOut, Globe, Men
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -32,13 +32,15 @@ function AuthedLayout() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [needsOnboarding, setNeedsOnboarding] = useState<boolean | null>(null);
 
-  useEffect(() => {
-    supabase.from("user_onboarding").select("language").eq("user_id", user.id).maybeSingle().then(({ data }) => {
-      setNeedsOnboarding(!data);
-    });
-  }, [user.id]);
+  const { data: onboardingRow, isLoading: onboardingLoading } = useQuery({
+    queryKey: ["onboarding-status", user.id],
+    queryFn: async () => {
+      const { data } = await supabase.from("user_onboarding").select("language").eq("user_id", user.id).maybeSingle();
+      return data ?? null;
+    },
+  });
+  const needsOnboarding = !onboardingLoading && !onboardingRow;
 
   useEffect(() => {
     if (needsOnboarding && pathname !== "/onboarding") navigate({ to: "/onboarding" });
