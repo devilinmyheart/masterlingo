@@ -49,7 +49,7 @@ function LessonPage() {
   const cards = useMemo<Card[]>(() => buildDeck(language.id, lessonId), [language.id, lessonId]);
 
   const [idx, setIdx] = useState(0);
-  const [phase, setPhase] = useState<"learn" | "quiz">("learn");
+  const [phase, setPhase] = useState<"learn" | "quiz" | "speak">("learn");
   const [correct, setCorrect] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
   const [showBack, setShowBack] = useState(false);
@@ -59,7 +59,9 @@ function LessonPage() {
 
   const total = cards.length;
   const current = cards[idx];
-  const progress = ((idx + (phase === "quiz" ? 0.5 : 0) + (chosen ? 0.5 : 0)) / total) * 100;
+  const phaseFrac = phase === "learn" ? 0 : phase === "quiz" ? 0.33 : 0.66;
+  const answered = phase === "quiz" && chosen ? 0.17 : 0;
+  const progress = ((idx + phaseFrac + answered) / total) * 100;
   const isCorrect = chosen === current?.back;
 
   function chooseAnswer(option: string) {
