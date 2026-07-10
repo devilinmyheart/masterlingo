@@ -42,6 +42,14 @@ function AuthedLayout() {
   });
   const needsOnboarding = !onboardingLoading && !onboardingRow;
 
+  const { data: profileRow } = useQuery({
+    queryKey: ["profile", user.id],
+    queryFn: async () => {
+      const { data } = await supabase.from("profiles").select("display_name").eq("id", user.id).maybeSingle();
+      return data ?? null;
+    },
+  });
+
   useEffect(() => {
     if (needsOnboarding && pathname !== "/onboarding") navigate({ to: "/onboarding" });
   }, [needsOnboarding, pathname, navigate]);
@@ -54,7 +62,14 @@ function AuthedLayout() {
     navigate({ to: "/auth", replace: true });
   }
 
-  const displayName = (user.user_metadata?.display_name as string) ?? user.email?.split("@")[0] ?? "You";
+  const meta = user.user_metadata ?? {};
+  const displayName =
+    (profileRow?.display_name as string | undefined) ??
+    (meta.display_name as string | undefined) ??
+    (meta.full_name as string | undefined) ??
+    (meta.name as string | undefined) ??
+    user.email?.split("@")[0] ??
+    "You";
 
   return (
     <div className="bg-aurora min-h-screen">
