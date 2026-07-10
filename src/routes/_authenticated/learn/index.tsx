@@ -9,7 +9,7 @@ import { Check, Lock, Star, Flame, Zap, Trophy, BookOpen, Crown, Sparkles } from
 import { cn } from "@/lib/utils";
 
 const searchSchema = z.object({
-  language: z.enum(["french", "german", "japanese"]).optional(),
+  language: z.enum(["french", "german", "japanese", "english", "hindi_english"]).optional(),
 });
 
 export const Route = createFileRoute("/_authenticated/learn/")({
