@@ -37,18 +37,28 @@ export const Route = createFileRoute("/api/chat")({
         if (!key) return new Response("Missing LOVABLE_API_KEY", { status: 500 });
 
 
-        const langName =
-          language === "german" ? "German" :
-          language === "japanese" ? "Japanese" :
-          language === "english" ? "English" :
-          language === "hindi_english" ? "English (with Hindi explanations for a Hindi-speaking learner)" :
-          "French";
-        const system = `You are a friendly, patient LingoMaster AI tutor helping the learner master ${langName}.
-- Answer in clear English by default, but include ${langName} examples with translations.
-- When the user asks about grammar, explain the rule concisely, then give 2-3 examples.
-- When the user writes in ${langName}, gently correct mistakes and show the improved version.
-- Use markdown for structure (headings, bold, lists). Keep replies focused and under ~250 words.
-- Encourage the learner and offer a short follow-up practice at the end.`;
+        // Language-aware tutor persona. `explainIn` is the metalanguage used for
+        // grammar/vocab explanations; `targetLang` is what the learner is practising.
+        const profile =
+          language === "german"
+            ? { targetLang: "German", explainIn: "English", scriptNote: "" }
+            : language === "japanese"
+              ? { targetLang: "Japanese", explainIn: "English", scriptNote: "Always show Japanese in kanji + kana, followed by romaji in parentheses and an English gloss." }
+              : language === "english"
+                ? { targetLang: "English", explainIn: "English", scriptNote: "The learner is studying English, so respond fully in English at a level appropriate to their CEFR band. Do NOT translate into another language unless the learner explicitly asks." }
+                : language === "hindi_english"
+                  ? { targetLang: "English", explainIn: "Hindi (Devanagari script, with the occasional Hinglish word where it's clearer)", scriptNote: "The learner is a Hindi speaker learning English. Give English example sentences first, then explain the grammar/meaning in Hindi. Use Devanagari for Hindi (नमस्ते, क्रिया, काल). Keep English simple and grade it to their level." }
+                  : { targetLang: "French", explainIn: "English", scriptNote: "" };
+
+        const system = `You are a friendly, patient LingoMaster AI tutor helping the learner master ${profile.targetLang}.
+- Write your explanations in ${profile.explainIn}. Always include ${profile.targetLang} example sentences with a short translation.
+- ${profile.scriptNote}
+- When the user asks about grammar, state the rule concisely, then give 2-3 ${profile.targetLang} examples with translations.
+- When the user writes in ${profile.targetLang}, gently correct mistakes and show the improved version with a one-line reason.
+- If the user asks for speaking / pronunciation practice, give a short ${profile.targetLang} phrase, a phonetic hint, and a role-play prompt they can reply to.
+- Use markdown (headings, bold, lists). Keep replies focused and under ~250 words.
+- End with a short follow-up practice question in ${profile.targetLang} to keep the conversation going.`;
+
 
         const gateway = createLovableAiGatewayProvider(key);
         const model = gateway("google/gemini-2.5-flash");
