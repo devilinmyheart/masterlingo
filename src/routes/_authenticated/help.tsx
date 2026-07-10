@@ -14,7 +14,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { toast } from "sonner";
-import { HelpCircle, Mail, MessageSquare, Clock, CheckCircle2, Send, Instagram, Twitter } from "lucide-react";
+import { HelpCircle, Mail, MessageSquare, Clock, CheckCircle2, Send } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/help")({
   head: () => ({
@@ -324,24 +324,9 @@ function HelpPage() {
               <CardTitle className="font-display text-lg">Connect with us</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href="https://twitter.com/lingomaster"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-background/50 px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
-                >
-                  <Twitter className="size-4" /> Twitter / X
-                </a>
-                <a
-                  href="https://instagram.com/lingomaster"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-background/50 px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
-                >
-                  <Instagram className="size-4" /> Instagram
-                </a>
-              </div>
+              <p className="text-sm text-muted-foreground">
+                Reach out via the contact form or email us directly. We read every message.
+              </p>
             </CardContent>
           </Card>
 
