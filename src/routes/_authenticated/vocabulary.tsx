@@ -75,13 +75,14 @@ function Vocabulary() {
   }
 
   function speak(text: string, lang: LanguageId) {
+    if (lang === "english") return speakWithSlot(text, voicePrefs.english);
+    if (lang === "hindi_english") return speakWithSlot(text, voicePrefs.hindi_english.target);
     if (typeof window === "undefined" || !window.speechSynthesis) return;
     const u = new SpeechSynthesisUtterance(text);
     u.lang =
       lang === "french" ? "fr-FR" :
       lang === "german" ? "de-DE" :
-      lang === "japanese" ? "ja-JP" :
-      "en-US";
+      "ja-JP";
     window.speechSynthesis.speak(u);
   }
 
