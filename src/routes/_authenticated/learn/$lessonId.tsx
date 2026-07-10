@@ -178,7 +178,7 @@ function LessonPage() {
             transition={{ duration: 0.35 }}
             className="glass-panel mt-8 rounded-3xl p-8 shadow-xl md:p-12"
           >
-            {phase === "learn" ? (
+            {phase === "learn" && (
               <>
                 <div className="text-xs font-bold uppercase tracking-widest text-brand">New word · {idx + 1} of {total}</div>
                 <div className="mt-4 flex items-center gap-3">
@@ -216,7 +216,8 @@ function LessonPage() {
                   </Button>
                 </div>
               </>
-            ) : (
+            )}
+            {phase === "quiz" && (
               <>
                 <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">What does this mean?</div>
                 <div className="mt-4 flex items-center gap-3">
@@ -273,6 +274,7 @@ function LessonPage() {
                 onSkip={nextCard}
                 onDone={nextCard}
                 onSpeak={() => speak(current.front)}
+                isLast={idx + 1 === total}
               />
             )}
           </motion.div>
