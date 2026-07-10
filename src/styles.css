@@ -125,6 +125,15 @@
   --japanese: oklch(0.58 0.22 25);
   --japanese-soft: oklch(0.95 0.04 25);
 
+  /* English — teal */
+  --english: oklch(0.55 0.13 195);
+  --english-soft: oklch(0.95 0.04 195);
+
+  /* Hindi (Hindi → English) — saffron + deep ink */
+  --hindi: oklch(0.72 0.17 60);
+  --hindi-soft: oklch(0.96 0.05 65);
+  --hindi-ink: oklch(0.22 0.03 60);
+
   --glass: oklch(1 0 0 / 0.55);
   --glass-border: oklch(1 0 0 / 0.6);
 
