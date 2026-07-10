@@ -83,6 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Premium AI-powered language learning. Master French, German, and Japanese from A1 to C2 with adaptive lessons, native audio, and an always-on AI tutor.",
       },
       { name: "author", content: "LingoMaster" },
+      { name: "google-site-verification", content: "uZzGCjJQKtFXfLmX_vd8oTF_X37RzkA0e3jSZ98VydA" },
       { property: "og:title", content: "LingoMaster — Learn French, German & Japanese with AI" },
       {
         property: "og:description",
