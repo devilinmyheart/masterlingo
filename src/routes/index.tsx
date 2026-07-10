@@ -227,7 +227,9 @@ function AnimatedGlobe() {
       {[
         { label: "🇫🇷 Bonjour", pos: "top-4 left-8", color: "text-french", delay: 0 },
         { label: "🇩🇪 Hallo", pos: "top-14 right-6", color: "text-german-ink", delay: 0.6 },
-        { label: "🇯🇵 こんにちは", pos: "bottom-16 left-2", color: "text-japanese", delay: 1.2 },
+        { label: "🇯🇵 こんにちは", pos: "bottom-24 left-2", color: "text-japanese", delay: 1.2 },
+        { label: "🇬🇧 Hello", pos: "top-32 left-4", color: "text-english", delay: 0.9 },
+        { label: "🇮🇳 नमस्ते", pos: "bottom-6 left-16", color: "text-hindi-ink", delay: 1.5 },
         { label: "🇫🇷 Merci", pos: "bottom-4 right-12", color: "text-french", delay: 0.3 },
       ].map((chip) => (
         <div
