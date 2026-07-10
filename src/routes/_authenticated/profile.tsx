@@ -39,6 +39,7 @@ function Profile() {
   const language = LANGUAGE_LIST.find((l) => l.id === data.onboarding?.language) ?? LANGUAGE_LIST[0];
 
   async function saveName() {
+    if (!data) return;
     setSaving(true);
     const { error } = await supabase.from("profiles").upsert({ id: data.user.id, display_name: name });
     if (error) toast.error(error.message);
