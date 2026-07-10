@@ -253,7 +253,7 @@ function LanguageSection() {
           <p className="mt-2 text-muted-foreground">Each curriculum hand-crafted from A1 to C2.</p>
         </div>
       </div>
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {LANGUAGE_LIST.map((lang, i) => {
           const s = LANG_STYLES[lang.id];
           const lessonCount = lang.levels.reduce((n, lvl) => n + lvl.topics.length, 0);
