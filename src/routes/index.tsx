@@ -88,6 +88,18 @@ const LANG_STYLES: Record<string, { chipBg: string; chipText: string; ring: stri
     ring: "hover:shadow-japanese/20",
     bar: "bg-japanese",
   },
+  english: {
+    chipBg: "bg-english-soft",
+    chipText: "text-english",
+    ring: "hover:shadow-english/20",
+    bar: "bg-english",
+  },
+  hindi_english: {
+    chipBg: "bg-hindi-soft",
+    chipText: "text-hindi-ink",
+    ring: "hover:shadow-hindi/20",
+    bar: "bg-hindi",
+  },
 };
 
 function Landing() {
