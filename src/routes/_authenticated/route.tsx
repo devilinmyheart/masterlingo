@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, redirect, Link, useNavigate, useRouterState } 
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
-import { Home, BookOpen, Sparkles, Library, User as UserIcon, LogOut, Globe, Menu, X, Award, HelpCircle, Star, Mic } from "lucide-react";
+import { Home, BookOpen, Sparkles, Library, User as UserIcon, LogOut, Globe, Menu, X, Award, HelpCircle, Star, Mic, BookOpenCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
