@@ -518,6 +518,8 @@ function SiteFooter() {
             <li><a href="#languages" className="text-muted-foreground hover:text-french">French</a></li>
             <li><a href="#languages" className="text-muted-foreground hover:text-german-ink">German</a></li>
             <li><a href="#languages" className="text-muted-foreground hover:text-japanese">Japanese</a></li>
+            <li><a href="#languages" className="text-muted-foreground hover:text-english">English</a></li>
+            <li><a href="#languages" className="text-muted-foreground hover:text-hindi-ink">English (Hindi speakers)</a></li>
           </ul>
         </div>
         <div>
