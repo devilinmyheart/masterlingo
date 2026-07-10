@@ -39,6 +39,7 @@ function LessonPage() {
   const cards = useMemo<Card[]>(() => buildDeck(language.id, lessonId), [language.id, lessonId]);
 
   const [idx, setIdx] = useState(0);
+  const [phase, setPhase] = useState<"learn" | "quiz">("learn");
   const [correct, setCorrect] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
   const [showBack, setShowBack] = useState(false);
@@ -48,7 +49,7 @@ function LessonPage() {
 
   const total = cards.length;
   const current = cards[idx];
-  const progress = ((idx + (chosen ? 1 : 0)) / total) * 100;
+  const progress = ((idx + (phase === "quiz" ? 0.5 : 0) + (chosen ? 0.5 : 0)) / total) * 100;
   const isCorrect = chosen === current?.back;
 
   function chooseAnswer(option: string) {
@@ -60,6 +61,7 @@ function LessonPage() {
   function nextCard() {
     setChosen(null);
     setShowBack(false);
+    setPhase("learn");
     if (idx + 1 >= total) setDone(true);
     else setIdx((n) => n + 1);
   }
@@ -145,57 +147,86 @@ function LessonPage() {
       <AnimatePresence mode="wait">
         {!done ? (
           <motion.div
-            key={idx}
+            key={`${idx}-${phase}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.35 }}
             className="glass-panel mt-8 rounded-3xl p-8 shadow-xl md:p-12"
           >
-            <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Translate to English</div>
-            <div className="mt-4 flex items-center gap-3">
-              <div className="font-display text-4xl font-bold md:text-5xl">{current.front}</div>
-              <button onClick={() => speak(current.front)} className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground">
-                <Volume2 className="size-5" />
-              </button>
-            </div>
-            {current.pronunciation && (
-              <div className="mt-1 font-mono text-sm text-muted-foreground">{current.pronunciation}</div>
-            )}
-
-            <div className="mt-8 grid gap-3 sm:grid-cols-2">
-              {current.options.map((opt) => {
-                const isChoice = chosen === opt;
-                const isRight = opt === current.back;
-                return (
-                  <button
-                    key={opt}
-                    onClick={() => chooseAnswer(opt)}
-                    disabled={!!chosen}
-                    className={cn(
-                      "rounded-2xl border-2 p-4 text-left text-base font-medium transition-all",
-                      !chosen && "border-border bg-background/60 hover:border-brand hover:bg-brand-soft",
-                      chosen && isRight && "border-green-500 bg-green-500/10 text-green-700",
-                      chosen && isChoice && !isRight && "border-destructive bg-destructive/10 text-destructive"
-                    )}
-                  >
-                    {opt}
+            {phase === "learn" ? (
+              <>
+                <div className="text-xs font-bold uppercase tracking-widest text-brand">New word · {idx + 1} of {total}</div>
+                <div className="mt-4 flex items-center gap-3">
+                  <div className="font-display text-4xl font-bold md:text-5xl">{current.front}</div>
+                  <button onClick={() => speak(current.front)} className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground">
+                    <Volume2 className="size-5" />
                   </button>
-                );
-              })}
-            </div>
-
-            {showBack && (
-              <div className={cn("mt-6 rounded-2xl border p-4", isCorrect ? "border-green-500/40 bg-green-500/5" : "border-destructive/40 bg-destructive/5")}>
-                <div className="flex items-center gap-2 text-sm font-semibold">
-                  {isCorrect ? <><Check className="size-4 text-green-600" /> Correct!</> : <><X className="size-4 text-destructive" /> Not quite — it's <span className="ml-1 font-bold">{current.back}</span></>}
                 </div>
-                <div className="mt-3 flex justify-end">
-                  <Button onClick={nextCard} className="rounded-full bg-foreground text-background hover:bg-foreground/90">
-                    {idx + 1 === total ? "Finish" : "Next"}
+                {current.pronunciation && (
+                  <div className="mt-1 font-mono text-sm text-muted-foreground">/{current.pronunciation}/</div>
+                )}
+                <div className="mt-6 rounded-2xl border border-border bg-background/60 p-5">
+                  <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Meaning in English</div>
+                  <div className="mt-1 font-display text-2xl font-bold md:text-3xl">{current.back}</div>
+                </div>
+                <p className="mt-6 text-sm text-muted-foreground">
+                  Take a moment to say it out loud. When you're ready, we'll check your recall.
+                </p>
+                <div className="mt-6 flex justify-end">
+                  <Button onClick={() => setPhase("quiz")} className="rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/90">
+                    Got it — quiz me
                   </Button>
                 </div>
-              </div>
+              </>
+            ) : (
+              <>
+                <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">What does this mean?</div>
+                <div className="mt-4 flex items-center gap-3">
+                  <div className="font-display text-4xl font-bold md:text-5xl">{current.front}</div>
+                  <button onClick={() => speak(current.front)} className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground">
+                    <Volume2 className="size-5" />
+                  </button>
+                </div>
+                {current.pronunciation && (
+                  <div className="mt-1 font-mono text-sm text-muted-foreground">/{current.pronunciation}/</div>
+                )}
+
+                <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                  {current.options.map((opt) => {
+                    const isChoice = chosen === opt;
+                    const isRight = opt === current.back;
+                    return (
+                      <button
+                        key={opt}
+                        onClick={() => chooseAnswer(opt)}
+                        disabled={!!chosen}
+                        className={cn(
+                          "rounded-2xl border-2 p-4 text-left text-base font-medium transition-all",
+                          !chosen && "border-border bg-background/60 hover:border-brand hover:bg-brand-soft",
+                          chosen && isRight && "border-green-500 bg-green-500/10 text-green-700",
+                          chosen && isChoice && !isRight && "border-destructive bg-destructive/10 text-destructive"
+                        )}
+                      >
+                        {opt}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {showBack && (
+                  <div className={cn("mt-6 rounded-2xl border p-4", isCorrect ? "border-green-500/40 bg-green-500/5" : "border-destructive/40 bg-destructive/5")}>
+                    <div className="flex items-center gap-2 text-sm font-semibold">
+                      {isCorrect ? <><Check className="size-4 text-green-600" /> Correct!</> : <><X className="size-4 text-destructive" /> Not quite — it's <span className="ml-1 font-bold">{current.back}</span></>}
+                    </div>
+                    <div className="mt-3 flex justify-end">
+                      <Button onClick={nextCard} className="rounded-full bg-foreground text-background hover:bg-foreground/90">
+                        {idx + 1 === total ? "Finish" : "Next word"}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </motion.div>
         ) : (
