@@ -12,9 +12,18 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/learn/$lessonId")({
-  head: ({ params }) => ({
-    meta: [{ title: `${(findTopic(params.lessonId)?.topic.title ?? "Lesson")} — LingoMaster` }],
-  }),
+  head: ({ params }) => {
+    const topic = findTopic(params.lessonId)?.topic;
+    const title = topic?.title ?? "Lesson";
+    return {
+      meta: [
+        { title: `${title} — LingoMaster` },
+        { name: "description", content: topic?.description ?? `Practice the "${title}" lesson on LingoMaster with adaptive flashcards and audio.` },
+        { name: "robots", content: "noindex" },
+      ],
+      links: [{ rel: "canonical", href: `https://masterlingo.lovable.app/learn/${params.lessonId}` }],
+    };
+  },
   component: LessonPage,
 });
 

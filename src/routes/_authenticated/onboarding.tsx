@@ -16,7 +16,14 @@ type Goal = "travel" | "work" | "exams" | "conversation" | "culture";
 type Level = "beginner" | "intermediate" | "advanced";
 
 export const Route = createFileRoute("/_authenticated/onboarding")({
-  head: () => ({ meta: [{ title: "Get started — LingoMaster" }] }),
+  head: () => ({
+    meta: [
+      { title: "Get started — LingoMaster" },
+      { name: "description", content: "Set your target language, level, and daily goal to build a personalized LingoMaster learning plan." },
+      { name: "robots", content: "noindex" },
+    ],
+    links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/onboarding" }],
+  }),
   component: Onboarding,
 });
 

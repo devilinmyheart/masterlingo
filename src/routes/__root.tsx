@@ -76,26 +76,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "LingoMaster — Learn French, German & Japanese with AI" },
-      {
-        name: "description",
-        content:
-          "Premium AI-powered language learning. Master French, German, and Japanese from A1 to C2 with adaptive lessons, native audio, and an always-on AI tutor.",
-      },
       { name: "author", content: "LingoMaster" },
       { name: "google-site-verification", content: "uZzGCjJQKtFXfLmX_vd8oTF_X37RzkA0e3jSZ98VydA" },
-      { property: "og:title", content: "LingoMaster — Learn French, German & Japanese with AI" },
-      {
-        property: "og:description",
-        content:
-          "Premium AI-powered language learning. Master French, German, and Japanese from A1 to C2 with adaptive lessons, native audio, and an always-on AI tutor.",
-      },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "LingoMaster" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "LingoMaster — Learn French, German & Japanese with AI" },
-      { name: "twitter:description", content: "Premium AI-powered language learning. Master French, German, and Japanese from A1 to C2 with adaptive lessons, native audio, and an always-on AI tutor." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/d08bd9fc-360c-483e-8fa1-e10f3bffa8fe" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/d08bd9fc-360c-483e-8fa1-e10f3bffa8fe" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

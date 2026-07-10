@@ -12,7 +12,14 @@ import ReactMarkdown from "react-markdown";
 import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/_authenticated/tutor")({
-  head: () => ({ meta: [{ title: "AI Tutor — LingoMaster" }] }),
+  head: () => ({
+    meta: [
+      { title: "AI Tutor — LingoMaster" },
+      { name: "description", content: "Chat live with an always-on AI language tutor for grammar help, translations, and speaking practice." },
+      { name: "robots", content: "noindex" },
+    ],
+    links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/tutor" }],
+  }),
   component: TutorPage,
 });
 
