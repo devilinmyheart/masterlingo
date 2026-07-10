@@ -42,6 +42,14 @@ function AuthedLayout() {
   });
   const needsOnboarding = !onboardingLoading && !onboardingRow;
 
+  const { data: profileRow } = useQuery({
+    queryKey: ["profile", user.id],
+    queryFn: async () => {
+      const { data } = await supabase.from("profiles").select("display_name").eq("id", user.id).maybeSingle();
+      return data ?? null;
+    },
+  });
+
   useEffect(() => {
     if (needsOnboarding && pathname !== "/onboarding") navigate({ to: "/onboarding" });
   }, [needsOnboarding, pathname, navigate]);
@@ -54,7 +62,14 @@ function AuthedLayout() {
     navigate({ to: "/auth", replace: true });
   }
 
-  const displayName = (user.user_metadata?.display_name as string) ?? user.email?.split("@")[0] ?? "You";
+  const meta = user.user_metadata ?? {};
+  const displayName =
+    (profileRow?.display_name as string | undefined) ??
+    (meta.display_name as string | undefined) ??
+    (meta.full_name as string | undefined) ??
+    (meta.name as string | undefined) ??
+    user.email?.split("@")[0] ??
+    "You";
 
   return (
     <div className="bg-aurora min-h-screen">
@@ -99,15 +114,22 @@ function AuthedLayout() {
             })}
           </nav>
           <div className="mt-auto rounded-2xl border border-border bg-card p-4">
-            <div className="flex items-center gap-3">
+            <Link
+              to="/profile"
+              className="flex items-center gap-3 rounded-lg -m-1 p-1 transition-colors hover:bg-accent"
+            >
               <div className="grid size-9 shrink-0 place-items-center rounded-full bg-brand text-sm font-bold text-brand-foreground">
                 {displayName[0]?.toUpperCase()}
               </div>
               <div className="min-w-0">
                 <div className="truncate text-sm font-semibold">{displayName}</div>
-                <div className="truncate text-xs text-muted-foreground">{user.email}</div>
+                {user.email && displayName !== user.email ? (
+                  <div className="truncate text-xs text-muted-foreground">{user.email}</div>
+                ) : (
+                  <div className="truncate text-xs text-muted-foreground">View profile</div>
+                )}
               </div>
-            </div>
+            </Link>
             <Button onClick={signOut} variant="ghost" size="sm" className="mt-3 w-full justify-start gap-2 text-muted-foreground">
               <LogOut className="size-4" /> Sign out
             </Button>

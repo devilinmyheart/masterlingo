@@ -27,10 +27,11 @@ const dashboardQuery = queryOptions({
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error("Not signed in");
 
-    const [onb, prog, recent] = await Promise.all([
+    const [onb, prog, recent, profile] = await Promise.all([
       supabase.from("user_onboarding").select("*").eq("user_id", user.id).maybeSingle(),
       supabase.from("user_progress").select("*").eq("user_id", user.id).maybeSingle(),
       supabase.from("lesson_completions").select("*").eq("user_id", user.id).order("completed_at", { ascending: false }).limit(20),
+      supabase.from("profiles").select("display_name").eq("id", user.id).maybeSingle(),
     ]);
 
     return {
@@ -38,6 +39,7 @@ const dashboardQuery = queryOptions({
       onboarding: onb.data,
       progress: prog.data,
       recent: recent.data ?? [],
+      profile: profile.data,
     };
   },
 });
@@ -55,7 +57,15 @@ function Dashboard() {
   const language = (data.onboarding?.language ?? "french") as LanguageId;
   const course = CURRICULUM[language];
   const accent = LANG_ACCENT[language];
-  const displayName = (data.user.user_metadata?.display_name as string) ?? data.user.email?.split("@")[0] ?? "there";
+  const meta = data.user.user_metadata ?? {};
+  const fullName =
+    (data.profile?.display_name as string | undefined) ??
+    (meta.display_name as string | undefined) ??
+    (meta.full_name as string | undefined) ??
+    (meta.name as string | undefined) ??
+    data.user.email?.split("@")[0] ??
+    "there";
+  const displayName = fullName.split(" ")[0];
   const xp = data.progress?.xp ?? 0;
   const streak = data.progress?.streak_days ?? 0;
   const words = data.progress?.words_learned ?? 0;
