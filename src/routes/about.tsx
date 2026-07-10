@@ -132,7 +132,7 @@ function FounderSection() {
           </div>
           <div>
             <h2 className="font-display text-3xl font-bold tracking-tight md:text-4xl">Mohammad Saduddin Atahar</h2>
-            <p className="mt-2 text-sm font-semibold uppercase tracking-wider text-brand">Founder & Owner</p>
+            <p className="mt-2 text-sm font-semibold uppercase tracking-wider text-brand">Founder & CEO</p>
             <p className="mt-6 leading-relaxed text-muted-foreground">
               Mohammad founded Master Lingo with a simple belief: everyone deserves a patient, intelligent tutor in their
               pocket. With a background in product thinking and a passion for languages, he leads the vision, design,
@@ -142,6 +142,11 @@ function FounderSection() {
               His goal is to make the platform feel less like an app and more like a mentor — one that celebrates your
               first words and guides you all the way to professional fluency.
             </p>
+            <div className="mt-6 rounded-2xl border border-border bg-background/60 p-4 text-sm text-muted-foreground backdrop-blur">
+              <p className="font-semibold text-foreground">Master Lingo Headquarters</p>
+              <p className="mt-1">Maharajganj, Uttar Pradesh, India</p>
+              <p>PIN 273303</p>
+            </div>
           </div>
         </div>
       </div>
