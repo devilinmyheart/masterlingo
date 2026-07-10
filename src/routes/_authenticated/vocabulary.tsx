@@ -43,6 +43,7 @@ function Vocabulary() {
   const [query, setQuery] = useState("");
   const [adding, setAdding] = useState(false);
   const [newWord, setNewWord] = useState({ word: "", translation: "", language: "french" as LanguageId });
+  const [voicePrefs] = useVoicePrefs();
 
   const visible = items.filter((i) => {
     if (filter !== "all" && i.language !== filter) return false;
