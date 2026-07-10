@@ -10,6 +10,7 @@ import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, Check, Sparkles, Volume2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { speakWithSlot, useVoicePrefs } from "@/lib/voice-prefs";
 
 export const Route = createFileRoute("/_authenticated/learn/$lessonId")({
   head: ({ params }) => {
