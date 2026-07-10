@@ -280,7 +280,12 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
-      language_code: "french" | "german" | "japanese"
+      language_code:
+        | "french"
+        | "german"
+        | "japanese"
+        | "english"
+        | "hindi_english"
       learning_goal: "travel" | "work" | "exams" | "conversation" | "culture"
       skill_level: "beginner" | "intermediate" | "advanced"
     }
@@ -411,7 +416,13 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
-      language_code: ["french", "german", "japanese"],
+      language_code: [
+        "french",
+        "german",
+        "japanese",
+        "english",
+        "hindi_english",
+      ],
       learning_goal: ["travel", "work", "exams", "conversation", "culture"],
       skill_level: ["beginner", "intermediate", "advanced"],
     },
