@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Star, Volume2, Search, Plus, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { speakWithSlot, useVoicePrefs } from "@/lib/voice-prefs";
 
 export const Route = createFileRoute("/_authenticated/vocabulary")({
   head: () => ({
