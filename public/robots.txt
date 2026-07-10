@@ -1,3 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /_authenticated/
+
+Sitemap: https://masterlingo.lovable.app/sitemap.xml
