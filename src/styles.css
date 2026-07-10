@@ -187,6 +187,11 @@
   --german-ink: oklch(0.97 0.005 260);
   --japanese: oklch(0.72 0.2 25);
   --japanese-soft: oklch(0.28 0.08 25);
+  --english: oklch(0.72 0.14 195);
+  --english-soft: oklch(0.28 0.06 195);
+  --hindi: oklch(0.78 0.17 60);
+  --hindi-soft: oklch(0.28 0.06 60);
+  --hindi-ink: oklch(0.97 0.005 260);
 
   --glass: oklch(0.22 0.03 265 / 0.55);
   --glass-border: oklch(1 0 0 / 0.08);
