@@ -27,10 +27,11 @@ const dashboardQuery = queryOptions({
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error("Not signed in");
 
-    const [onb, prog, recent] = await Promise.all([
+    const [onb, prog, recent, profile] = await Promise.all([
       supabase.from("user_onboarding").select("*").eq("user_id", user.id).maybeSingle(),
       supabase.from("user_progress").select("*").eq("user_id", user.id).maybeSingle(),
       supabase.from("lesson_completions").select("*").eq("user_id", user.id).order("completed_at", { ascending: false }).limit(20),
+      supabase.from("profiles").select("display_name").eq("id", user.id).maybeSingle(),
     ]);
 
     return {
@@ -38,6 +39,7 @@ const dashboardQuery = queryOptions({
       onboarding: onb.data,
       progress: prog.data,
       recent: recent.data ?? [],
+      profile: profile.data,
     };
   },
 });
