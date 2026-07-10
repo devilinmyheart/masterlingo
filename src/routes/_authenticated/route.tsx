@@ -23,6 +23,7 @@ const NAV = [
   { to: "/learn", label: "Learn", icon: BookOpen },
   { to: "/tutor", label: "AI Tutor", icon: Sparkles },
   { to: "/speaking", label: "Speaking", icon: Mic },
+  { to: "/review", label: "Review", icon: BookOpenCheck },
   { to: "/vocabulary", label: "Vocabulary", icon: Library },
   { to: "/certifications", label: "Certifications", icon: Award },
   { to: "/profile", label: "Profile", icon: UserIcon },
