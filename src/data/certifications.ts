@@ -167,7 +167,7 @@ export const CERTIFICATIONS: Record<LanguageId, Certification[]> = {
       provider: "Japan Kanji Aptitude Testing Foundation",
       kind: "Certification",
       levels: "Business (equivalent to N2–N1)",
-      format: "Online (computer-based)",
+      format: "Online",
       duration: "~2 hours",
       priceUSD: "$75",
       description:
