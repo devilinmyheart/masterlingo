@@ -15,8 +15,8 @@ import { motion } from "framer-motion";
 export const Route = createFileRoute("/_authenticated/feedback")({
   head: () => ({
     meta: [
-      { title: "Feedback & Rating — LingoMaster" },
-      { name: "description", content: "Rate LingoMaster and share feedback to help us improve your learning experience." },
+      { title: "Feedback & Rating — Master Lingo" },
+      { name: "description", content: "Rate Master Lingo and share feedback to help us improve your learning experience." },
       { name: "robots", content: "noindex" },
     ],
     links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/feedback" }],
@@ -100,7 +100,7 @@ function FeedbackPage() {
           <MessageSquareHeart className="size-6" />
         </div>
         <div>
-          <h1 className="font-display text-3xl font-bold md:text-4xl">Rate LingoMaster</h1>
+          <h1 className="font-display text-3xl font-bold md:text-4xl">Rate Master Lingo</h1>
           <p className="mt-1 text-muted-foreground">Your honest feedback shapes what we build next.</p>
         </div>
       </motion.div>

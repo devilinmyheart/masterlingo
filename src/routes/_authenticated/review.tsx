@@ -16,7 +16,7 @@ import { useVoicePrefs, speakWithSlot } from "@/lib/voice-prefs";
 export const Route = createFileRoute("/_authenticated/review")({
   head: () => ({
     meta: [
-      { title: "Word & Grammar Review — LingoMaster" },
+      { title: "Word & Grammar Review — Master Lingo" },
       { name: "description", content: "Deep-dive AI reviews of any word or grammar point in your target language, with examples, pitfalls and a quick check." },
       { name: "robots", content: "noindex" },
     ],

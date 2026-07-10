@@ -13,20 +13,20 @@ import { LANGUAGE_LIST } from "@/data/curriculum";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "LingoMaster — Learn French, German & Japanese with AI" },
+      { title: "Master Lingo — Learn French, German & Japanese with AI" },
       {
         name: "description",
         content:
           "Premium AI-powered language learning. Master French, German, and Japanese from A1 to C2 with adaptive lessons, native audio, and an always-on AI tutor.",
       },
-      { property: "og:title", content: "LingoMaster — Learn French, German & Japanese with AI" },
+      { property: "og:title", content: "Master Lingo — Learn French, German & Japanese with AI" },
       {
         property: "og:description",
         content:
           "Premium AI-powered language learning. Master French, German, and Japanese from A1 to C2 with adaptive lessons, native audio, and an always-on AI tutor.",
       },
       { property: "og:url", content: "https://masterlingo.lovable.app/" },
-      { name: "twitter:title", content: "LingoMaster — Learn French, German & Japanese with AI" },
+      { name: "twitter:title", content: "Master Lingo — Learn French, German & Japanese with AI" },
       { name: "twitter:description", content: "Premium AI-powered language learning. Master French, German, and Japanese from A1 to C2 with adaptive lessons, native audio, and an always-on AI tutor." },
     ],
     links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/" }],
@@ -39,7 +39,7 @@ export const Route = createFileRoute("/")({
             {
               "@type": "Organization",
               "@id": "https://masterlingo.lovable.app/#organization",
-              name: "LingoMaster",
+              name: "Master Lingo",
               url: "https://masterlingo.lovable.app/",
               logo: "https://masterlingo.lovable.app/favicon.ico",
               description:
@@ -49,7 +49,7 @@ export const Route = createFileRoute("/")({
               "@type": "WebSite",
               "@id": "https://masterlingo.lovable.app/#website",
               url: "https://masterlingo.lovable.app/",
-              name: "LingoMaster",
+              name: "Master Lingo",
               publisher: { "@id": "https://masterlingo.lovable.app/#organization" },
               inLanguage: "en",
             },
@@ -128,7 +128,7 @@ function TopNav() {
           <div className="grid size-9 place-items-center rounded-xl bg-gradient-to-tr from-brand via-french to-japanese shadow-lg shadow-brand/20">
             <Globe className="size-5 text-white" strokeWidth={2.5} />
           </div>
-          <span className="font-display text-xl font-bold tracking-tight">LingoMaster</span>
+          <span className="font-display text-xl font-bold tracking-tight">Master Lingo</span>
         </Link>
         <div className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
           <a href="#languages" className="transition-colors hover:text-foreground">Languages</a>
@@ -219,7 +219,7 @@ function AnimatedGlobe() {
       <div className="glass-panel absolute inset-32 grid place-items-center rounded-full shadow-2xl">
         <div className="text-center">
           <Globe className="mx-auto size-10 text-brand" strokeWidth={1.5} />
-          <div className="mt-2 font-display text-2xl font-bold">LingoMaster</div>
+          <div className="mt-2 font-display text-2xl font-bold">Master Lingo</div>
           <div className="text-[10px] font-semibold uppercase tracking-widest text-foreground/70">A1 → C2</div>
         </div>
       </div>
@@ -506,7 +506,7 @@ function SiteFooter() {
             <div className="grid size-8 place-items-center rounded-xl bg-gradient-to-tr from-brand via-french to-japanese">
               <Globe className="size-4 text-white" strokeWidth={2.5} />
             </div>
-            <span className="font-display text-lg font-bold">LingoMaster</span>
+            <span className="font-display text-lg font-bold">Master Lingo</span>
           </div>
           <p className="mt-4 max-w-xs text-sm text-muted-foreground">
             Premium AI-powered language learning. Master&nbsp; English, French, German & Japanese.&nbsp;
@@ -533,7 +533,7 @@ function SiteFooter() {
         </div>
       </div>
       <div className="mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-3 border-t border-border px-4 pt-6 text-xs text-muted-foreground sm:flex-row sm:px-6">
-        <span>© {new Date().getFullYear()} LingoMaster</span>
+        <span>© {new Date().getFullYear()} Master Lingo</span>
         <span>Made for learners worldwide</span>
       </div>
     </footer>

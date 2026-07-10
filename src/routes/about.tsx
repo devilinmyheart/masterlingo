@@ -6,24 +6,24 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Us — LingoMaster" },
+      { title: "About Us — Master Lingo" },
       {
         name: "description",
         content:
-          "Meet the team behind LingoMaster. Founded by Mohammad Saduddin Atahar, we combine AI and proven language science to help learners master new languages.",
+          "Meet the team behind Master Lingo. Founded by Mohammad Saduddin Atahar, we combine AI and proven language science to help learners master new languages.",
       },
-      { property: "og:title", content: "About Us — LingoMaster" },
+      { property: "og:title", content: "About Us — Master Lingo" },
       {
         property: "og:description",
         content:
-          "Meet the team behind LingoMaster. Founded by Mohammad Saduddin Atahar, we combine AI and proven language science to help learners master new languages.",
+          "Meet the team behind Master Lingo. Founded by Mohammad Saduddin Atahar, we combine AI and proven language science to help learners master new languages.",
       },
       { property: "og:url", content: "https://masterlingo.lovable.app/about" },
-      { name: "twitter:title", content: "About Us — LingoMaster" },
+      { name: "twitter:title", content: "About Us — Master Lingo" },
       {
         name: "twitter:description",
         content:
-          "Meet the team behind LingoMaster. Founded by Mohammad Saduddin Atahar, we combine AI and proven language science to help learners master new languages.",
+          "Meet the team behind Master Lingo. Founded by Mohammad Saduddin Atahar, we combine AI and proven language science to help learners master new languages.",
       },
     ],
     links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/about" }],
@@ -77,7 +77,7 @@ function TopNav() {
           <div className="grid size-9 place-items-center rounded-xl bg-gradient-to-tr from-brand via-french to-japanese shadow-lg shadow-brand/20">
             <Globe className="size-5 text-white" strokeWidth={2.5} />
           </div>
-          <span className="font-display text-xl font-bold tracking-tight">LingoMaster</span>
+          <span className="font-display text-xl font-bold tracking-tight">Master Lingo</span>
         </Link>
         <div className="flex items-center gap-2">
           <Button asChild variant="ghost" className="rounded-full">
@@ -111,7 +111,7 @@ function Hero() {
             Language learning built with <em className="not-italic text-brand">care</em>.
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-            LingoMaster was created to remove the friction between wanting to speak a language and actually speaking it.
+            Master Lingo was created to remove the friction between wanting to speak a language and actually speaking it.
             We blend adaptive AI, spaced repetition, and native audio into one elegant experience.
           </p>
         </motion.div>
@@ -134,9 +134,9 @@ function FounderSection() {
             <h2 className="font-display text-3xl font-bold tracking-tight md:text-4xl">Mohammad Saduddin Atahar</h2>
             <p className="mt-2 text-sm font-semibold uppercase tracking-wider text-brand">Founder & Owner</p>
             <p className="mt-6 leading-relaxed text-muted-foreground">
-              Mohammad founded LingoMaster with a simple belief: everyone deserves a patient, intelligent tutor in their
+              Mohammad founded Master Lingo with a simple belief: everyone deserves a patient, intelligent tutor in their
               pocket. With a background in product thinking and a passion for languages, he leads the vision, design,
-              and learner experience at LingoMaster.
+              and learner experience at Master Lingo.
             </p>
             <p className="mt-4 leading-relaxed text-muted-foreground">
               His goal is to make the platform feel less like an app and more like a mentor — one that celebrates your
@@ -184,7 +184,7 @@ function CTASection() {
       <div className="glass-panel rounded-4xl p-8 text-center shadow-2xl md:p-16">
         <h2 className="font-display text-3xl font-bold tracking-tight md:text-4xl">Start your language journey today</h2>
         <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-          Join thousands of learners who are already mastering new languages with LingoMaster.
+          Join thousands of learners who are already mastering new languages with Master Lingo.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Button asChild size="lg" className="rounded-full bg-brand px-8 py-6 text-base font-semibold text-brand-foreground shadow-2xl shadow-brand/25 hover:bg-brand/90">
@@ -210,7 +210,7 @@ function SiteFooter() {
             <div className="grid size-8 place-items-center rounded-xl bg-gradient-to-tr from-brand via-french to-japanese">
               <Globe className="size-4 text-white" strokeWidth={2.5} />
             </div>
-            <span className="font-display text-lg font-bold">LingoMaster</span>
+            <span className="font-display text-lg font-bold">Master Lingo</span>
           </div>
           <p className="mt-4 max-w-xs text-sm text-muted-foreground">
             Premium AI-powered language learning. Master French, German & Japanese.
@@ -237,7 +237,7 @@ function SiteFooter() {
         </div>
       </div>
       <div className="mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-3 border-t border-border px-4 pt-6 text-xs text-muted-foreground sm:flex-row sm:px-6">
-        <span>© {new Date().getFullYear()} LingoMaster</span>
+        <span>© {new Date().getFullYear()} Master Lingo</span>
         <span>Made for learners worldwide</span>
       </div>
     </footer>

@@ -6,7 +6,7 @@ export default defineTool({
   name: "list_vocabulary",
   title: "List vocabulary",
   description:
-    "List saved words from the signed-in learner's LingoMaster vocabulary notebook, optionally filtered by language.",
+    "List saved words from the signed-in learner's Master Lingo vocabulary notebook, optionally filtered by language.",
   inputSchema: {
     language: z
       .enum(["french", "german", "japanese", "english", "hindi_english"])

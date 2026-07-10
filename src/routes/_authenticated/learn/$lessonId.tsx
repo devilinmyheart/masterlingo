@@ -18,8 +18,8 @@ export const Route = createFileRoute("/_authenticated/learn/$lessonId")({
     const title = topic?.title ?? "Lesson";
     return {
       meta: [
-        { title: `${title} — LingoMaster` },
-        { name: "description", content: topic?.description ?? `Practice the "${title}" lesson on LingoMaster with adaptive flashcards and audio.` },
+        { title: `${title} — Master Lingo` },
+        { name: "description", content: topic?.description ?? `Practice the "${title}" lesson on Master Lingo with adaptive flashcards and audio.` },
         { name: "robots", content: "noindex" },
       ],
       links: [{ rel: "canonical", href: `https://masterlingo.lovable.app/learn/${params.lessonId}` }],

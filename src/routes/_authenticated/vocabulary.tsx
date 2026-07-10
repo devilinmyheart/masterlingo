@@ -14,7 +14,7 @@ import { speakWithSlot, useVoicePrefs } from "@/lib/voice-prefs";
 export const Route = createFileRoute("/_authenticated/vocabulary")({
   head: () => ({
     meta: [
-      { title: "Vocabulary — LingoMaster" },
+      { title: "Vocabulary — Master Lingo" },
       { name: "description", content: "Your personal notebook of saved words and phrases with native pronunciation across French, German, and Japanese." },
       { name: "robots", content: "noindex" },
     ],

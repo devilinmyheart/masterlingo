@@ -13,7 +13,7 @@ import { useVoicePrefs, speakWithSlot } from "@/lib/voice-prefs";
 export const Route = createFileRoute("/_authenticated/speaking")({
   head: () => ({
     meta: [
-      { title: "Speaking Practice — LingoMaster" },
+      { title: "Speaking Practice — Master Lingo" },
       { name: "description", content: "Speak in English and get an instantly corrected transcript, example sentences and pronunciation tips." },
       { name: "robots", content: "noindex" },
     ],
