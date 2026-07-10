@@ -106,6 +106,33 @@ export type Database = {
         }
         Relationships: []
       }
+      feedback_submissions: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          message: string | null
+          rating: number
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          id?: string
+          message?: string | null
+          rating: number
+          user_id: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          message?: string | null
+          rating?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       lesson_completions: {
         Row: {
           completed_at: string
