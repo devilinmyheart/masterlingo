@@ -10,7 +10,14 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/profile")({
-  head: () => ({ meta: [{ title: "Profile — LingoMaster" }] }),
+  head: () => ({
+    meta: [
+      { title: "Profile — LingoMaster" },
+      { name: "description", content: "Manage your LingoMaster profile, display name, and view your learning stats and achievements." },
+      { name: "robots", content: "noindex" },
+    ],
+    links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/profile" }],
+  }),
   loader: ({ context }) => context.queryClient.ensureQueryData(profileQuery),
   component: Profile,
 });
