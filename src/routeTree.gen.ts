@@ -19,6 +19,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedVocabularyRouteImport } from './routes/_authenticated/vocabulary'
 import { Route as AuthenticatedTutorRouteImport } from './routes/_authenticated/tutor'
+import { Route as AuthenticatedSpeakingRouteImport } from './routes/_authenticated/speaking'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedHelpRouteImport } from './routes/_authenticated/help'
@@ -79,6 +80,11 @@ const AuthenticatedVocabularyRoute = AuthenticatedVocabularyRouteImport.update({
 const AuthenticatedTutorRoute = AuthenticatedTutorRouteImport.update({
   id: '/tutor',
   path: '/tutor',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSpeakingRoute = AuthenticatedSpeakingRouteImport.update({
+  id: '/speaking',
+  path: '/speaking',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/help': typeof AuthenticatedHelpRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/speaking': typeof AuthenticatedSpeakingRoute
   '/tutor': typeof AuthenticatedTutorRoute
   '/vocabulary': typeof AuthenticatedVocabularyRoute
   '/api/chat': typeof ApiChatRoute
@@ -185,6 +192,7 @@ export interface FileRoutesByTo {
   '/help': typeof AuthenticatedHelpRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/speaking': typeof AuthenticatedSpeakingRoute
   '/tutor': typeof AuthenticatedTutorRoute
   '/vocabulary': typeof AuthenticatedVocabularyRoute
   '/api/chat': typeof ApiChatRoute
@@ -210,6 +218,7 @@ export interface FileRoutesById {
   '/_authenticated/help': typeof AuthenticatedHelpRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/speaking': typeof AuthenticatedSpeakingRoute
   '/_authenticated/tutor': typeof AuthenticatedTutorRoute
   '/_authenticated/vocabulary': typeof AuthenticatedVocabularyRoute
   '/api/chat': typeof ApiChatRoute
@@ -235,6 +244,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/onboarding'
     | '/profile'
+    | '/speaking'
     | '/tutor'
     | '/vocabulary'
     | '/api/chat'
@@ -258,6 +268,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/onboarding'
     | '/profile'
+    | '/speaking'
     | '/tutor'
     | '/vocabulary'
     | '/api/chat'
@@ -282,6 +293,7 @@ export interface FileRouteTypes {
     | '/_authenticated/help'
     | '/_authenticated/onboarding'
     | '/_authenticated/profile'
+    | '/_authenticated/speaking'
     | '/_authenticated/tutor'
     | '/_authenticated/vocabulary'
     | '/api/chat'
@@ -378,6 +390,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTutorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/speaking': {
+      id: '/_authenticated/speaking'
+      path: '/speaking'
+      fullPath: '/speaking'
+      preLoaderRoute: typeof AuthenticatedSpeakingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/profile': {
       id: '/_authenticated/profile'
       path: '/profile'
@@ -472,6 +491,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHelpRoute: typeof AuthenticatedHelpRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedSpeakingRoute: typeof AuthenticatedSpeakingRoute
   AuthenticatedTutorRoute: typeof AuthenticatedTutorRoute
   AuthenticatedVocabularyRoute: typeof AuthenticatedVocabularyRoute
   AuthenticatedLearnLessonIdRoute: typeof AuthenticatedLearnLessonIdRoute
@@ -485,6 +505,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHelpRoute: AuthenticatedHelpRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedSpeakingRoute: AuthenticatedSpeakingRoute,
   AuthenticatedTutorRoute: AuthenticatedTutorRoute,
   AuthenticatedVocabularyRoute: AuthenticatedVocabularyRoute,
   AuthenticatedLearnLessonIdRoute: AuthenticatedLearnLessonIdRoute,
