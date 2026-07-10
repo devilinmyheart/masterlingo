@@ -509,7 +509,7 @@ function SiteFooter() {
             <span className="font-display text-lg font-bold">LingoMaster</span>
           </div>
           <p className="mt-4 max-w-xs text-sm text-muted-foreground">
-            Premium AI-powered language learning. Master French, German & Japanese.
+            Premium AI-powered language learning. Master&nbsp; English, French, German & Japanese.&nbsp;
           </p>
         </div>
         <div>
