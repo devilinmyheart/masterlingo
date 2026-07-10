@@ -11,7 +11,14 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/vocabulary")({
-  head: () => ({ meta: [{ title: "Vocabulary — LingoMaster" }] }),
+  head: () => ({
+    meta: [
+      { title: "Vocabulary — LingoMaster" },
+      { name: "description", content: "Your personal notebook of saved words and phrases with native pronunciation across French, German, and Japanese." },
+      { name: "robots", content: "noindex" },
+    ],
+    links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/vocabulary" }],
+  }),
   loader: ({ context }) => context.queryClient.ensureQueryData(vocabQuery),
   component: Vocabulary,
 });
