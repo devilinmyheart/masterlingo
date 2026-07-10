@@ -27,6 +27,8 @@ const SUGGESTIONS: Record<LanguageId, string[]> = {
   french: ["Explain the difference between être and avoir", "Correct: J'ai allé au parc hier", "Give me 5 useful travel phrases"],
   german: ["When do I use der/die/das?", "Explain German cases with examples", "Roleplay ordering coffee in Berlin"],
   japanese: ["Difference between は and が?", "Teach me polite request forms", "5 phrases for a Tokyo restaurant"],
+  english: ["Explain present perfect vs past simple", "Fix: I have went to school", "Give me 5 useful business email phrases"],
+  hindi_english: ["Present perfect का हिन्दी में क्या मतलब है?", "Correct: I am going to home", "रोज़मर्रा की 5 English phrases सिखाइए"],
 };
 
 function TutorPage() {
