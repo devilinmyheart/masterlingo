@@ -289,9 +289,30 @@ function LessonPage() {
             transition={{ duration: 0.5 }}
             className="glass-panel mt-8 rounded-3xl p-10 text-center shadow-xl"
           >
-            <div className="mx-auto grid size-20 place-items-center rounded-full bg-gradient-to-tr from-brand to-french text-white shadow-2xl">
-              <Sparkles className="size-9" />
-            </div>
+            <motion.div
+              initial={{ scale: 0.4, rotate: -15 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: "spring", stiffness: 260, damping: 14 }}
+              className="relative mx-auto grid size-24 place-items-center rounded-full bg-gradient-to-tr from-brand to-french text-white shadow-2xl"
+            >
+              <PartyPopper className="size-10" />
+              <motion.span
+                aria-hidden
+                className="pointer-events-none absolute -top-2 -right-2 text-3xl"
+                animate={{ rotate: [0, 20, -10, 20, 0], scale: [1, 1.15, 1] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+              >
+                🎉
+              </motion.span>
+              <motion.span
+                aria-hidden
+                className="pointer-events-none absolute -bottom-2 -left-2 text-3xl"
+                animate={{ rotate: [0, -20, 10, -20, 0], scale: [1, 1.15, 1] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+              >
+                🎊
+              </motion.span>
+            </motion.div>
             <h2 className="mt-6 font-display text-4xl font-bold">Lesson complete!</h2>
             <p className="mt-2 text-muted-foreground">You got {correct} of {total} correct.</p>
             <div className="mt-8 grid grid-cols-3 gap-4">
