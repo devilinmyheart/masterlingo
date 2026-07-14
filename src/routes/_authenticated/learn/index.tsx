@@ -5,8 +5,10 @@ import { motion } from "framer-motion";
 import { CURRICULUM, LANGUAGE_LIST } from "@/data/curriculum";
 import type { LanguageId, Level, Topic } from "@/data/curriculum";
 import { supabase } from "@/integrations/supabase/client";
-import { Check, Lock, Star, Flame, Zap, Trophy, BookOpen, Crown, Sparkles } from "lucide-react";
+import { Check, Lock, Flame, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AnimatedIcon } from "@/components/AnimatedIcon";
+import { categoryIconFor } from "@/data/animations";
 
 const searchSchema = z.object({
   language: z.enum(["french", "german", "japanese", "english", "hindi_english"]).optional(),
@@ -135,8 +137,7 @@ const LANG_ACCENT: Record<LanguageId, Accent> = {
   },
 };
 
-// Icons for path nodes, cycled per lesson
-const NODE_ICONS = [Star, BookOpen, Zap, Trophy, Crown, Sparkles];
+// Path nodes now render category-aware animated emoji derived from topic id.
 
 // Horizontal offsets for the winding path (percent of container width)
 const PATH_OFFSETS = [0, 18, 28, 18, 0, -18, -28, -18];
@@ -244,7 +245,6 @@ function Learn() {
                   const unlocked = isUnlocked(globalIdx);
                   const isActive = globalIdx === activeIdx;
                   const offset = PATH_OFFSETS[globalIdx % PATH_OFFSETS.length];
-                  const Icon = NODE_ICONS[topicIdx % NODE_ICONS.length];
 
                   return (
                     <PathNode
@@ -252,7 +252,6 @@ function Learn() {
                       topic={topic}
                       offset={offset}
                       accent={accent}
-                      icon={Icon}
                       isDone={isDone}
                       unlocked={unlocked}
                       isActive={isActive}
@@ -281,7 +280,6 @@ function PathNode({
   topic,
   offset,
   accent,
-  icon: Icon,
   isDone,
   unlocked,
   isActive,
@@ -289,11 +287,11 @@ function PathNode({
   topic: Topic;
   offset: number;
   accent: Accent;
-  icon: React.ComponentType<{ className?: string }>;
   isDone: boolean;
   unlocked: boolean;
   isActive: boolean;
 }) {
+  const categoryIcon = categoryIconFor(topic.id);
   const content = (
     <motion.div
       whileHover={unlocked ? { y: -3 } : undefined}
@@ -320,7 +318,7 @@ function PathNode({
         {isDone ? (
           <Check className="size-9 sm:size-10" strokeWidth={3} />
         ) : unlocked ? (
-          <Icon className="size-9 sm:size-10" />
+          <AnimatedIcon icon={categoryIcon} size={44} label={topic.title} />
         ) : (
           <Lock className="size-7 sm:size-8" />
         )}

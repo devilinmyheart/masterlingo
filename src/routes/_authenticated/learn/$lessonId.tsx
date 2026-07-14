@@ -7,10 +7,12 @@ import { STARTER_VOCAB, FOUNDATIONS, type FoundationKind, type Word } from "@/da
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Check, Sparkles, Volume2, X } from "lucide-react";
+import { ArrowLeft, Check, PartyPopper, Volume2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { speakWithSlot, useVoicePrefs } from "@/lib/voice-prefs";
+import { AnimatedIcon } from "@/components/AnimatedIcon";
+import { getAnimationFor, type IconSpec } from "@/data/animations";
 
 export const Route = createFileRoute("/_authenticated/learn/$lessonId")({
   head: ({ params }) => {
@@ -28,7 +30,14 @@ export const Route = createFileRoute("/_authenticated/learn/$lessonId")({
   component: LessonPage,
 });
 
-type Card = { front: string; back: string; pronunciation?: string; options: string[] };
+type Card = {
+  front: string;
+  back: string;
+  pronunciation?: string;
+  options: string[];
+  icon: IconSpec | null;
+  optionIcons: (IconSpec | null)[];
+};
 
 function LessonPage() {
   const { lessonId } = Route.useParams();
@@ -186,15 +195,24 @@ function LessonPage() {
             {phase === "learn" && (
               <>
                 <div className="text-xs font-bold uppercase tracking-widest text-brand">New word · {idx + 1} of {total}</div>
-                <div className="mt-4 flex items-center gap-3">
-                  <div className="font-display text-4xl font-bold md:text-5xl">{current.front}</div>
-                  <button onClick={() => speak(current.front)} className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground">
-                    <Volume2 className="size-5" />
-                  </button>
+                <div className="mt-4 flex flex-col-reverse items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-3">
+                      <div className="font-display text-4xl font-bold md:text-5xl">{current.front}</div>
+                      <button onClick={() => speak(current.front)} className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground">
+                        <Volume2 className="size-5" />
+                      </button>
+                    </div>
+                    {current.pronunciation && (
+                      <div className="mt-1 font-mono text-sm text-muted-foreground">/{current.pronunciation}/</div>
+                    )}
+                  </div>
+                  {current.icon && (
+                    <div className="grid size-32 shrink-0 place-items-center rounded-3xl bg-brand-soft sm:size-40">
+                      <AnimatedIcon icon={current.icon} size={96} label={current.back} />
+                    </div>
+                  )}
                 </div>
-                {current.pronunciation && (
-                  <div className="mt-1 font-mono text-sm text-muted-foreground">/{current.pronunciation}/</div>
-                )}
                 <div className="mt-6 rounded-2xl border border-border bg-background/60 p-5">
                   <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                     {language.id === "hindi_english" ? "अर्थ (Hindi)" : "Meaning in English"}
@@ -235,27 +253,56 @@ function LessonPage() {
                   <div className="mt-1 font-mono text-sm text-muted-foreground">/{current.pronunciation}/</div>
                 )}
 
-                <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                  {current.options.map((opt) => {
-                    const isChoice = chosen === opt;
-                    const isRight = opt === current.back;
-                    return (
-                      <button
-                        key={opt}
-                        onClick={() => chooseAnswer(opt)}
-                        disabled={!!chosen}
-                        className={cn(
-                          "rounded-2xl border-2 p-4 text-left text-base font-medium transition-all",
-                          !chosen && "border-border bg-background/60 hover:border-brand hover:bg-brand-soft",
-                          chosen && isRight && "border-green-500 bg-green-500/10 text-green-700",
-                          chosen && isChoice && !isRight && "border-destructive bg-destructive/10 text-destructive"
-                        )}
-                      >
-                        {opt}
-                      </button>
-                    );
-                  })}
-                </div>
+                {current.optionIcons.every(Boolean) ? (
+                  <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                    {current.options.map((opt, i) => {
+                      const isChoice = chosen === opt;
+                      const isRight = opt === current.back;
+                      const icon = current.optionIcons[i]!;
+                      return (
+                        <button
+                          key={opt}
+                          onClick={() => chooseAnswer(opt)}
+                          disabled={!!chosen}
+                          className={cn(
+                            "group flex flex-col items-center gap-3 rounded-2xl border-2 p-4 transition-all",
+                            !chosen && "border-border bg-background/60 hover:-translate-y-0.5 hover:border-brand hover:bg-brand-soft",
+                            chosen && isRight && "border-green-500 bg-green-500/10 text-green-700",
+                            chosen && isChoice && !isRight && "border-destructive bg-destructive/10 text-destructive",
+                            chosen && !isChoice && !isRight && "opacity-50"
+                          )}
+                        >
+                          <div className="grid size-20 place-items-center rounded-xl bg-brand-soft/60 sm:size-24">
+                            <AnimatedIcon icon={icon} size={56} label={opt} />
+                          </div>
+                          <span className="text-sm font-semibold">{opt}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                    {current.options.map((opt) => {
+                      const isChoice = chosen === opt;
+                      const isRight = opt === current.back;
+                      return (
+                        <button
+                          key={opt}
+                          onClick={() => chooseAnswer(opt)}
+                          disabled={!!chosen}
+                          className={cn(
+                            "rounded-2xl border-2 p-4 text-left text-base font-medium transition-all",
+                            !chosen && "border-border bg-background/60 hover:border-brand hover:bg-brand-soft",
+                            chosen && isRight && "border-green-500 bg-green-500/10 text-green-700",
+                            chosen && isChoice && !isRight && "border-destructive bg-destructive/10 text-destructive"
+                          )}
+                        >
+                          {opt}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
 
                 {showBack && (
                   <div className={cn("mt-6 rounded-2xl border p-4", isCorrect ? "border-green-500/40 bg-green-500/5" : "border-destructive/40 bg-destructive/5")}>
@@ -280,9 +327,30 @@ function LessonPage() {
             transition={{ duration: 0.5 }}
             className="glass-panel mt-8 rounded-3xl p-10 text-center shadow-xl"
           >
-            <div className="mx-auto grid size-20 place-items-center rounded-full bg-gradient-to-tr from-brand to-french text-white shadow-2xl">
-              <Sparkles className="size-9" />
-            </div>
+            <motion.div
+              initial={{ scale: 0.4, rotate: -15 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: "spring", stiffness: 260, damping: 14 }}
+              className="relative mx-auto grid size-24 place-items-center rounded-full bg-gradient-to-tr from-brand to-french text-white shadow-2xl"
+            >
+              <PartyPopper className="size-10" />
+              <motion.span
+                aria-hidden
+                className="pointer-events-none absolute -top-2 -right-2 text-3xl"
+                animate={{ rotate: [0, 20, -10, 20, 0], scale: [1, 1.15, 1] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+              >
+                🎉
+              </motion.span>
+              <motion.span
+                aria-hidden
+                className="pointer-events-none absolute -bottom-2 -left-2 text-3xl"
+                animate={{ rotate: [0, -20, 10, -20, 0], scale: [1, 1.15, 1] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+              >
+                🎊
+              </motion.span>
+            </motion.div>
             <h2 className="mt-6 font-display text-4xl font-bold">Lesson complete!</h2>
             <p className="mt-2 text-muted-foreground">You got {correct} of {total} correct.</p>
             <div className="mt-8 grid grid-cols-3 gap-4">
@@ -333,7 +401,14 @@ function buildDeck(language: LanguageId, seed: string, isReview: boolean): Card[
     const wrongs = distractorPool.filter((x) => x.translation !== w.translation);
     const distractors = shuffle(wrongs, h + w.word.length).slice(0, 3).map((x) => x.translation);
     const options = shuffle([w.translation, ...distractors], h);
-    return { front: w.word, back: w.translation, pronunciation: w.pronunciation, options };
+    return {
+      front: w.word,
+      back: w.translation,
+      pronunciation: w.pronunciation,
+      options,
+      icon: getAnimationFor(w.translation),
+      optionIcons: options.map((o) => getAnimationFor(o)),
+    };
   });
 }
 
