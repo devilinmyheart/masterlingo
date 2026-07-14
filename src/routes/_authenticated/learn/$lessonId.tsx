@@ -427,17 +427,41 @@ function detectFoundation(lessonId: string): FoundationKind | null {
 }
 
 function buildDeck(language: LanguageId, seed: string, isReview: boolean): Card[] {
-  // Review lessons draw from the full starter pool for a broader quiz.
   const foundation = isReview ? null : detectFoundation(seed);
+  const h = [...seed].reduce((a, c) => a + c.charCodeAt(0), 0);
+
+  // Alphabet / numbers get a dedicated pronunciation-first deck (no "English meaning").
+  if (foundation === "alphabet" || foundation === "numbers") {
+    const deck = FOUNDATION_CARDS[language]?.[foundation] ?? [];
+    if (deck.length > 0) {
+      const size = Math.min(6, deck.length);
+      const start = h % deck.length;
+      const picked = Array.from({ length: size }, (_, i) => deck[(start + i) % deck.length]);
+      return picked.map((c) => {
+        const wrongs = deck.filter((x) => x.name !== c.name);
+        const distractors = shuffle(wrongs, h + c.symbol.length).slice(0, 3).map((x) => x.name);
+        const options = shuffle([c.name, ...distractors], h);
+        return {
+          front: c.symbol,
+          back: c.name,
+          pronunciation: c.sound,
+          options,
+          icon: null,
+          optionIcons: options.map(() => null),
+          isFoundation: true,
+          exampleWord: c.exampleWord,
+        };
+      });
+    }
+  }
+
+  // Greetings and regular vocabulary use translation-style cards.
   const pool: Word[] = foundation
     ? FOUNDATIONS[language][foundation]
     : STARTER_VOCAB[language];
   const size = isReview ? Math.min(8, pool.length) : Math.min(5, pool.length);
-
-  const h = [...seed].reduce((a, c) => a + c.charCodeAt(0), 0);
   const start = h % Math.max(1, pool.length);
   const picked = Array.from({ length: size }, (_, i) => pool[(start + i) % pool.length]);
-  // Distractors always come from the starter pool so options feel natural.
   const distractorPool = STARTER_VOCAB[language].concat(pool);
   return picked.map((w) => {
     const wrongs = distractorPool.filter((x) => x.translation !== w.translation);
