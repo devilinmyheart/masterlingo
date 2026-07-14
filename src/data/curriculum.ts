@@ -362,9 +362,9 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
           return {
             headline: "बुनियाद: वर्णमाला, अभिवादन, और रोज़मर्रा के शब्द।",
             topics: [
-              { id: "he-a1-greetings", title: "अभिवादन (Greetings)", description: "Hello, good morning, nice to meet you.", minutes: 10, xp: 40 },
-              { id: "he-a1-alphabet", title: "वर्णमाला (Alphabet)", description: "A–Z उच्चारण और स्वर-ध्वनियाँ।", minutes: 12, xp: 50 },
+              { id: "he-a1-alphabet", title: "वर्णमाला (Alphabet)", description: "यहाँ से शुरू करें — A–Z उच्चारण।", minutes: 12, xp: 50 },
               { id: "he-a1-numbers", title: "गिनती व समय (Numbers & Time)", description: "One, two, three… और घड़ी पढ़ना।", minutes: 10, xp: 40 },
+              { id: "he-a1-greetings", title: "अभिवादन (Greetings)", description: "Hello, good morning, nice to meet you.", minutes: 10, xp: 40 },
               { id: "he-a1-family", title: "परिवार (Family)", description: "Mother, father, brother — अपना परिवार बताइए।", minutes: 12, xp: 50 },
               { id: "he-a1-food", title: "खाना (Food)", description: "रेस्तराँ और दुकान में ऑर्डर करना।", minutes: 15, xp: 60 },
               { id: "he-a1-verbs", title: "क्रियाएँ: is / have / do", description: "अंग्रेज़ी की तीन ज़रूरी क्रियाएँ।", minutes: 18, xp: 80 },
