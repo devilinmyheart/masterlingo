@@ -448,6 +448,8 @@ function buildDeck(language: LanguageId, seed: string, isReview: boolean): Card[
       options,
       icon: getAnimationFor(w.translation),
       optionIcons: options.map((o) => getAnimationFor(o)),
+      example: w.example,
+      exampleTranslation: w.exampleTranslation,
     };
   });
 }
