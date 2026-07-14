@@ -128,7 +128,7 @@ function TopNav() {
           <div className="grid size-9 place-items-center rounded-xl bg-gradient-to-tr from-brand via-french to-japanese shadow-lg shadow-brand/20">
             <Globe className="size-5 text-white" strokeWidth={2.5} />
           </div>
-          <span className="font-display text-xl font-bold tracking-tight">Master Lingo</span>
+          <span className="font-display text-xl font-bold tracking-tight">Master Lingo by devilinmyheart</span>
         </Link>
         <div className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
           <a href="#languages" className="transition-colors hover:text-foreground">Languages</a>
