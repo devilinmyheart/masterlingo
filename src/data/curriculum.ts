@@ -285,9 +285,9 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
           return {
             headline: "Foundations: alphabet, greetings, and everyday words.",
             topics: [
-              { id: "en-a1-greetings", title: "Greetings & Introductions", description: "Hello, nice to meet you, small talk basics.", minutes: 10, xp: 40 },
-              { id: "en-a1-alphabet", title: "Alphabet & Sounds", description: "26 letters, vowel sounds, common blends.", minutes: 12, xp: 50 },
+              { id: "en-a1-alphabet", title: "Alphabet & Sounds", description: "Start here — 26 letters and vowel sounds.", minutes: 12, xp: 50 },
               { id: "en-a1-numbers", title: "Numbers, Time & Dates", description: "Count, tell time, say the date.", minutes: 10, xp: 40 },
+              { id: "en-a1-greetings", title: "Greetings & Introductions", description: "Hello, nice to meet you, small talk basics.", minutes: 10, xp: 40 },
               { id: "en-a1-family", title: "Family & People", description: "Mother, brother, describe your family.", minutes: 12, xp: 50 },
               { id: "en-a1-food", title: "Food & Ordering", description: "Café, restaurant, and grocery basics.", minutes: 15, xp: 60 },
               { id: "en-a1-verbs", title: "To be, to have, to do", description: "The three most important verbs.", minutes: 18, xp: 80 },
