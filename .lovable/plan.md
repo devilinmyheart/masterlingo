@@ -1,36 +1,57 @@
-## Goal
+## The real problem
 
-Let Master Lingo accept real payments from learners — including **UPI** and **credit/debit cards** — for the Basic ($1/mo, single language) and Pro (all languages) tiers already shown on the landing page.
+The current "Alphabet & Pronunciation" lesson treats every card like a vocabulary word: front = letter, back = a fake "translation" like `letter 'bay'`. That's why the screen shows **B → "MEANING IN ENGLISH: letter 'bay'"** and the quiz then asks "what does B mean?" with four near-identical distractors. It's confusing for every language, and outright nonsense for the English track (English letters don't need an English translation).
 
-## Recommended provider: Paddle (Merchant of Record)
+Same shape breaks numbers lessons and any future foundations.
 
-The eligibility check confirms Master Lingo (AI-powered language learning SaaS) is a clean fit for Paddle. For your situation it's the right pick because:
+## Plan
 
-- **UPI + cards + wallets built-in.** Paddle's checkout automatically shows UPI, RuPay/Visa/Mastercard, Apple/Google Pay, and local wallets to Indian buyers — no extra config.
-- **You're based in India (Maharajganj, UP).** Paddle acts as the Merchant of Record, so *Paddle* handles GST, international tax registration, invoicing, refunds, and chargebacks on every sale worldwide. You just receive payouts.
-- **Global by default.** Learners from any country can pay in their local currency; Paddle converts and settles to you.
-- **Flat pricing:** 5% + 50¢ per transaction, all-inclusive (special reduced pricing for small/microtransactions like your $1 tier).
+### 1. New data shape for foundations (`src/data/vocabulary.ts`)
 
-Stripe is the alternative, but as an India-based seller you'd lose Stripe's "managed payments" tax handling (only 36 seller countries qualify, India isn't one), meaning you'd be responsible for GST registration, filing, and remittance yourself. Paddle avoids all of that.
+Replace the `Word`-style rows in `FOUNDATIONS` with a purpose-built shape:
 
-## What happens when you approve
+```
+type FoundationCard = {
+  symbol: string;        // "B", "5", "こ"
+  name: string;          // "bay" (French), "bee" (English), "ko"
+  sound: string;         // IPA-ish pronunciation for TTS
+  exampleWord?: string;  // "Berthe" / "book"
+  exampleGloss?: string; // short English gloss when target ≠ English
+};
+```
 
-1. **Enable Paddle** — creates a sandbox (test) environment instantly so we can build and test without real money. Going live later requires a short Paddle verification (business details, bank account for payouts).
-2. **Create products in Paddle** — I'll set up:
-   - Basic — $1/month (single language)
-   - Pro — the price you want for all-languages access (please confirm the monthly price; the landing page currently just says "All languages")
-   - Optional yearly variants at a discount
-3. **Build checkout in the app**:
-   - "Upgrade" buttons on `/pricing` and inside the authenticated app open Paddle's overlay checkout (UPI, cards, wallets all appear automatically for Indian users).
-   - Success redirect + a `subscriptions` table in Lovable Cloud to record active plan per user.
-4. **Webhook handler** at `/api/public/paddle-webhook` to keep subscription status in sync (activated, renewed, canceled, past_due).
-5. **Entitlement gating** — a `useSubscription()` hook + server check so Pro-only features (e.g. access to all 5 language tracks, unlimited AI tutor turns) unlock only for paying users. I'll ask you which features should be free vs paid before wiring the gates.
-6. **Customer portal link** in Profile so users can manage/cancel their subscription.
+Rewrite alphabet + numbers arrays for french / german / japanese / english / hindi_english using this shape. Drop the misleading "letter 'bay'" strings entirely.
 
-## Questions before I build
+### 2. Foundation-specific lesson UI (`src/routes/_authenticated/learn/$lessonId.tsx`)
 
-1. Confirm the **Pro monthly price** (e.g. $9.99/mo?) and whether you want a yearly option.
-2. Which features should be **Pro-only** vs free? (Suggested: free = 1 language + limited daily lessons; Pro = all 5 languages, unlimited AI tutor, conversation practice, certifications page.)
-3. Do you want a **7-day free trial** on Pro?
+Branch `buildDeck` + the render tree on `detectFoundation(lessonId)`:
 
-Reply with answers (or "use your suggestions") and I'll enable Paddle and start building.
+- **Learn phase** — big letter/number, tap-to-hear button, caption "Say it: **bay**", optional example word ("as in Berthe"). No fake "meaning in English" box.
+- **Quiz phase** — two rotating formats for variety:
+  - "Which letter makes this sound?" → play audio, pick from 4 letter tiles.
+  - "How do you pronounce this letter?" → show letter, pick from 4 sound names.
+  For the English alphabet track, only use the second format (letter → name).
+- Distractors come from other foundation cards in the same deck, not from generic vocab.
+- Keep existing progress, XP, completion save, and finish screen untouched.
+
+### 3. Greetings stays as-is
+
+Greetings are real phrases with real translations, so they keep the existing `Word` flow. Only alphabet + numbers get the new shape.
+
+### 4. Guardrails
+
+- Keep the same `Card`/phase state machine so translate + review checkpoints keep working for non-foundation lessons.
+- No changes to curriculum, DB, subscription, or router.
+
+## Technical notes
+
+- `FoundationKind` stays `"alphabet" | "numbers" | "greetings"`; `FOUNDATIONS[lang].greetings` remains `Word[]`, `alphabet`/`numbers` become `FoundationCard[]`. Update the type union and the `buildDeck` branch accordingly.
+- TTS: reuse existing `speakWithSlot` / `speechSynthesis` path; for "play sound" quiz, autoplay on mount of each question.
+- No new packages, no schema changes.
+
+## How to verify
+
+1. Open `/learn/en-a1-alphabet` (English) → letter B card shows "Say it: bee, as in book", no "meaning in English" panel; quiz shows letter → pick pronunciation.
+2. Open `/learn/fr-a1-alphabet` (French) → same layout in French; quiz alternates audio→letter and letter→sound.
+3. Open a numbers foundation lesson → same treatment with digits.
+4. Open a regular vocab lesson (e.g. `fr-a1-greetings` or any A1 topic) → unchanged teach → quiz → optional translate flow.
