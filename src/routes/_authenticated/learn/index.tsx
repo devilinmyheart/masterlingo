@@ -5,8 +5,10 @@ import { motion } from "framer-motion";
 import { CURRICULUM, LANGUAGE_LIST } from "@/data/curriculum";
 import type { LanguageId, Level, Topic } from "@/data/curriculum";
 import { supabase } from "@/integrations/supabase/client";
-import { Check, Lock, Star, Flame, Zap, Trophy, BookOpen, Crown, Sparkles } from "lucide-react";
+import { Check, Lock, Flame, Zap, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AnimatedIcon } from "@/components/AnimatedIcon";
+import { categoryIconFor } from "@/data/animations";
 
 const searchSchema = z.object({
   language: z.enum(["french", "german", "japanese", "english", "hindi_english"]).optional(),
