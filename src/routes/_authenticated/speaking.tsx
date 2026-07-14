@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { analyzeSpeaking, type SpeakingFeedback } from "@/lib/speaking.functions";
 import { useVoicePrefs, speakWithSlot } from "@/lib/voice-prefs";
+import { UpgradeGate } from "@/components/UpgradeGate";
 
 export const Route = createFileRoute("/_authenticated/speaking")({
   head: () => ({
@@ -19,8 +20,16 @@ export const Route = createFileRoute("/_authenticated/speaking")({
     ],
     links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/speaking" }],
   }),
-  component: SpeakingPage,
+  component: SpeakingGated,
 });
+
+function SpeakingGated() {
+  return (
+    <UpgradeGate feature="Speaking Practice" description="Real-time pronunciation coaching is a Pro feature.">
+      <SpeakingPage />
+    </UpgradeGate>
+  );
+}
 
 type TrackId = "english" | "hindi_english";
 
