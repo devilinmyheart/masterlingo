@@ -17,6 +17,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { CookieConsent } from "@/components/CookieConsent";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
 import { AdsGate } from "@/components/AdsGate";
+import { PastDueBanner } from "@/components/PastDueBanner";
 
 function NotFoundComponent() {
   return (
@@ -154,6 +155,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <PaymentTestModeBanner />
+      <PastDueBanner />
       <AdsGate />
       <Outlet />
       <Toaster position="top-right" richColors />

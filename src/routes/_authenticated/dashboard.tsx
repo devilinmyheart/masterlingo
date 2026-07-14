@@ -1,12 +1,16 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery, queryOptions } from "@tanstack/react-query";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useQuery, queryOptions, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { CURRICULUM, LANGUAGE_LIST } from "@/data/curriculum";
 import type { LanguageId } from "@/data/curriculum";
-import { Flame, Trophy, BookOpen, Zap, Sparkles, ArrowRight, Target } from "lucide-react";
+import { Flame, Trophy, BookOpen, Zap, Sparkles, ArrowRight, Target, Lock } from "lucide-react";
 import { motion } from "framer-motion";
 import { LineChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Button } from "@/components/ui/button";
+import { useLanguageGate } from "@/hooks/useLanguageGate";
+import { getPaddleEnvironment } from "@/lib/paddle";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -54,6 +58,31 @@ const LANG_ACCENT: Record<LanguageId, { chip: string; bar: string; ring: string;
 
 function Dashboard() {
   const { data } = useQuery(dashboardQuery);
+  const navigate = useNavigate();
+  const qc = useQueryClient();
+  const { gate, isAllowed } = useLanguageGate();
+
+  // Handle post-checkout return: show confirmation + poll subscription
+  // briefly in case the webhook hasn't landed yet.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("checkout") !== "success") return;
+    toast.success("Welcome to Master Lingo Pro!", {
+      description: "Unlocking your features…",
+    });
+    const env = getPaddleEnvironment();
+    let attempts = 0;
+    const iv = window.setInterval(() => {
+      attempts += 1;
+      qc.invalidateQueries({ queryKey: ["subscription", env] });
+      if (attempts >= 4) window.clearInterval(iv);
+    }, 3000);
+    // strip the query param
+    navigate({ to: "/dashboard", replace: true });
+    return () => window.clearInterval(iv);
+  }, [navigate, qc]);
+
   if (!data) return null;
 
   const language = (data.onboarding?.language ?? "french") as LanguageId;
@@ -185,12 +214,16 @@ function Dashboard() {
             {LANGUAGE_LIST.map((l) => {
               const active = l.id === language;
               const a = LANG_ACCENT[l.id];
+              const locked = !isAllowed(l.id);
               return (
                 <Link
                   key={l.id}
                   to="/learn"
                   search={{ language: l.id }}
-                  className={`flex items-center justify-between rounded-2xl border p-3 transition-colors ${active ? "border-brand bg-brand-soft" : "border-border hover:bg-accent"}`}
+                  onClick={(e) => {
+                    if (!gate(l.id)) e.preventDefault();
+                  }}
+                  className={`flex items-center justify-between rounded-2xl border p-3 transition-colors ${active ? "border-brand bg-brand-soft" : "border-border hover:bg-accent"} ${locked ? "opacity-70" : ""}`}
                 >
                   <div className="flex items-center gap-3">
                     <div className={`grid size-9 place-items-center rounded-lg ${a.chip} text-lg`}>{l.flag}</div>
@@ -199,7 +232,13 @@ function Dashboard() {
                       <div className="text-xs text-muted-foreground">{l.name}</div>
                     </div>
                   </div>
-                  {active && <span className="rounded-full bg-brand px-2 py-0.5 text-[10px] font-bold uppercase text-brand-foreground">Active</span>}
+                  {active ? (
+                    <span className="rounded-full bg-brand px-2 py-0.5 text-[10px] font-bold uppercase text-brand-foreground">Active</span>
+                  ) : locked ? (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold uppercase text-muted-foreground">
+                      <Lock className="size-3" /> Pro
+                    </span>
+                  ) : null}
                 </Link>
               );
             })}

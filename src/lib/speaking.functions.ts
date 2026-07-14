@@ -3,6 +3,7 @@ import { generateText } from "ai";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
+import { assertPro } from "@/lib/entitlement";
 
 const InputSchema = z.object({
   language: z.enum(["english", "hindi_english"]),
@@ -44,9 +45,11 @@ const FeedbackSchema: z.ZodType<SpeakingFeedback> = z.object({
 export const analyzeSpeaking = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => InputSchema.parse(input))
-  .handler(async ({ data }): Promise<SpeakingFeedback> => {
+  .handler(async ({ data, context }): Promise<SpeakingFeedback> => {
+    await assertPro(context.supabase, context.userId);
     const key = process.env.LOVABLE_API_KEY;
     if (!key) throw new Error("Missing LOVABLE_API_KEY");
+
 
     const isHindiTrack = data.language === "hindi_english";
     const explainIn = isHindiTrack

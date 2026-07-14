@@ -34,6 +34,10 @@ export const openCustomerPortal = createServerFn({ method: "POST" })
       sub.paddle_customer_id as string,
       [sub.paddle_subscription_id as string],
     );
+    // Prefer the general overview: it exposes update-payment-method,
+    // invoices, AND cancel — the cancel-only URL leaves users with no way
+    // to fix a past-due card.
+    const overview = session.urls?.general?.overview;
     const cancelUrl = session.urls?.subscriptions?.[0]?.cancelSubscription;
-    return { url: cancelUrl || session.urls?.general?.overview };
+    return { url: overview || cancelUrl };
   });

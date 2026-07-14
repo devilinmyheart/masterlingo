@@ -3,6 +3,7 @@ import { generateText } from "ai";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
+import { assertPro } from "@/lib/entitlement";
 
 const TrackEnum = z.enum(["french", "german", "japanese", "english", "hindi_english"]);
 
@@ -88,7 +89,8 @@ async function callJson<T>(system: string, prompt: string, schema: z.ZodType<T>)
 export const conversationTurn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => TurnInput.parse(input))
-  .handler(async ({ data }): Promise<TurnReply> => {
+  .handler(async ({ data, context }): Promise<TurnReply> => {
+    await assertPro(context.supabase, context.userId);
     const p = personaFor(data.track);
     const system = `You are roleplaying with a Master Lingo learner practising SPOKEN ${p.target}.
 Your character: ${data.scenario.role}.
@@ -165,7 +167,8 @@ const SummarySchema: z.ZodType<ConversationSummary> = z.object({
 export const summarizeConversation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => SummaryInput.parse(input))
-  .handler(async ({ data }): Promise<ConversationSummary> => {
+  .handler(async ({ data, context }): Promise<ConversationSummary> => {
+    await assertPro(context.supabase, context.userId);
     const p = personaFor(data.track);
     const system = `You are a Master Lingo coach reviewing a spoken roleplay in ${p.target}.
 Scenario: ${data.scenario.title} — ${data.scenario.setting}. Learner goal: ${data.scenario.goal}.
