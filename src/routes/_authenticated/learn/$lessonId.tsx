@@ -363,7 +363,14 @@ function buildDeck(language: LanguageId, seed: string, isReview: boolean): Card[
     const wrongs = distractorPool.filter((x) => x.translation !== w.translation);
     const distractors = shuffle(wrongs, h + w.word.length).slice(0, 3).map((x) => x.translation);
     const options = shuffle([w.translation, ...distractors], h);
-    return { front: w.word, back: w.translation, pronunciation: w.pronunciation, options };
+    return {
+      front: w.word,
+      back: w.translation,
+      pronunciation: w.pronunciation,
+      options,
+      icon: getAnimationFor(w.translation),
+      optionIcons: options.map((o) => getAnimationFor(o)),
+    };
   });
 }
 
