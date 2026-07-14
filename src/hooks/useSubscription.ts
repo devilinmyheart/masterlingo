@@ -66,11 +66,12 @@ export function useSubscription() {
 
   return {
     subscription: sub,
-    isPro: !!isActive,
-    isLoading: query.isLoading,
-    isTrialing: sub?.status === "trialing",
-    isPastDue: sub?.status === "past_due",
-    willCancelAtPeriodEnd: !!sub?.cancel_at_period_end,
+    // Payments are temporarily disabled — unlock every feature for all users.
+    isPro: true,
+    isLoading: false,
+    isTrialing: false,
+    isPastDue: false,
+    willCancelAtPeriodEnd: false,
     refetch: query.refetch,
   };
 }
