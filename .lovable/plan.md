@@ -1,66 +1,36 @@
-## Add a "Translate the sentence" exercise (Duolingo-style word bank)
+## Goal
 
-Introduce a new exercise type inspired by the screenshot: learners hear a short target-language phrase and rebuild its meaning by tapping word tiles from a scrambled bank. This slots into the existing lesson flow between the teach and quiz phases.
+Let Master Lingo accept real payments from learners — including **UPI** and **credit/debit cards** — for the Basic ($1/mo, single language) and Pro (all languages) tiers already shown on the landing page.
 
-### What the user will see
+## Recommended provider: Paddle (Merchant of Record)
 
-- A `NEW WORD` / `TRANSLATE` chip at the top.
-- A character bubble showing the target-language phrase (e.g. `Un thé ?`) with a 🔊 speaker button that plays the phrase using the language's TTS voice.
-- Prompt: **"Write this in <native language>"** (English, or Hindi for the Hindi→English track).
-- A **word bank**: tappable pill tiles containing the correct words plus 2–3 distractors, shuffled.
-- An **answer tray** above the bank where tapped words appear in order; tapping a placed word sends it back to the bank.
-- A **Check** button that turns green (correct) or red (try again) with a shake animation and shows the model answer.
-- Hearts decrement on a wrong answer, matching the current quiz rules.
+The eligibility check confirms Master Lingo (AI-powered language learning SaaS) is a clean fit for Paddle. For your situation it's the right pick because:
 
-### Where it fits in the lesson
+- **UPI + cards + wallets built-in.** Paddle's checkout automatically shows UPI, RuPay/Visa/Mastercard, Apple/Google Pay, and local wallets to Indian buyers — no extra config.
+- **You're based in India (Maharajganj, UP).** Paddle acts as the Merchant of Record, so *Paddle* handles GST, international tax registration, invoicing, refunds, and chargebacks on every sale worldwide. You just receive payouts.
+- **Global by default.** Learners from any country can pay in their local currency; Paddle converts and settles to you.
+- **Flat pricing:** 5% + 50¢ per transaction, all-inclusive (special reduced pricing for small/microtransactions like your $1 tier).
 
-Route `src/routes/_authenticated/learn/$lessonId.tsx` currently runs each card through: **learn → quiz** (multiple-choice). Add a third phase **translate** for cards that have a natural short phrase, so the flow becomes:
+Stripe is the alternative, but as an India-based seller you'd lose Stripe's "managed payments" tax handling (only 36 seller countries qualify, India isn't one), meaning you'd be responsible for GST registration, filing, and remittance yourself. Paddle avoids all of that.
 
-```text
-learn ──▶ quiz (MCQ) ──▶ translate (word bank) ──▶ next card
-```
+## What happens when you approve
 
-- Foundation decks (alphabet, numbers) and Review Quizzes **skip** the translate phase — single-word cards don't benefit from a word bank.
-- If a card lacks phrase data, the translate phase is skipped for that card, so nothing regresses for older content.
+1. **Enable Paddle** — creates a sandbox (test) environment instantly so we can build and test without real money. Going live later requires a short Paddle verification (business details, bank account for payouts).
+2. **Create products in Paddle** — I'll set up:
+   - Basic — $1/month (single language)
+   - Pro — the price you want for all-languages access (please confirm the monthly price; the landing page currently just says "All languages")
+   - Optional yearly variants at a discount
+3. **Build checkout in the app**:
+   - "Upgrade" buttons on `/pricing` and inside the authenticated app open Paddle's overlay checkout (UPI, cards, wallets all appear automatically for Indian users).
+   - Success redirect + a `subscriptions` table in Lovable Cloud to record active plan per user.
+4. **Webhook handler** at `/api/public/paddle-webhook` to keep subscription status in sync (activated, renewed, canceled, past_due).
+5. **Entitlement gating** — a `useSubscription()` hook + server check so Pro-only features (e.g. access to all 5 language tracks, unlimited AI tutor turns) unlock only for paying users. I'll ask you which features should be free vs paid before wiring the gates.
+6. **Customer portal link** in Profile so users can manage/cancel their subscription.
 
-### Content model
+## Questions before I build
 
-Extend the vocabulary item in `src/data/vocabulary.ts` with two optional fields:
+1. Confirm the **Pro monthly price** (e.g. $9.99/mo?) and whether you want a yearly option.
+2. Which features should be **Pro-only** vs free? (Suggested: free = 1 language + limited daily lessons; Pro = all 5 languages, unlimited AI tutor, conversation practice, certifications page.)
+3. Do you want a **7-day free trial** on Pro?
 
-- `phrase`: the short target-language sentence (e.g. `Un thé ?`, `Ich hätte gern einen Kaffee.`, `お茶をください。`).
-- `phraseTranslation`: the answer in the learner's native language, already tokenised for the word bank (e.g. `A tea?`).
-
-Seed this for the common greeting / café / basic-need words across all five tracks (French, German, Japanese, English, Hindi→English). Japanese uses spaces between meaning units for tokenisation. Only the subset of cards that gets phrases will trigger the new exercise.
-
-### Interaction rules
-
-- Word bank shuffles on mount; tiles animate with a small pop-in.
-- Tapping a tile: tile flies up into the answer tray; the bank slot becomes empty/greyed.
-- Tapping a placed tile: it flies back to its original bank slot.
-- Punctuation (`?`, `.`, `!`) is displayed with the previous word, never a separate tile.
-- Case-insensitive comparison; trailing punctuation ignored when grading.
-- Wrong answer: red shake, reveal the correct sentence under the tray, `-1 heart`, allow one more try before auto-advancing.
-- Correct: green flash, `+2 XP` for translation on top of the existing lesson XP, auto-advance after 900 ms.
-
-### New component
-
-Create `src/components/TranslateExercise.tsx`:
-
-- Props: `phrase`, `phraseTranslation`, `voiceSlot`, `onResult(correct: boolean)`.
-- Owns tile state, shuffle, tap-to-place / tap-to-remove, grading, and the check button.
-- Uses `speakWithSlot` from `src/lib/voice-prefs.ts` for the audio button (same helper used elsewhere).
-- Uses Framer Motion for the tile fly / shake / green pulse (already in the project).
-
-### Files touched
-
-| File | Change |
-| --- | --- |
-| `src/data/vocabulary.ts` | Add optional `phrase` + `phraseTranslation` fields; seed for foundational cards across all tracks. |
-| `src/components/TranslateExercise.tsx` | **New** — the word-bank exercise UI. |
-| `src/routes/_authenticated/learn/$lessonId.tsx` | Add `translate` phase between `quiz` and next card; render `TranslateExercise` when the current card has phrase data; skip for foundation / review-quiz decks. |
-
-### Out of scope for this plan
-
-- Free-text typing input (word-bank only, matching the screenshot).
-- Drag-and-drop reordering (tap-to-place is simpler on mobile and hits the same target).
-- Reverse direction (English → target); can be a follow-up if you like it.
+Reply with answers (or "use your suggestions") and I'll enable Paddle and start building.
