@@ -290,3 +290,164 @@ export const FOUNDATIONS: Record<LanguageId, Record<FoundationKind, Word[]>> = {
     ],
   },
 };
+
+// ---------------------------------------------------------------------------
+// Purpose-built cards for alphabet + numbers foundations. These aren't
+// vocabulary — a letter has no "meaning", only a name and a sound. Learners
+// see the symbol, hear it, and are quizzed on the pronunciation, not on a
+// fake translation.
+// ---------------------------------------------------------------------------
+
+export interface FoundationCard {
+  symbol: string;        // "B", "5", "こ"
+  name: string;          // how the symbol is called ("bee" / "cinq" / "ko")
+  sound: string;         // what to speak via TTS (usually same as name)
+  exampleWord?: string;  // "book" / "Berthe"
+  exampleGloss?: string; // short gloss shown in the learner's language
+}
+
+type FoundationDeckKind = "alphabet" | "numbers";
+
+export const FOUNDATION_CARDS: Record<LanguageId, Record<FoundationDeckKind, FoundationCard[]>> = {
+  french: {
+    alphabet: [
+      { symbol: "A", name: "ah",   sound: "A", exampleWord: "Anatole" },
+      { symbol: "B", name: "bay",  sound: "B", exampleWord: "Berthe" },
+      { symbol: "C", name: "say",  sound: "C", exampleWord: "Célestin" },
+      { symbol: "D", name: "day",  sound: "D", exampleWord: "Désiré" },
+      { symbol: "E", name: "uh",   sound: "E", exampleWord: "Eugène" },
+      { symbol: "F", name: "eff",  sound: "F", exampleWord: "François" },
+      { symbol: "G", name: "zhay", sound: "G", exampleWord: "Gaston" },
+      { symbol: "H", name: "ash",  sound: "H", exampleWord: "Henri" },
+      { symbol: "I", name: "ee",   sound: "I", exampleWord: "Irma" },
+      { symbol: "J", name: "zhee", sound: "J", exampleWord: "Joseph" },
+      { symbol: "K", name: "kah",  sound: "K", exampleWord: "kilo" },
+      { symbol: "L", name: "ell",  sound: "L", exampleWord: "Louis" },
+    ],
+    numbers: [
+      { symbol: "1",  name: "un",     sound: "un" },
+      { symbol: "2",  name: "deux",   sound: "deux" },
+      { symbol: "3",  name: "trois",  sound: "trois" },
+      { symbol: "4",  name: "quatre", sound: "quatre" },
+      { symbol: "5",  name: "cinq",   sound: "cinq" },
+      { symbol: "6",  name: "six",    sound: "six" },
+      { symbol: "7",  name: "sept",   sound: "sept" },
+      { symbol: "8",  name: "huit",   sound: "huit" },
+      { symbol: "9",  name: "neuf",   sound: "neuf" },
+      { symbol: "10", name: "dix",    sound: "dix" },
+    ],
+  },
+  german: {
+    alphabet: [
+      { symbol: "A", name: "ah",   sound: "A", exampleWord: "Anton" },
+      { symbol: "B", name: "bay",  sound: "B", exampleWord: "Berta" },
+      { symbol: "C", name: "tsay", sound: "C", exampleWord: "Cäsar" },
+      { symbol: "D", name: "day",  sound: "D", exampleWord: "Dora" },
+      { symbol: "E", name: "ay",   sound: "E", exampleWord: "Emil" },
+      { symbol: "F", name: "eff",  sound: "F", exampleWord: "Friedrich" },
+      { symbol: "G", name: "gay",  sound: "G", exampleWord: "Gustav" },
+      { symbol: "H", name: "hah",  sound: "H", exampleWord: "Heinrich" },
+      { symbol: "I", name: "ee",   sound: "I", exampleWord: "Ida" },
+      { symbol: "Ä", name: "eh",   sound: "Ä", exampleWord: "Ärger" },
+      { symbol: "Ö", name: "ur",   sound: "Ö", exampleWord: "Österreich" },
+      { symbol: "Ü", name: "ue",   sound: "Ü", exampleWord: "über" },
+    ],
+    numbers: [
+      { symbol: "1",  name: "eins",   sound: "eins" },
+      { symbol: "2",  name: "zwei",   sound: "zwei" },
+      { symbol: "3",  name: "drei",   sound: "drei" },
+      { symbol: "4",  name: "vier",   sound: "vier" },
+      { symbol: "5",  name: "fünf",   sound: "fünf" },
+      { symbol: "6",  name: "sechs",  sound: "sechs" },
+      { symbol: "7",  name: "sieben", sound: "sieben" },
+      { symbol: "8",  name: "acht",   sound: "acht" },
+      { symbol: "9",  name: "neun",   sound: "neun" },
+      { symbol: "10", name: "zehn",   sound: "zehn" },
+    ],
+  },
+  japanese: {
+    alphabet: [
+      { symbol: "あ", name: "a",  sound: "あ", exampleWord: "asa (morning)" },
+      { symbol: "い", name: "i",  sound: "い", exampleWord: "inu (dog)" },
+      { symbol: "う", name: "u",  sound: "う", exampleWord: "umi (sea)" },
+      { symbol: "え", name: "e",  sound: "え", exampleWord: "eki (station)" },
+      { symbol: "お", name: "o",  sound: "お", exampleWord: "ocha (tea)" },
+      { symbol: "か", name: "ka", sound: "か", exampleWord: "kasa (umbrella)" },
+      { symbol: "き", name: "ki", sound: "き", exampleWord: "ki (tree)" },
+      { symbol: "さ", name: "sa", sound: "さ", exampleWord: "sakana (fish)" },
+      { symbol: "た", name: "ta", sound: "た", exampleWord: "tamago (egg)" },
+      { symbol: "な", name: "na", sound: "な", exampleWord: "natsu (summer)" },
+      { symbol: "は", name: "ha", sound: "は", exampleWord: "hana (flower)" },
+      { symbol: "ま", name: "ma", sound: "ま", exampleWord: "mado (window)" },
+    ],
+    numbers: [
+      { symbol: "一 (1)",  name: "ichi",  sound: "一" },
+      { symbol: "二 (2)",  name: "ni",    sound: "二" },
+      { symbol: "三 (3)",  name: "san",   sound: "三" },
+      { symbol: "四 (4)",  name: "yon",   sound: "四" },
+      { symbol: "五 (5)",  name: "go",    sound: "五" },
+      { symbol: "六 (6)",  name: "roku",  sound: "六" },
+      { symbol: "七 (7)",  name: "nana",  sound: "七" },
+      { symbol: "八 (8)",  name: "hachi", sound: "八" },
+      { symbol: "九 (9)",  name: "kyuu",  sound: "九" },
+      { symbol: "十 (10)", name: "juu",   sound: "十" },
+    ],
+  },
+  english: {
+    alphabet: [
+      { symbol: "A", name: "ay",    sound: "A", exampleWord: "apple" },
+      { symbol: "B", name: "bee",   sound: "B", exampleWord: "book" },
+      { symbol: "C", name: "see",   sound: "C", exampleWord: "cat" },
+      { symbol: "D", name: "dee",   sound: "D", exampleWord: "dog" },
+      { symbol: "E", name: "ee",    sound: "E", exampleWord: "egg" },
+      { symbol: "F", name: "eff",   sound: "F", exampleWord: "fish" },
+      { symbol: "G", name: "jee",   sound: "G", exampleWord: "goat" },
+      { symbol: "H", name: "aitch", sound: "H", exampleWord: "house" },
+      { symbol: "I", name: "eye",   sound: "I", exampleWord: "ice" },
+      { symbol: "J", name: "jay",   sound: "J", exampleWord: "jump" },
+      { symbol: "K", name: "kay",   sound: "K", exampleWord: "king" },
+      { symbol: "L", name: "ell",   sound: "L", exampleWord: "lion" },
+    ],
+    numbers: [
+      { symbol: "1",  name: "one",   sound: "one" },
+      { symbol: "2",  name: "two",   sound: "two" },
+      { symbol: "3",  name: "three", sound: "three" },
+      { symbol: "4",  name: "four",  sound: "four" },
+      { symbol: "5",  name: "five",  sound: "five" },
+      { symbol: "6",  name: "six",   sound: "six" },
+      { symbol: "7",  name: "seven", sound: "seven" },
+      { symbol: "8",  name: "eight", sound: "eight" },
+      { symbol: "9",  name: "nine",  sound: "nine" },
+      { symbol: "10", name: "ten",   sound: "ten" },
+    ],
+  },
+  hindi_english: {
+    alphabet: [
+      { symbol: "A", name: "ए",    sound: "A", exampleWord: "apple (सेब)" },
+      { symbol: "B", name: "बी",   sound: "B", exampleWord: "ball (गेंद)" },
+      { symbol: "C", name: "सी",   sound: "C", exampleWord: "cat (बिल्ली)" },
+      { symbol: "D", name: "डी",   sound: "D", exampleWord: "dog (कुत्ता)" },
+      { symbol: "E", name: "ई",    sound: "E", exampleWord: "egg (अंडा)" },
+      { symbol: "F", name: "एफ़",  sound: "F", exampleWord: "fish (मछली)" },
+      { symbol: "G", name: "जी",   sound: "G", exampleWord: "goat (बकरी)" },
+      { symbol: "H", name: "एच",   sound: "H", exampleWord: "house (घर)" },
+      { symbol: "I", name: "आई",   sound: "I", exampleWord: "ice (बर्फ़)" },
+      { symbol: "J", name: "जे",   sound: "J", exampleWord: "juice (रस)" },
+      { symbol: "K", name: "के",   sound: "K", exampleWord: "kite (पतंग)" },
+      { symbol: "L", name: "एल",   sound: "L", exampleWord: "lion (शेर)" },
+    ],
+    numbers: [
+      { symbol: "1",  name: "one (एक)",     sound: "one" },
+      { symbol: "2",  name: "two (दो)",     sound: "two" },
+      { symbol: "3",  name: "three (तीन)",  sound: "three" },
+      { symbol: "4",  name: "four (चार)",   sound: "four" },
+      { symbol: "5",  name: "five (पाँच)",  sound: "five" },
+      { symbol: "6",  name: "six (छह)",     sound: "six" },
+      { symbol: "7",  name: "seven (सात)",  sound: "seven" },
+      { symbol: "8",  name: "eight (आठ)",   sound: "eight" },
+      { symbol: "9",  name: "nine (नौ)",    sound: "nine" },
+      { symbol: "10", name: "ten (दस)",     sound: "ten" },
+    ],
+  },
+};
+
