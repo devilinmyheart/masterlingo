@@ -9,6 +9,7 @@ import { Check, Lock, Flame, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
 import { categoryIconFor } from "@/data/animations";
+import { useLanguageGate } from "@/hooks/useLanguageGate";
 
 const searchSchema = z.object({
   language: z.enum(["french", "german", "japanese", "english", "hindi_english"]).optional(),
@@ -169,28 +170,8 @@ function Learn() {
       {/* HUD */}
       <div className="sticky top-0 z-20 border-b border-border/60 bg-background/85 backdrop-blur-xl">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-          <div className="flex flex-wrap gap-1.5">
-            {LANGUAGE_LIST.map((l) => {
-              const active = l.id === language;
-              const a = LANG_ACCENT[l.id];
-              return (
-                <Link
-                  key={l.id}
-                  to="/learn"
-                  search={{ language: l.id }}
-                  className={cn(
-                    "flex items-center gap-1.5 rounded-full border-2 px-3 py-1.5 text-sm font-bold transition-all",
-                    active
-                      ? cn(a.solidBg, a.solidText, "border-transparent scale-105")
-                      : "border-border bg-background text-muted-foreground hover:border-foreground/30"
-                  )}
-                >
-                  <span className="text-base">{l.flag}</span>
-                  <span className="hidden sm:inline">{l.nativeName}</span>
-                </Link>
-              );
-            })}
-          </div>
+          <LanguageSwitcher activeLang={language} />
+
           <div className="flex items-center gap-2 text-sm font-bold sm:gap-4">
             <HudStat icon={<Flame className="size-4 text-orange-500" />} value={data?.streak ?? 0} label="streak" />
             <HudStat icon={<Zap className="size-4 text-yellow-500" />} value={data?.xp ?? 0} label="XP" />
