@@ -330,3 +330,37 @@ function PathNode({
     </Link>
   );
 }
+
+function LanguageSwitcher({ activeLang }: { activeLang: LanguageId }) {
+  const { gate, isAllowed } = useLanguageGate();
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {LANGUAGE_LIST.map((l) => {
+        const active = l.id === activeLang;
+        const a = LANG_ACCENT[l.id];
+        const locked = !isAllowed(l.id);
+        return (
+          <Link
+            key={l.id}
+            to="/learn"
+            search={{ language: l.id }}
+            onClick={(e) => {
+              if (!gate(l.id)) e.preventDefault();
+            }}
+            className={cn(
+              "flex items-center gap-1.5 rounded-full border-2 px-3 py-1.5 text-sm font-bold transition-all",
+              active
+                ? cn(a.solidBg, a.solidText, "border-transparent scale-105")
+                : "border-border bg-background text-muted-foreground hover:border-foreground/30",
+              locked && !active && "opacity-60"
+            )}
+          >
+            <span className="text-base">{l.flag}</span>
+            <span className="hidden sm:inline">{l.nativeName}</span>
+            {locked && !active && <Lock className="size-3" />}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
