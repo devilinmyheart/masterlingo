@@ -137,8 +137,7 @@ const LANG_ACCENT: Record<LanguageId, Accent> = {
   },
 };
 
-// Icons for path nodes, cycled per lesson
-const NODE_ICONS = [Star, BookOpen, Zap, Trophy, Crown, Sparkles];
+// Path nodes now render category-aware animated emoji derived from topic id.
 
 // Horizontal offsets for the winding path (percent of container width)
 const PATH_OFFSETS = [0, 18, 28, 18, 0, -18, -28, -18];
