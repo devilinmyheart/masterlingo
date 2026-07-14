@@ -1,43 +1,46 @@
-## Goal
-Restructure the Learn experience so beginners start from true basics (alphabet → words → phrases → sentences), and remove the pronunciation/mic "speak" step that appears after every quiz card.
+# Add animated visuals to lessons
 
-## Changes
+Adopt Lottie (looping animated icons) across the learning flow, styled to match the Duolingo-like reference.
 
-### 1. Remove the post-quiz speaking step (every lesson)
-File: `src/routes/_authenticated/learn/$lessonId.tsx`
-- Drop the `"speak"` phase entirely from the lesson state machine — after the quiz answer, the "Next word" button advances directly to the next card.
-- Delete the `SpeakStep` component, `sttLangFor`, `similarity`, `normalize` helpers, and mic-related UI/icons from this file.
-- Keep the existing 🔊 audio button on the learn card (that's passive listening, not the mic step the user dislikes).
-- Speaking practice remains available as its own dedicated page at `/speaking` for users who want it.
+## What gets added
 
-### 2. Restructure curriculum into a real beginner-first progression
-File: `src/data/curriculum.ts`
-Reorganize each language's A1 level so lessons follow this order:
+1. **Learn phase** — large animation next to each new word (☕ steaming cup, 👋 waving hand, 🥐 flaky croissant, A/1/👋 for foundations).
+2. **Quiz phase** — Duolingo-style image tiles: instead of 4 text options, show 3 animated tiles; the correct one matches the prompt word. Falls back to text options when no animation is mapped for a word.
+3. **Lesson path** (`/learn`) — themed animated icon per lesson node: alphabet (dancing letters), numbers (counter), greetings (wave), grammar (gears), review (trophy).
+4. **Completion screen** — celebratory confetti + trophy animation replacing the current static sparkles.
 
-```text
-1. Alphabet & sounds            (letters, pronunciation)
-2. Numbers 1–20
-3. Greetings & polite phrases
-4. Basic words (colors, family, food)
-5. Simple sentences (I am…, I have…, This is…)
-6. Everyday questions (What is…?, Where is…?)
-7. A1 Review Quiz               (final checkpoint)
-```
-A2–C2 keep their current topics but each level ends with a "Level Review Quiz" node.
+## Tech approach
 
-### 3. Add alphabet / foundations content
-File: `src/data/vocabulary.ts`
-Add a new `FOUNDATIONS` dataset per language containing:
-- Alphabet entries (letter → name/sound, e.g. `A → "ay"`, `あ → "a"`, `अ → "a"`)
-- Numbers 1–20
-- Core greetings
+- Add `@lottiefiles/dotlottie-react` (~15 KB gzipped, no runtime deps beyond React).
+- Store `.lottie` files as **Lovable Assets** (CDN pointers, not repo bytes). Curated set from lottiefiles.com free library, ~25 animations to start:
+  - Foundations: `letter-a`, `number-1`, `wave-hello`, `handshake`, `clock`
+  - Common vocab: `coffee`, `tea`, `croissant`, `bread`, `water`, `apple`, `dog`, `cat`, `sun`, `moon`, `house`, `car`, `book`, `phone`, `heart`
+  - UI: `trophy`, `confetti`, `sparkle-loop`, `flame` (streak), `gears` (grammar)
+- Central mapping in `src/data/animations.ts`: `Record<string /* english translation key */, AssetPointer>`. Lookup by normalized `word.translation` so all 5 languages share one asset (café / Kaffee / coffee → same coffee animation).
+- New `<LottieIcon name="coffee" size={160} />` component wrapping DotLottieReact with `loop autoplay`, respecting `prefers-reduced-motion` (freeze on first frame).
 
-The lesson deck builder in `$lessonId.tsx` picks from the foundations set when the lesson id is an alphabet/numbers/greetings lesson, and from the existing `STARTER_VOCAB` otherwise.
+## File changes
 
-### 4. Quiz-only "checkpoint" lessons
-For the review-quiz lessons at the end of each level, the lesson skips the "learn" phase and goes straight into multiple-choice quiz cards drawn from that level's vocabulary — matching the user's ask that the quiz comes "at last" after completing the section.
+- **New** `src/data/animations.ts` — key→asset pointer map + `getAnimationFor(word)` helper.
+- **New** `src/assets/lottie/*.lottie.asset.json` — ~25 asset pointers.
+- **New** `src/components/LottieIcon.tsx` — reusable player.
+- **Edit** `src/routes/_authenticated/learn/$lessonId.tsx`:
+  - Learn phase: render `<LottieIcon>` above the word.
+  - Quiz phase: if all 3 options have animations, render tile grid (image + label, correct-answer highlighting matches current style); else keep text buttons.
+  - Completion: swap `<Sparkles>` for confetti + trophy Lottie.
+- **Edit** `src/routes/_authenticated/learn/index.tsx` — replace lesson-node emoji with a small Lottie per topic category (detected from topic id: `-alphabet`, `-numbers`, `-greeting`, `-grammar`, `-review`, else generic book).
+
+## Performance & fallbacks
+
+- Lottie files preloaded with `<link rel="prefetch">` for the current lesson's deck only (5–8 files, ~200 KB total).
+- Lesson path uses 1 Lottie per *category* (5 total), not per node, so scroll stays smooth.
+- If `getAnimationFor(word)` returns null (uncommon vocab), the card renders the emoji/word only — no broken UI.
+- `prefers-reduced-motion`: static first frame; screen-reader label from the English translation.
 
 ## Out of scope
-- No changes to `/speaking`, `/review`, `/tutor`, dashboard, or auth.
-- No DB migrations — this is content + lesson-flow only.
-- Voice preferences UI stays (used for passive audio playback of words).
+
+- No videos (per your choice).
+- No AI-generated per-word images.
+- No content changes to lessons themselves — only visual layer.
+
+Approve to build.
