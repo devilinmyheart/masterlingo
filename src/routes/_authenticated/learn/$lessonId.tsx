@@ -216,16 +216,20 @@ function LessonPage() {
           >
             {phase === "learn" && (
               <>
-                <div className="text-xs font-bold uppercase tracking-widest text-brand">New word · {idx + 1} of {total}</div>
+                <div className="text-xs font-bold uppercase tracking-widest text-brand">
+                  {current.isFoundation
+                    ? (foundation === "numbers" ? "New number" : "New letter")
+                    : "New word"} · {idx + 1} of {total}
+                </div>
                 <div className="mt-4 flex flex-col-reverse items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
                   <div className="min-w-0">
                     <div className="flex items-center gap-3">
-                      <div className="font-display text-4xl font-bold md:text-5xl">{current.front}</div>
-                      <button onClick={() => speak(current.front)} className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground">
+                      <div className={cn("font-display font-bold", current.isFoundation ? "text-7xl md:text-8xl" : "text-4xl md:text-5xl")}>{current.front}</div>
+                      <button onClick={() => speak(current.pronunciation || current.front)} className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground">
                         <Volume2 className="size-5" />
                       </button>
                     </div>
-                    {current.pronunciation && (
+                    {!current.isFoundation && current.pronunciation && (
                       <div className="mt-1 font-mono text-sm text-muted-foreground">/{current.pronunciation}/</div>
                     )}
                   </div>
@@ -235,25 +239,39 @@ function LessonPage() {
                     </div>
                   )}
                 </div>
-                <div className="mt-6 rounded-2xl border border-border bg-background/60 p-5">
-                  <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                    {language.id === "hindi_english" ? "अर्थ (Hindi)" : "Meaning in English"}
-                  </div>
-                  <div className="mt-1 flex items-center gap-3">
-                    <div className="font-display text-2xl font-bold md:text-3xl">{current.back}</div>
-                    {language.id === "hindi_english" && (
-                      <button
-                        onClick={() => speakGloss(current.back)}
-                        aria-label="Play Hindi translation"
-                        className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground"
-                      >
-                        <Volume2 className="size-5" />
-                      </button>
+                {current.isFoundation ? (
+                  <div className="mt-6 rounded-2xl border border-border bg-background/60 p-5">
+                    <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Say it</div>
+                    <div className="mt-1 font-display text-3xl font-bold md:text-4xl">"{current.back}"</div>
+                    {current.exampleWord && (
+                      <div className="mt-3 text-sm text-muted-foreground">
+                        As in <span className="font-semibold text-foreground">{current.exampleWord}</span>
+                      </div>
                     )}
                   </div>
-                </div>
+                ) : (
+                  <div className="mt-6 rounded-2xl border border-border bg-background/60 p-5">
+                    <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                      {language.id === "hindi_english" ? "अर्थ (Hindi)" : "Meaning in English"}
+                    </div>
+                    <div className="mt-1 flex items-center gap-3">
+                      <div className="font-display text-2xl font-bold md:text-3xl">{current.back}</div>
+                      {language.id === "hindi_english" && (
+                        <button
+                          onClick={() => speakGloss(current.back)}
+                          aria-label="Play Hindi translation"
+                          className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground"
+                        >
+                          <Volume2 className="size-5" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
                 <p className="mt-6 text-sm text-muted-foreground">
-                  Take a moment to read it and listen. When you're ready, we'll check your recall.
+                  {current.isFoundation
+                    ? "Tap the speaker to hear it. Say it out loud, then we'll check your recall."
+                    : "Take a moment to read it and listen. When you're ready, we'll check your recall."}
                 </p>
                 <div className="mt-6 flex justify-end">
                   <Button onClick={() => setPhase("quiz")} className="rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/90">
@@ -264,16 +282,20 @@ function LessonPage() {
             )}
             {phase === "quiz" && (
               <>
-                <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">What does this mean?</div>
+                <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                  {current.isFoundation ? "How do you say this?" : "What does this mean?"}
+                </div>
                 <div className="mt-4 flex items-center gap-3">
-                  <div className="font-display text-4xl font-bold md:text-5xl">{current.front}</div>
-                  <button onClick={() => speak(current.front)} className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground">
+                  <div className={cn("font-display font-bold", current.isFoundation ? "text-6xl md:text-7xl" : "text-4xl md:text-5xl")}>{current.front}</div>
+                  <button onClick={() => speak(current.pronunciation || current.front)} className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground">
                     <Volume2 className="size-5" />
                   </button>
                 </div>
-                {current.pronunciation && (
+                {!current.isFoundation && current.pronunciation && (
                   <div className="mt-1 font-mono text-sm text-muted-foreground">/{current.pronunciation}/</div>
                 )}
+
+
 
                 {current.optionIcons.every(Boolean) ? (
                   <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
