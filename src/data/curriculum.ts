@@ -132,7 +132,7 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
     nativeName: "Deutsch",
     tagline: "Precision, philosophy, and Europe's engine room.",
     flag: "🇩🇪",
-    levels: makeLevels("fr", (label) => {
+    levels: makeLevels("de", (label) => {
       switch (label) {
         case "A1":
           return {
@@ -206,7 +206,7 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
     nativeName: "日本語",
     tagline: "Character, context, and quiet precision.",
     flag: "🇯🇵",
-    levels: makeLevels("fr", (label) => {
+    levels: makeLevels("jp", (label) => {
       switch (label) {
         case "A1":
           return {
@@ -279,7 +279,7 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
     nativeName: "English",
     tagline: "The global language of business, tech, and travel.",
     flag: "🇬🇧",
-    levels: makeLevels("fr", (label) => {
+    levels: makeLevels("en", (label) => {
       switch (label) {
         case "A1":
           return {
@@ -356,7 +356,7 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
     nativeName: "अंग्रेज़ी (हिन्दी से)",
     tagline: "हिन्दी से अंग्रेज़ी सीखें — बुनियादी से लेकर धाराप्रवाह तक।",
     flag: "🇮🇳",
-    levels: makeLevels("fr", (label) => {
+    levels: makeLevels("he", (label) => {
       switch (label) {
         case "A1":
           return {
