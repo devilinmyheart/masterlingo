@@ -330,8 +330,8 @@ function LessonPage() {
                       {isCorrect ? <><Check className="size-4 text-green-600" /> Correct!</> : <><X className="size-4 text-destructive" /> Not quite — it's <span className="ml-1 font-bold">{current.back}</span></>}
                     </div>
                     <div className="mt-3 flex justify-end">
-                      <Button onClick={nextCard} className="rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/90">
-                        {isLast ? "Finish lesson" : "Next word"}
+                      <Button onClick={afterQuiz} className="rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/90">
+                        {hasTranslate ? "Continue" : (isLast ? "Finish lesson" : "Next word")}
                       </Button>
                     </div>
                   </div>
