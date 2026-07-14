@@ -192,7 +192,6 @@ function ComparisonArticle() {
           </p>
           <Link
             to="/auth"
-            search={{ mode: "signup" }}
             className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground shadow-xl shadow-brand/40 hover:bg-brand/90"
           >
             Start free trial <ArrowRight className="size-4" />
