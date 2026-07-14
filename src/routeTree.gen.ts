@@ -16,6 +16,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogMasterLingoVsDuolingoVsBabbelRouteImport } from './routes/blog.master-lingo-vs-duolingo-vs-babbel'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedVocabularyRouteImport } from './routes/_authenticated/vocabulary'
 import { Route as AuthenticatedTutorRouteImport } from './routes/_authenticated/tutor'
@@ -71,6 +72,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogMasterLingoVsDuolingoVsBabbelRoute =
+  BlogMasterLingoVsDuolingoVsBabbelRouteImport.update({
+    id: '/blog/master-lingo-vs-duolingo-vs-babbel',
+    path: '/blog/master-lingo-vs-duolingo-vs-babbel',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -200,6 +207,7 @@ export interface FileRoutesByFullPath {
   '/tutor': typeof AuthenticatedTutorRoute
   '/vocabulary': typeof AuthenticatedVocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/blog/master-lingo-vs-duolingo-vs-babbel': typeof BlogMasterLingoVsDuolingoVsBabbelRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/conversations/$scenarioId': typeof AuthenticatedConversationsScenarioIdRoute
@@ -228,6 +236,7 @@ export interface FileRoutesByTo {
   '/tutor': typeof AuthenticatedTutorRoute
   '/vocabulary': typeof AuthenticatedVocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/blog/master-lingo-vs-duolingo-vs-babbel': typeof BlogMasterLingoVsDuolingoVsBabbelRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/conversations/$scenarioId': typeof AuthenticatedConversationsScenarioIdRoute
@@ -258,6 +267,7 @@ export interface FileRoutesById {
   '/_authenticated/tutor': typeof AuthenticatedTutorRoute
   '/_authenticated/vocabulary': typeof AuthenticatedVocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/blog/master-lingo-vs-duolingo-vs-babbel': typeof BlogMasterLingoVsDuolingoVsBabbelRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/_authenticated/conversations/$scenarioId': typeof AuthenticatedConversationsScenarioIdRoute
@@ -288,6 +298,7 @@ export interface FileRouteTypes {
     | '/tutor'
     | '/vocabulary'
     | '/api/chat'
+    | '/blog/master-lingo-vs-duolingo-vs-babbel'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/conversations/$scenarioId'
@@ -316,6 +327,7 @@ export interface FileRouteTypes {
     | '/tutor'
     | '/vocabulary'
     | '/api/chat'
+    | '/blog/master-lingo-vs-duolingo-vs-babbel'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/conversations/$scenarioId'
@@ -345,6 +357,7 @@ export interface FileRouteTypes {
     | '/_authenticated/tutor'
     | '/_authenticated/vocabulary'
     | '/api/chat'
+    | '/blog/master-lingo-vs-duolingo-vs-babbel'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/_authenticated/conversations/$scenarioId'
@@ -365,6 +378,7 @@ export interface RootRouteChildren {
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ApiChatRoute: typeof ApiChatRoute
+  BlogMasterLingoVsDuolingoVsBabbelRoute: typeof BlogMasterLingoVsDuolingoVsBabbelRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
@@ -419,6 +433,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/master-lingo-vs-duolingo-vs-babbel': {
+      id: '/blog/master-lingo-vs-duolingo-vs-babbel'
+      path: '/blog/master-lingo-vs-duolingo-vs-babbel'
+      fullPath: '/blog/master-lingo-vs-duolingo-vs-babbel'
+      preLoaderRoute: typeof BlogMasterLingoVsDuolingoVsBabbelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/chat': {
@@ -614,6 +635,8 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ApiChatRoute: ApiChatRoute,
+  BlogMasterLingoVsDuolingoVsBabbelRoute:
+    BlogMasterLingoVsDuolingoVsBabbelRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
