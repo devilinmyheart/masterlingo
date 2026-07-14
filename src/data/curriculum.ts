@@ -59,14 +59,14 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
       switch (label) {
         case "A1":
           return {
-            headline: "Foundations: greetings, alphabet, and everyday words.",
+            headline: "Foundations: alphabet, greetings, and everyday words.",
             topics: [
+              { id: "fr-a1-alphabet", title: "Alphabet & Pronunciation", description: "Start here — vowels, nasal sounds, silent letters.", minutes: 12, xp: 50 },
+              { id: "fr-a1-numbers", title: "Numbers 0–20", description: "Counting, prices, phone numbers.", minutes: 10, xp: 40 },
               { id: "fr-a1-greetings", title: "Greetings & Introductions", description: "Bonjour, comment ça va, se présenter.", minutes: 10, xp: 40 },
-              { id: "fr-a1-alphabet", title: "Alphabet & Pronunciation", description: "Vowels, nasal sounds, silent letters.", minutes: 12, xp: 50 },
-              { id: "fr-a1-numbers", title: "Numbers 0–100", description: "Counting, prices, phone numbers.", minutes: 10, xp: 40 },
               { id: "fr-a1-family", title: "Family & People", description: "Ma mère, mon frère, describe your family.", minutes: 12, xp: 50 },
-              { id: "fr-a1-food", title: "Food & Ordering", description: "Café, boulangerie, restaurant basics.", minutes: 15, xp: 60 },
               { id: "fr-a1-colors", title: "Colors & Descriptions", description: "Adjective agreement with rouge, bleu, vert.", minutes: 10, xp: 40 },
+              { id: "fr-a1-food", title: "Food & Ordering", description: "Café, boulangerie, restaurant basics.", minutes: 15, xp: 60 },
               { id: "fr-a1-travel", title: "Travel Essentials", description: "At the airport, hotel, and metro.", minutes: 15, xp: 60 },
               { id: "fr-a1-grammar", title: "Basic Grammar", description: "Articles, gender, present tense être & avoir.", minutes: 18, xp: 80 },
             ],
