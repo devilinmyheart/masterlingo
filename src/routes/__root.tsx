@@ -15,6 +15,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { supabase } from "@/integrations/supabase/client";
 import { Toaster } from "@/components/ui/sonner";
 import { CookieConsent } from "@/components/CookieConsent";
+import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
+import { AdsGate } from "@/components/AdsGate";
 
 function NotFoundComponent() {
   return (
@@ -151,6 +153,8 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <PaymentTestModeBanner />
+      <AdsGate />
       <Outlet />
       <Toaster position="top-right" richColors />
       <CookieConsent />

@@ -10,6 +10,7 @@ import { Sparkles, Send, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
 import { motion } from "framer-motion";
+import { UpgradeGate } from "@/components/UpgradeGate";
 
 export const Route = createFileRoute("/_authenticated/tutor")({
   head: () => ({
@@ -20,8 +21,16 @@ export const Route = createFileRoute("/_authenticated/tutor")({
     ],
     links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/tutor" }],
   }),
-  component: TutorPage,
+  component: TutorGated,
 });
+
+function TutorGated() {
+  return (
+    <UpgradeGate feature="AI Tutor" description="Unlimited chat with your always-on AI language tutor is a Pro feature.">
+      <TutorPage />
+    </UpgradeGate>
+  );
+}
 
 const SUGGESTIONS: Record<LanguageId, string[]> = {
   french: ["Explain the difference between être and avoir", "Correct: J'ai allé au parc hier", "Roleplay: ordering coffee in Paris"],

@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { MessagesSquare, ChevronRight, Sparkles } from "lucide-react";
 import { scenariosForTrack, type ScenarioTrack, type Scenario } from "@/data/scenarios";
 import { cn } from "@/lib/utils";
+import { UpgradeGate } from "@/components/UpgradeGate";
 
 export const Route = createFileRoute("/_authenticated/conversations/")({
   head: () => ({
@@ -18,8 +19,16 @@ export const Route = createFileRoute("/_authenticated/conversations/")({
     ],
     links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/conversations" }],
   }),
-  component: ConversationsIndex,
+  component: ConversationsGated,
 });
+
+function ConversationsGated() {
+  return (
+    <UpgradeGate feature="Conversation Practice" description="Roleplay real scenes with your AI partner — a Pro feature.">
+      <ConversationsIndex />
+    </UpgradeGate>
+  );
+}
 
 const TRACK_LABEL: Record<ScenarioTrack, { label: string; flag: string; accent: string }> = {
   french: { label: "French", flag: "🇫🇷", accent: "from-french/20 to-brand/10" },

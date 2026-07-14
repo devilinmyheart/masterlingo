@@ -254,3 +254,9 @@
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
+
+/* Hide Google AdSense ads for Pro subscribers */
+html.pro-no-ads ins.adsbygoogle,
+html.pro-no-ads .adsbygoogle {
+  display: none !important;
+}
