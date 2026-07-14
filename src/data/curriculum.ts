@@ -29,11 +29,22 @@ export interface LanguageCourse {
 
 const CEFR = ["a1", "a2", "b1", "b2", "c1", "c2"] as const;
 
-function makeLevels(perLevel: (label: string) => { headline: string; topics: Topic[] }): Level[] {
+function makeLevels(
+  prefix: string,
+  perLevel: (label: string) => { headline: string; topics: Topic[] },
+): Level[] {
   return CEFR.map((id) => {
     const label = id.toUpperCase();
     const { headline, topics } = perLevel(label);
-    return { id, label, headline, topics };
+    // Every level ends with a review quiz — the checkpoint after all lessons.
+    const reviewTopic: Topic = {
+      id: `${prefix}-${id}-review`,
+      title: `${label} Review Quiz`,
+      description: `Final checkpoint — quiz yourself on everything from ${label}.`,
+      minutes: 8,
+      xp: 100,
+    };
+    return { id, label, headline, topics: [...topics, reviewTopic] };
   });
 }
 
