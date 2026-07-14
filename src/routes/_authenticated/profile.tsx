@@ -9,6 +9,12 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { VoicePreferences } from "@/components/VoicePreferences";
+import { useSubscription } from "@/hooks/useSubscription";
+import { usePaddleCheckout } from "@/hooks/usePaddleCheckout";
+import { useServerFn } from "@tanstack/react-start";
+import { openCustomerPortal } from "@/utils/payments.functions";
+import { getPaddleEnvironment } from "@/lib/paddle";
+import { Sparkles, ExternalLink } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   head: () => ({
@@ -108,6 +114,11 @@ function Profile() {
         </Button>
       </div>
 
+      <h2 className="mt-10 font-display text-2xl font-bold">Subscription</h2>
+      <div className="glass-panel mt-4 rounded-2xl p-6 shadow-sm">
+        <SubscriptionCard />
+      </div>
+
       <h2 className="mt-10 font-display text-2xl font-bold">Voice & pronunciation</h2>
       <p className="mt-1 text-sm text-muted-foreground">
         Choose separate voices for English and the Hindi → English track. Preferences are saved on this device and applied to lesson audio and vocabulary playback.
@@ -115,6 +126,75 @@ function Profile() {
       <div className="glass-panel mt-4 rounded-2xl p-6 shadow-sm">
         <VoicePreferences />
       </div>
+    </div>
+  );
+}
+
+function SubscriptionCard() {
+  const { isPro, subscription, isLoading } = useSubscription();
+  const { openCheckout, loading: checkoutLoading } = usePaddleCheckout();
+  const portalFn = useServerFn(openCustomerPortal);
+  const [portalLoading, setPortalLoading] = useState(false);
+
+  async function manage() {
+    setPortalLoading(true);
+    try {
+      const { url } = await portalFn({ data: { environment: getPaddleEnvironment() } });
+      if (url) window.open(url, "_blank");
+      else toast.error("Could not open portal");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not open portal");
+    } finally {
+      setPortalLoading(false);
+    }
+  }
+
+  if (isLoading) return <div className="text-sm text-muted-foreground">Loading…</div>;
+
+  if (!isPro) {
+    return (
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <div className="font-display text-lg font-bold">Free plan</div>
+          <p className="text-sm text-muted-foreground">
+            Upgrade to Pro for all languages, unlimited AI tutor, speaking practice, and no ads. $1/month with a 7-day free trial.
+          </p>
+        </div>
+        <Button
+          onClick={() => openCheckout({ priceId: "pro_monthly" })}
+          disabled={checkoutLoading}
+          className="gap-2 rounded-full bg-brand text-brand-foreground hover:bg-brand/90"
+        >
+          <Sparkles className="size-4" />
+          {checkoutLoading ? "Opening…" : "Start free trial"}
+        </Button>
+      </div>
+    );
+  }
+
+  const endsAt = subscription?.current_period_end
+    ? new Date(subscription.current_period_end).toLocaleDateString()
+    : null;
+
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <div className="inline-flex items-center gap-2">
+          <span className="rounded-full bg-brand-soft px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-brand">Pro</span>
+          <span className="font-display text-lg font-bold capitalize">{subscription?.status ?? "active"}</span>
+        </div>
+        <p className="mt-1 text-sm text-muted-foreground">
+          {subscription?.cancel_at_period_end
+            ? `Cancels on ${endsAt}`
+            : endsAt
+              ? `Renews on ${endsAt}`
+              : "Thanks for supporting Master Lingo."}
+        </p>
+      </div>
+      <Button onClick={manage} disabled={portalLoading} variant="outline" className="gap-2 rounded-full">
+        <ExternalLink className="size-4" />
+        {portalLoading ? "Opening…" : "Manage subscription"}
+      </Button>
     </div>
   );
 }
