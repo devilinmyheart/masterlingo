@@ -338,6 +338,26 @@ function LessonPage() {
                 )}
               </>
             )}
+            {phase === "translate" && current.example && current.exampleTranslation && (
+              <TranslateExercise
+                phrase={current.example}
+                phraseTranslation={current.exampleTranslation}
+                promptLabel={
+                  language.id === "hindi_english"
+                    ? "इसे हिंदी में लिखें"
+                    : `Write this in ${language.id === "english" ? "plain English" : "English"}`
+                }
+                onSpeak={() => speak(current.example!)}
+                distractorPool={cards
+                  .filter((c, i) => i !== idx && c.exampleTranslation)
+                  .map((c) => c.exampleTranslation!)}
+                onResult={(ok) => {
+                  if (ok) setCorrect((n) => n + 0); // XP already awarded on quiz; keep parity simple
+                  advance();
+                }}
+                isLast={isLast}
+              />
+            )}
           </motion.div>
         ) : (
           <motion.div
