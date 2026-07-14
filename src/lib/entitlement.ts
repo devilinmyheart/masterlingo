@@ -31,27 +31,16 @@ export function isRowActive(r: SubStatusRow): boolean {
  * via RLS with a bearer token, or the requireSupabaseAuth middleware client).
  */
 export async function userHasPro(
-  supabase: SupabaseClient<any>,
-  userId: string,
+  _supabase: SupabaseClient<any>,
+  _userId: string,
 ): Promise<boolean> {
-  const { data, error } = await supabase
-    .from("subscriptions")
-    .select("status,current_period_end")
-    .eq("user_id", userId);
-  if (error) {
-    // Fail closed on unexpected errors so we never accidentally grant Pro.
-    console.error("userHasPro query failed:", error.message);
-    return false;
-  }
-  return (data ?? []).some(isRowActive);
+  // Payments temporarily disabled — every signed-in user gets full access.
+  return true;
 }
 
-/** Throw a 402-style error if the user is not Pro. */
 export async function assertPro(
-  supabase: SupabaseClient<any>,
-  userId: string,
+  _supabase: SupabaseClient<any>,
+  _userId: string,
 ): Promise<void> {
-  if (!(await userHasPro(supabase, userId))) {
-    throw new Error("This feature requires a Master Lingo Pro subscription.");
-  }
+  // No-op while payments are disabled.
 }
