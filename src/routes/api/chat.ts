@@ -30,6 +30,18 @@ export const Route = createFileRoute("/api/chat")({
         if (claimsError || !claimsData?.claims?.sub) {
           return new Response("Unauthorized", { status: 401 });
         }
+        const userId = claimsData.claims.sub as string;
+
+        // Enforce Pro on the server: the AI tutor is a paid feature and
+        // must not be reachable by signed-in free users bypassing the UI.
+        const supabaseAsUser = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+          auth: { persistSession: false, autoRefreshToken: false, storage: undefined },
+          global: { headers: { Authorization: `Bearer ${token}` } },
+        });
+        const { userHasPro } = await import("@/lib/entitlement");
+        if (!(await userHasPro(supabaseAsUser, userId))) {
+          return new Response("Pro subscription required", { status: 402 });
+        }
 
         const { messages, language } = (await request.json()) as Body;
         if (!Array.isArray(messages)) return new Response("Messages required", { status: 400 });
