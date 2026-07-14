@@ -529,6 +529,9 @@ function SiteFooter() {
             <li><a href="#faq" className="hover:text-foreground">FAQ</a></li>
             <li><a href="#pricing" className="hover:text-foreground">Pricing</a></li>
             <li><a href="/help" className="hover:text-foreground">Contact us</a></li>
+            <li><Link to="/legal/terms" className="hover:text-foreground">Terms & Conditions</Link></li>
+            <li><Link to="/legal/privacy" className="hover:text-foreground">Privacy Notice</Link></li>
+            <li><Link to="/legal/refund" className="hover:text-foreground">Refund Policy</Link></li>
           </ul>
         </div>
       </div>
