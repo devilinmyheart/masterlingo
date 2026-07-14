@@ -29,11 +29,22 @@ export interface LanguageCourse {
 
 const CEFR = ["a1", "a2", "b1", "b2", "c1", "c2"] as const;
 
-function makeLevels(perLevel: (label: string) => { headline: string; topics: Topic[] }): Level[] {
+function makeLevels(
+  prefix: string,
+  perLevel: (label: string) => { headline: string; topics: Topic[] },
+): Level[] {
   return CEFR.map((id) => {
     const label = id.toUpperCase();
     const { headline, topics } = perLevel(label);
-    return { id, label, headline, topics };
+    // Every level ends with a review quiz — the checkpoint after all lessons.
+    const reviewTopic: Topic = {
+      id: `${prefix}-${id}-review`,
+      title: `${label} Review Quiz`,
+      description: `Final checkpoint — quiz yourself on everything from ${label}.`,
+      minutes: 8,
+      xp: 100,
+    };
+    return { id, label, headline, topics: [...topics, reviewTopic] };
   });
 }
 
@@ -44,18 +55,18 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
     nativeName: "Français",
     tagline: "The language of diplomacy, cuisine, and cinema.",
     flag: "🇫🇷",
-    levels: makeLevels((label) => {
+    levels: makeLevels("fr", (label) => {
       switch (label) {
         case "A1":
           return {
-            headline: "Foundations: greetings, alphabet, and everyday words.",
+            headline: "Foundations: alphabet, greetings, and everyday words.",
             topics: [
+              { id: "fr-a1-alphabet", title: "Alphabet & Pronunciation", description: "Start here — vowels, nasal sounds, silent letters.", minutes: 12, xp: 50 },
+              { id: "fr-a1-numbers", title: "Numbers 0–20", description: "Counting, prices, phone numbers.", minutes: 10, xp: 40 },
               { id: "fr-a1-greetings", title: "Greetings & Introductions", description: "Bonjour, comment ça va, se présenter.", minutes: 10, xp: 40 },
-              { id: "fr-a1-alphabet", title: "Alphabet & Pronunciation", description: "Vowels, nasal sounds, silent letters.", minutes: 12, xp: 50 },
-              { id: "fr-a1-numbers", title: "Numbers 0–100", description: "Counting, prices, phone numbers.", minutes: 10, xp: 40 },
               { id: "fr-a1-family", title: "Family & People", description: "Ma mère, mon frère, describe your family.", minutes: 12, xp: 50 },
-              { id: "fr-a1-food", title: "Food & Ordering", description: "Café, boulangerie, restaurant basics.", minutes: 15, xp: 60 },
               { id: "fr-a1-colors", title: "Colors & Descriptions", description: "Adjective agreement with rouge, bleu, vert.", minutes: 10, xp: 40 },
+              { id: "fr-a1-food", title: "Food & Ordering", description: "Café, boulangerie, restaurant basics.", minutes: 15, xp: 60 },
               { id: "fr-a1-travel", title: "Travel Essentials", description: "At the airport, hotel, and metro.", minutes: 15, xp: 60 },
               { id: "fr-a1-grammar", title: "Basic Grammar", description: "Articles, gender, present tense être & avoir.", minutes: 18, xp: 80 },
             ],
@@ -121,16 +132,16 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
     nativeName: "Deutsch",
     tagline: "Precision, philosophy, and Europe's engine room.",
     flag: "🇩🇪",
-    levels: makeLevels((label) => {
+    levels: makeLevels("de", (label) => {
       switch (label) {
         case "A1":
           return {
             headline: "Foundations: pronunciation, articles, and daily basics.",
             topics: [
               { id: "de-a1-pron", title: "Pronunciation & Umlauts", description: "ä, ö, ü, ß and the mighty R.", minutes: 12, xp: 50 },
+              { id: "de-a1-numbers", title: "Numbers & Time", description: "Halb zehn, viertel nach.", minutes: 12, xp: 50 },
               { id: "de-a1-greetings", title: "Greetings & Small Talk", description: "Hallo, wie geht's, tschüss.", minutes: 10, xp: 40 },
               { id: "de-a1-articles", title: "Der, Die, Das", description: "The three genders — with tricks.", minutes: 15, xp: 70 },
-              { id: "de-a1-numbers", title: "Numbers & Time", description: "Halb zehn, viertel nach.", minutes: 12, xp: 50 },
               { id: "de-a1-food", title: "Food & Drink", description: "Kaffee, Brot, Bier — order with confidence.", minutes: 12, xp: 50 },
               { id: "de-a1-verbs", title: "Present Tense Verbs", description: "sein, haben, and regular conjugation.", minutes: 18, xp: 80 },
               { id: "de-a1-daily", title: "Daily Conversation", description: "Everyday phrases you actually need.", minutes: 15, xp: 60 },
@@ -195,7 +206,7 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
     nativeName: "日本語",
     tagline: "Character, context, and quiet precision.",
     flag: "🇯🇵",
-    levels: makeLevels((label) => {
+    levels: makeLevels("jp", (label) => {
       switch (label) {
         case "A1":
           return {
@@ -268,15 +279,15 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
     nativeName: "English",
     tagline: "The global language of business, tech, and travel.",
     flag: "🇬🇧",
-    levels: makeLevels((label) => {
+    levels: makeLevels("en", (label) => {
       switch (label) {
         case "A1":
           return {
             headline: "Foundations: alphabet, greetings, and everyday words.",
             topics: [
-              { id: "en-a1-greetings", title: "Greetings & Introductions", description: "Hello, nice to meet you, small talk basics.", minutes: 10, xp: 40 },
-              { id: "en-a1-alphabet", title: "Alphabet & Sounds", description: "26 letters, vowel sounds, common blends.", minutes: 12, xp: 50 },
+              { id: "en-a1-alphabet", title: "Alphabet & Sounds", description: "Start here — 26 letters and vowel sounds.", minutes: 12, xp: 50 },
               { id: "en-a1-numbers", title: "Numbers, Time & Dates", description: "Count, tell time, say the date.", minutes: 10, xp: 40 },
+              { id: "en-a1-greetings", title: "Greetings & Introductions", description: "Hello, nice to meet you, small talk basics.", minutes: 10, xp: 40 },
               { id: "en-a1-family", title: "Family & People", description: "Mother, brother, describe your family.", minutes: 12, xp: 50 },
               { id: "en-a1-food", title: "Food & Ordering", description: "Café, restaurant, and grocery basics.", minutes: 15, xp: 60 },
               { id: "en-a1-verbs", title: "To be, to have, to do", description: "The three most important verbs.", minutes: 18, xp: 80 },
@@ -345,15 +356,15 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
     nativeName: "अंग्रेज़ी (हिन्दी से)",
     tagline: "हिन्दी से अंग्रेज़ी सीखें — बुनियादी से लेकर धाराप्रवाह तक।",
     flag: "🇮🇳",
-    levels: makeLevels((label) => {
+    levels: makeLevels("he", (label) => {
       switch (label) {
         case "A1":
           return {
             headline: "बुनियाद: वर्णमाला, अभिवादन, और रोज़मर्रा के शब्द।",
             topics: [
-              { id: "he-a1-greetings", title: "अभिवादन (Greetings)", description: "Hello, good morning, nice to meet you.", minutes: 10, xp: 40 },
-              { id: "he-a1-alphabet", title: "वर्णमाला (Alphabet)", description: "A–Z उच्चारण और स्वर-ध्वनियाँ।", minutes: 12, xp: 50 },
+              { id: "he-a1-alphabet", title: "वर्णमाला (Alphabet)", description: "यहाँ से शुरू करें — A–Z उच्चारण।", minutes: 12, xp: 50 },
               { id: "he-a1-numbers", title: "गिनती व समय (Numbers & Time)", description: "One, two, three… और घड़ी पढ़ना।", minutes: 10, xp: 40 },
+              { id: "he-a1-greetings", title: "अभिवादन (Greetings)", description: "Hello, good morning, nice to meet you.", minutes: 10, xp: 40 },
               { id: "he-a1-family", title: "परिवार (Family)", description: "Mother, father, brother — अपना परिवार बताइए।", minutes: 12, xp: 50 },
               { id: "he-a1-food", title: "खाना (Food)", description: "रेस्तराँ और दुकान में ऑर्डर करना।", minutes: 15, xp: 60 },
               { id: "he-a1-verbs", title: "क्रियाएँ: is / have / do", description: "अंग्रेज़ी की तीन ज़रूरी क्रियाएँ।", minutes: 18, xp: 80 },

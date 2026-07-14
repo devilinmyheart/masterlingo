@@ -1,49 +1,43 @@
-Plan: Integrate Google AdSense Auto Ads
+## Goal
+Restructure the Learn experience so beginners start from true basics (alphabet → words → phrases → sentences), and remove the pronunciation/mic "speak" step that appears after every quiz card.
 
-Goal
-Add the provided AdSense script (`ca-pub-8663841786047317`) to Master Lingo so Google can automatically place ads across all pages, including public and authenticated learning pages.
+## Changes
 
-Scope
-- Add the AdSense loader script globally in the app shell.
-- Enable Auto Ads so Google decides placement.
-- Add a lightweight cookie/consent banner for EU/UK users (AdSense and EU traffic require consent under GDPR).
-- Keep the change minimal and non-blocking to the learning experience.
+### 1. Remove the post-quiz speaking step (every lesson)
+File: `src/routes/_authenticated/learn/$lessonId.tsx`
+- Drop the `"speak"` phase entirely from the lesson state machine — after the quiz answer, the "Next word" button advances directly to the next card.
+- Delete the `SpeakStep` component, `sttLangFor`, `similarity`, `normalize` helpers, and mic-related UI/icons from this file.
+- Keep the existing 🔊 audio button on the learn card (that's passive listening, not the mic step the user dislikes).
+- Speaking practice remains available as its own dedicated page at `/speaking` for users who want it.
 
-Implementation steps
+### 2. Restructure curriculum into a real beginner-first progression
+File: `src/data/curriculum.ts`
+Reorganize each language's A1 level so lessons follow this order:
 
-1. Global AdSense script
-   - Inject the provided `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8663841786047317" crossorigin="anonymous"></script>` into `src/routes/__root.tsx` via the `head` `scripts` array.
-   - The publisher ID is public/publishable, so it can live safely in the route head.
+```text
+1. Alphabet & sounds            (letters, pronunciation)
+2. Numbers 1–20
+3. Greetings & polite phrases
+4. Basic words (colors, family, food)
+5. Simple sentences (I am…, I have…, This is…)
+6. Everyday questions (What is…?, Where is…?)
+7. A1 Review Quiz               (final checkpoint)
+```
+A2–C2 keep their current topics but each level ends with a "Level Review Quiz" node.
 
-2. Auto Ads meta tag
-   - Add the Auto Ads configuration meta tag in `__root.tsx` so Google starts placing ads automatically:
-     `<meta name="google-adsense-account" content="ca-pub-8663841786047317">`
+### 3. Add alphabet / foundations content
+File: `src/data/vocabulary.ts`
+Add a new `FOUNDATIONS` dataset per language containing:
+- Alphabet entries (letter → name/sound, e.g. `A → "ay"`, `あ → "a"`, `अ → "a"`)
+- Numbers 1–20
+- Core greetings
 
-3. Cookie / consent banner
-   - Create a small `CookieConsent` component stored in `src/components/CookieConsent.tsx`.
-   - It records consent in `localStorage` and only renders once per browser.
-   - Uses existing design tokens (glass panel, brand colors) so it matches the UI.
+The lesson deck builder in `$lessonId.tsx` picks from the foundations set when the lesson id is an alphabet/numbers/greetings lesson, and from the existing `STARTER_VOCAB` otherwise.
 
-4. Layout safety
-   - Auto Ads can inject ads between DOM elements. To reduce layout-shift risk on lesson pages, wrap the main lesson content in a stable container and avoid fixed-height constraints that break when ad slots are injected.
-   - No manual ad unit components are required because Auto Ads handles placement.
+### 4. Quiz-only "checkpoint" lessons
+For the review-quiz lessons at the end of each level, the lesson skips the "learn" phase and goes straight into multiple-choice quiz cards drawn from that level's vocabulary — matching the user's ask that the quiz comes "at last" after completing the section.
 
-5. Verification
-   - Confirm the script tag appears in the HTML `<head>` on the landing page, dashboard, and a lesson page.
-   - Confirm no console errors from the AdSense loader.
-   - Confirm the cookie banner renders and can be dismissed.
-
-Files to change
-- `src/routes/__root.tsx` — add AdSense script + meta tag.
-- `src/components/CookieConsent.tsx` — new consent banner.
-- `src/routes/__root.tsx` or `src/router.tsx` — mount the banner in the root component.
-
-Out of scope (can be added later)
-- Manual ad unit components for specific placements.
-- Premium "remove ads" subscription gate.
-- Ad blocker detection or revenue recovery.
-
-Risks / notes
-- Auto Ads on active lesson pages can be distracting. If learner retention drops, we can later restrict ads to public + dashboard pages only.
-- AdSense review may take time; ads typically appear after Google approves the site.
-- EU traffic requires the consent banner to avoid policy issues.
+## Out of scope
+- No changes to `/speaking`, `/review`, `/tutor`, dashboard, or auth.
+- No DB migrations — this is content + lesson-flow only.
+- Voice preferences UI stays (used for passive audio playback of words).
