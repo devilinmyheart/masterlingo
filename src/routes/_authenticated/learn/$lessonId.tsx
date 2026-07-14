@@ -40,6 +40,8 @@ type Card = {
   optionIcons: (IconSpec | null)[];
   example?: string;
   exampleTranslation?: string;
+  isFoundation?: boolean;
+  exampleWord?: string;
 };
 
 function LessonPage() {
