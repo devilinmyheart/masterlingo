@@ -1,51 +1,66 @@
-# Conversation Practice
+## Add a "Translate the sentence" exercise (Duolingo-style word bank)
 
-Add a new "Conversations" feature where users have real-time, roleplay dialogues with the AI tutor to practice speaking in their target language.
+Introduce a new exercise type inspired by the screenshot: learners hear a short target-language phrase and rebuild its meaning by tapping word tiles from a scrambled bank. This slots into the existing lesson flow between the teach and quiz phases.
 
-## User flow
+### What the user will see
 
-1. From the sidebar, user opens **Conversations**.
-2. Picks a scenario card matched to their level (A1–C2), e.g.
-   - Ordering coffee in a café
-   - Introducing yourself
-   - Asking for directions
-   - Job interview
-   - Debate / opinion exchange (B2+)
-3. Enters a chat screen where:
-   - AI plays a role (barista, interviewer, local, etc.) and speaks the first line.
-   - User **speaks** their reply via mic (Web Speech API) — transcript auto-fills. They can also type as fallback.
-   - AI replies in target language + plays TTS audio (using existing `voice-prefs.ts`).
-   - After each user turn, AI provides gentle inline corrections (grammar, vocab, natural phrasing) in the user's native language, collapsed by default so it doesn't break immersion.
-4. **End conversation** button → AI generates a summary report: fluency score, top 3 corrections, new vocab used, suggested next scenario. User earns XP.
+- A `NEW WORD` / `TRANSLATE` chip at the top.
+- A character bubble showing the target-language phrase (e.g. `Un thé ?`) with a 🔊 speaker button that plays the phrase using the language's TTS voice.
+- Prompt: **"Write this in <native language>"** (English, or Hindi for the Hindi→English track).
+- A **word bank**: tappable pill tiles containing the correct words plus 2–3 distractors, shuffled.
+- An **answer tray** above the bank where tapped words appear in order; tapping a placed word sends it back to the bank.
+- A **Check** button that turns green (correct) or red (try again) with a shake animation and shows the model answer.
+- Hearts decrement on a wrong answer, matching the current quiz rules.
 
-## Scope
+### Where it fits in the lesson
 
-**New files**
-- `src/data/scenarios.ts` — scenario catalog per language + level (id, title, role, setting, opening line, goals, level).
-- `src/routes/_authenticated/conversations/index.tsx` — scenario picker (filtered by user's active language/level).
-- `src/routes/_authenticated/conversations/$scenarioId.tsx` — chat interface with mic, TTS, corrections toggle, end-session button.
-- `src/lib/conversation.functions.ts` — `createServerFn` handlers:
-  - `chatTurn` — streams AI reply + structured corrections given scenario context + history.
-  - `summarizeConversation` — returns fluency score, corrections, vocab, next-step suggestion.
+Route `src/routes/_authenticated/learn/$lessonId.tsx` currently runs each card through: **learn → quiz** (multiple-choice). Add a third phase **translate** for cards that have a natural short phrase, so the flow becomes:
 
-**Modified files**
-- `src/components/AppSidebar.tsx` — add "Conversations" nav item (MessageCircle icon).
-- `src/routes/sitemap[.]xml.ts` — add `/conversations`.
-- Existing `speaking.tsx` stays for single-utterance drills; conversations are the multi-turn extension.
+```text
+learn ──▶ quiz (MCQ) ──▶ translate (word bank) ──▶ next card
+```
 
-**Backend**
-- Reuse existing `ai_conversations` + `ai_messages` tables (already present) — add a `scenario_id` column via migration to tag conversation-practice sessions and filter them from tutor history.
+- Foundation decks (alphabet, numbers) and Review Quizzes **skip** the translate phase — single-word cards don't benefit from a word bank.
+- If a card lacks phrase data, the translate phase is skipped for that card, so nothing regresses for older content.
 
-## Technical details
+### Content model
 
-- Model: `google/gemini-3-flash-preview` via Lovable AI gateway (streaming via existing `/api/chat` pattern or new server fn — use `streamText` + `toUIMessageStreamResponse` for streamed reply, then a follow-up structured call for corrections to keep the schema simple).
-- System prompt is dynamically built per scenario + user track (English/Hindi-for-English uses Hindi meta-explanations, French/German/Japanese use English meta-explanations) — reuses the persona logic already in `src/routes/api/chat.ts`.
-- Speech recognition: Web Speech API with language code derived from track (`fr-FR`, `de-DE`, `ja-JP`, `en-US`, `en-IN`).
-- TTS: existing `src/lib/voice-prefs.ts`.
-- XP: +25 per completed conversation, written via existing `user_progress` update pattern.
+Extend the vocabulary item in `src/data/vocabulary.ts` with two optional fields:
 
-## Out of scope (this iteration)
+- `phrase`: the short target-language sentence (e.g. `Un thé ?`, `Ich hätte gern einen Kaffee.`, `お茶をください。`).
+- `phraseTranslation`: the answer in the learner's native language, already tokenised for the word bank (e.g. `A tea?`).
 
-- Realtime voice-to-voice (would need OpenAI Realtime API) — text+TTS is enough to ship first.
-- Leaderboards, multiplayer conversations.
-- Custom user-authored scenarios.
+Seed this for the common greeting / café / basic-need words across all five tracks (French, German, Japanese, English, Hindi→English). Japanese uses spaces between meaning units for tokenisation. Only the subset of cards that gets phrases will trigger the new exercise.
+
+### Interaction rules
+
+- Word bank shuffles on mount; tiles animate with a small pop-in.
+- Tapping a tile: tile flies up into the answer tray; the bank slot becomes empty/greyed.
+- Tapping a placed tile: it flies back to its original bank slot.
+- Punctuation (`?`, `.`, `!`) is displayed with the previous word, never a separate tile.
+- Case-insensitive comparison; trailing punctuation ignored when grading.
+- Wrong answer: red shake, reveal the correct sentence under the tray, `-1 heart`, allow one more try before auto-advancing.
+- Correct: green flash, `+2 XP` for translation on top of the existing lesson XP, auto-advance after 900 ms.
+
+### New component
+
+Create `src/components/TranslateExercise.tsx`:
+
+- Props: `phrase`, `phraseTranslation`, `voiceSlot`, `onResult(correct: boolean)`.
+- Owns tile state, shuffle, tap-to-place / tap-to-remove, grading, and the check button.
+- Uses `speakWithSlot` from `src/lib/voice-prefs.ts` for the audio button (same helper used elsewhere).
+- Uses Framer Motion for the tile fly / shake / green pulse (already in the project).
+
+### Files touched
+
+| File | Change |
+| --- | --- |
+| `src/data/vocabulary.ts` | Add optional `phrase` + `phraseTranslation` fields; seed for foundational cards across all tracks. |
+| `src/components/TranslateExercise.tsx` | **New** — the word-bank exercise UI. |
+| `src/routes/_authenticated/learn/$lessonId.tsx` | Add `translate` phase between `quiz` and next card; render `TranslateExercise` when the current card has phrase data; skip for foundation / review-quiz decks. |
+
+### Out of scope for this plan
+
+- Free-text typing input (word-bank only, matching the screenshot).
+- Drag-and-drop reordering (tap-to-place is simpler on mobile and hits the same target).
+- Reverse direction (English → target); can be a follow-up if you like it.
