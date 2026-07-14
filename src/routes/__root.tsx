@@ -154,6 +154,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <PaymentTestModeBanner />
+      <PastDueBanner />
       <AdsGate />
       <Outlet />
       <Toaster position="top-right" richColors />
