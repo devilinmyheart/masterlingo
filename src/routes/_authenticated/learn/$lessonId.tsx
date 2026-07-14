@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CURRICULUM, findTopic } from "@/data/curriculum";
 import type { LanguageId } from "@/data/curriculum";
-import { STARTER_VOCAB, FOUNDATIONS, type FoundationKind, type Word } from "@/data/vocabulary";
+import { STARTER_VOCAB, FOUNDATIONS, FOUNDATION_CARDS, type FoundationKind, type Word } from "@/data/vocabulary";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
