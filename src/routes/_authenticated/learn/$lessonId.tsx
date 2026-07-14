@@ -61,8 +61,8 @@ function LessonPage() {
   const cards = useMemo<Card[]>(() => buildDeck(language.id, lessonId, isReview), [language.id, lessonId, isReview]);
 
   const [idx, setIdx] = useState(0);
-  // Review lessons skip straight to quiz. Every other lesson teaches first, then quizzes.
-  const [phase, setPhase] = useState<"learn" | "quiz">(isReview ? "quiz" : "learn");
+  // Review lessons skip straight to quiz. Every other lesson teaches first, then quizzes, then (optionally) translates.
+  const [phase, setPhase] = useState<"learn" | "quiz" | "translate">(isReview ? "quiz" : "learn");
   const [correct, setCorrect] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
   const [showBack, setShowBack] = useState(false);
@@ -70,10 +70,18 @@ function LessonPage() {
   const [saving, setSaving] = useState(false);
   const [startedAt] = useState(() => Date.now());
 
+  const foundation = detectFoundation(lessonId);
   const total = cards.length;
   const current = cards[idx];
-  const phaseFrac = phase === "learn" ? 0 : 0.5;
-  const answered = phase === "quiz" && chosen ? 0.25 : 0;
+  const hasTranslate =
+    !isReview &&
+    !foundation &&
+    !!current?.example &&
+    !!current?.exampleTranslation &&
+    current.exampleTranslation.trim().split(/\s+/).length >= 2;
+
+  const phaseFrac = phase === "learn" ? 0 : phase === "quiz" ? 0.34 : 0.67;
+  const answered = phase === "quiz" && chosen ? 0.17 : 0;
   const progress = ((idx + phaseFrac + answered) / total) * 100;
   const isCorrect = chosen === current?.back;
 
@@ -83,7 +91,16 @@ function LessonPage() {
     setShowBack(true);
     if (option === current.back) setCorrect((n) => n + 1);
   }
-  function nextCard() {
+  function afterQuiz() {
+    if (hasTranslate) {
+      setChosen(null);
+      setShowBack(false);
+      setPhase("translate");
+      return;
+    }
+    advance();
+  }
+  function advance() {
     setChosen(null);
     setShowBack(false);
     setPhase(isReview ? "quiz" : "learn");
