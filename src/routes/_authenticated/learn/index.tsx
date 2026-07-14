@@ -245,7 +245,6 @@ function Learn() {
                   const unlocked = isUnlocked(globalIdx);
                   const isActive = globalIdx === activeIdx;
                   const offset = PATH_OFFSETS[globalIdx % PATH_OFFSETS.length];
-                  const Icon = NODE_ICONS[topicIdx % NODE_ICONS.length];
 
                   return (
                     <PathNode
@@ -253,7 +252,6 @@ function Learn() {
                       topic={topic}
                       offset={offset}
                       accent={accent}
-                      icon={Icon}
                       isDone={isDone}
                       unlocked={unlocked}
                       isActive={isActive}
