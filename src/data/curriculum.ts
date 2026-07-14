@@ -139,9 +139,9 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
             headline: "Foundations: pronunciation, articles, and daily basics.",
             topics: [
               { id: "de-a1-pron", title: "Pronunciation & Umlauts", description: "ä, ö, ü, ß and the mighty R.", minutes: 12, xp: 50 },
+              { id: "de-a1-numbers", title: "Numbers & Time", description: "Halb zehn, viertel nach.", minutes: 12, xp: 50 },
               { id: "de-a1-greetings", title: "Greetings & Small Talk", description: "Hallo, wie geht's, tschüss.", minutes: 10, xp: 40 },
               { id: "de-a1-articles", title: "Der, Die, Das", description: "The three genders — with tricks.", minutes: 15, xp: 70 },
-              { id: "de-a1-numbers", title: "Numbers & Time", description: "Halb zehn, viertel nach.", minutes: 12, xp: 50 },
               { id: "de-a1-food", title: "Food & Drink", description: "Kaffee, Brot, Bier — order with confidence.", minutes: 12, xp: 50 },
               { id: "de-a1-verbs", title: "Present Tense Verbs", description: "sein, haben, and regular conjugation.", minutes: 18, xp: 80 },
               { id: "de-a1-daily", title: "Daily Conversation", description: "Everyday phrases you actually need.", minutes: 15, xp: 60 },
