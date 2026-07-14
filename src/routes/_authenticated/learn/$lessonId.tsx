@@ -253,27 +253,56 @@ function LessonPage() {
                   <div className="mt-1 font-mono text-sm text-muted-foreground">/{current.pronunciation}/</div>
                 )}
 
-                <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                  {current.options.map((opt) => {
-                    const isChoice = chosen === opt;
-                    const isRight = opt === current.back;
-                    return (
-                      <button
-                        key={opt}
-                        onClick={() => chooseAnswer(opt)}
-                        disabled={!!chosen}
-                        className={cn(
-                          "rounded-2xl border-2 p-4 text-left text-base font-medium transition-all",
-                          !chosen && "border-border bg-background/60 hover:border-brand hover:bg-brand-soft",
-                          chosen && isRight && "border-green-500 bg-green-500/10 text-green-700",
-                          chosen && isChoice && !isRight && "border-destructive bg-destructive/10 text-destructive"
-                        )}
-                      >
-                        {opt}
-                      </button>
-                    );
-                  })}
-                </div>
+                {current.optionIcons.every(Boolean) ? (
+                  <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                    {current.options.map((opt, i) => {
+                      const isChoice = chosen === opt;
+                      const isRight = opt === current.back;
+                      const icon = current.optionIcons[i]!;
+                      return (
+                        <button
+                          key={opt}
+                          onClick={() => chooseAnswer(opt)}
+                          disabled={!!chosen}
+                          className={cn(
+                            "group flex flex-col items-center gap-3 rounded-2xl border-2 p-4 transition-all",
+                            !chosen && "border-border bg-background/60 hover:-translate-y-0.5 hover:border-brand hover:bg-brand-soft",
+                            chosen && isRight && "border-green-500 bg-green-500/10 text-green-700",
+                            chosen && isChoice && !isRight && "border-destructive bg-destructive/10 text-destructive",
+                            chosen && !isChoice && !isRight && "opacity-50"
+                          )}
+                        >
+                          <div className="grid size-20 place-items-center rounded-xl bg-brand-soft/60 sm:size-24">
+                            <AnimatedIcon icon={icon} size={56} label={opt} />
+                          </div>
+                          <span className="text-sm font-semibold">{opt}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                    {current.options.map((opt) => {
+                      const isChoice = chosen === opt;
+                      const isRight = opt === current.back;
+                      return (
+                        <button
+                          key={opt}
+                          onClick={() => chooseAnswer(opt)}
+                          disabled={!!chosen}
+                          className={cn(
+                            "rounded-2xl border-2 p-4 text-left text-base font-medium transition-all",
+                            !chosen && "border-border bg-background/60 hover:border-brand hover:bg-brand-soft",
+                            chosen && isRight && "border-green-500 bg-green-500/10 text-green-700",
+                            chosen && isChoice && !isRight && "border-destructive bg-destructive/10 text-destructive"
+                          )}
+                        >
+                          {opt}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
 
                 {showBack && (
                   <div className={cn("mt-6 rounded-2xl border p-4", isCorrect ? "border-green-500/40 bg-green-500/5" : "border-destructive/40 bg-destructive/5")}>
