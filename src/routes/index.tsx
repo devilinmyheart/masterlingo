@@ -506,7 +506,7 @@ function SiteFooter() {
             <div className="grid size-8 place-items-center rounded-xl bg-gradient-to-tr from-brand via-french to-japanese">
               <Globe className="size-4 text-white" strokeWidth={2.5} />
             </div>
-            <span className="font-display text-lg font-bold">Master Lingo</span>
+            <span className="font-display text-lg font-bold">Master Lingo by devilinmyheart</span>
           </div>
           <p className="mt-4 max-w-xs text-sm text-muted-foreground">
             Premium AI-powered language learning. Master&nbsp; English, French, German & Japanese.&nbsp;
