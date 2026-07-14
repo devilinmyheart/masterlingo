@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { speakWithSlot, useVoicePrefs } from "@/lib/voice-prefs";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
 import { getAnimationFor, type IconSpec } from "@/data/animations";
+import { TranslateExercise } from "@/components/TranslateExercise";
 
 export const Route = createFileRoute("/_authenticated/learn/$lessonId")({
   head: ({ params }) => {
@@ -37,6 +38,8 @@ type Card = {
   options: string[];
   icon: IconSpec | null;
   optionIcons: (IconSpec | null)[];
+  example?: string;
+  exampleTranslation?: string;
 };
 
 function LessonPage() {
@@ -58,8 +61,8 @@ function LessonPage() {
   const cards = useMemo<Card[]>(() => buildDeck(language.id, lessonId, isReview), [language.id, lessonId, isReview]);
 
   const [idx, setIdx] = useState(0);
-  // Review lessons skip straight to quiz. Every other lesson teaches first, then quizzes.
-  const [phase, setPhase] = useState<"learn" | "quiz">(isReview ? "quiz" : "learn");
+  // Review lessons skip straight to quiz. Every other lesson teaches first, then quizzes, then (optionally) translates.
+  const [phase, setPhase] = useState<"learn" | "quiz" | "translate">(isReview ? "quiz" : "learn");
   const [correct, setCorrect] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
   const [showBack, setShowBack] = useState(false);
@@ -67,10 +70,18 @@ function LessonPage() {
   const [saving, setSaving] = useState(false);
   const [startedAt] = useState(() => Date.now());
 
+  const foundation = detectFoundation(lessonId);
   const total = cards.length;
   const current = cards[idx];
-  const phaseFrac = phase === "learn" ? 0 : 0.5;
-  const answered = phase === "quiz" && chosen ? 0.25 : 0;
+  const hasTranslate =
+    !isReview &&
+    !foundation &&
+    !!current?.example &&
+    !!current?.exampleTranslation &&
+    current.exampleTranslation.trim().split(/\s+/).length >= 2;
+
+  const phaseFrac = phase === "learn" ? 0 : phase === "quiz" ? 0.34 : 0.67;
+  const answered = phase === "quiz" && chosen ? 0.17 : 0;
   const progress = ((idx + phaseFrac + answered) / total) * 100;
   const isCorrect = chosen === current?.back;
 
@@ -80,7 +91,16 @@ function LessonPage() {
     setShowBack(true);
     if (option === current.back) setCorrect((n) => n + 1);
   }
-  function nextCard() {
+  function afterQuiz() {
+    if (hasTranslate) {
+      setChosen(null);
+      setShowBack(false);
+      setPhase("translate");
+      return;
+    }
+    advance();
+  }
+  function advance() {
     setChosen(null);
     setShowBack(false);
     setPhase(isReview ? "quiz" : "learn");
@@ -310,13 +330,33 @@ function LessonPage() {
                       {isCorrect ? <><Check className="size-4 text-green-600" /> Correct!</> : <><X className="size-4 text-destructive" /> Not quite — it's <span className="ml-1 font-bold">{current.back}</span></>}
                     </div>
                     <div className="mt-3 flex justify-end">
-                      <Button onClick={nextCard} className="rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/90">
-                        {isLast ? "Finish lesson" : "Next word"}
+                      <Button onClick={afterQuiz} className="rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/90">
+                        {hasTranslate ? "Continue" : (isLast ? "Finish lesson" : "Next word")}
                       </Button>
                     </div>
                   </div>
                 )}
               </>
+            )}
+            {phase === "translate" && current.example && current.exampleTranslation && (
+              <TranslateExercise
+                phrase={current.example}
+                phraseTranslation={current.exampleTranslation}
+                promptLabel={
+                  language.id === "hindi_english"
+                    ? "इसे हिंदी में लिखें"
+                    : `Write this in ${language.id === "english" ? "plain English" : "English"}`
+                }
+                onSpeak={() => speak(current.example!)}
+                distractorPool={cards
+                  .filter((c, i) => i !== idx && c.exampleTranslation)
+                  .map((c) => c.exampleTranslation!)}
+                onResult={(ok) => {
+                  if (ok) setCorrect((n) => n + 0); // XP already awarded on quiz; keep parity simple
+                  advance();
+                }}
+                isLast={isLast}
+              />
             )}
           </motion.div>
         ) : (
@@ -408,6 +448,8 @@ function buildDeck(language: LanguageId, seed: string, isReview: boolean): Card[
       options,
       icon: getAnimationFor(w.translation),
       optionIcons: options.map((o) => getAnimationFor(o)),
+      example: w.example,
+      exampleTranslation: w.exampleTranslation,
     };
   });
 }
