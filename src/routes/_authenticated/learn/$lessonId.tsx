@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { speakWithSlot, useVoicePrefs } from "@/lib/voice-prefs";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
 import { getAnimationFor, type IconSpec } from "@/data/animations";
+import { TranslateExercise } from "@/components/TranslateExercise";
 
 export const Route = createFileRoute("/_authenticated/learn/$lessonId")({
   head: ({ params }) => {
