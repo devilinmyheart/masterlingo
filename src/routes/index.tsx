@@ -165,7 +165,7 @@ function Hero() {
             Fluency is a <em className="not-italic text-brand">feeling</em>,<br className="hidden sm:block" /> not a chore.
           </h1>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-            Master English, French, German or Japanese with a curriculum that adapts to how you think — powered by an AI tutor that never sleeps.
+            Master English, French, German and Japanese with a curriculum that adapts to how you think — powered by an AI tutor that never sleeps.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg" className="rounded-full bg-brand px-8 py-6 text-base font-semibold text-brand-foreground shadow-2xl shadow-brand/25 hover:bg-brand/90">
@@ -183,7 +183,7 @@ function Hero() {
                 <div key={c} className="size-9 rounded-full border-2 border-background" style={{ background: c }} />
               ))}
             </div>
-            <span>Joining <strong className="text-foreground">12,480</strong> learners this month</span>
+            <span>Joining <strong className="text-foreground">112,480</strong> learners this year</span>
           </div>
         </motion.div>
 
@@ -220,7 +220,7 @@ function AnimatedGlobe() {
         <div className="text-center">
           <Globe className="mx-auto size-10 text-brand" strokeWidth={1.5} />
           <div className="mt-2 font-display text-2xl font-bold">Master Lingo</div>
-          <div className="text-[10px] font-semibold uppercase tracking-widest text-foreground/70">A1 → C2</div>
+          <div className="text-[10px] font-semibold uppercase tracking-widest text-foreground/70">BEGINNER → ADVANCE</div>
         </div>
       </div>
       {/* Floating language chips */}
