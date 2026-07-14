@@ -280,7 +280,6 @@ function PathNode({
   topic,
   offset,
   accent,
-  icon: Icon,
   isDone,
   unlocked,
   isActive,
@@ -288,11 +287,11 @@ function PathNode({
   topic: Topic;
   offset: number;
   accent: Accent;
-  icon: React.ComponentType<{ className?: string }>;
   isDone: boolean;
   unlocked: boolean;
   isActive: boolean;
 }) {
+  const categoryIcon = categoryIconFor(topic.id);
   const content = (
     <motion.div
       whileHover={unlocked ? { y: -3 } : undefined}
@@ -319,7 +318,7 @@ function PathNode({
         {isDone ? (
           <Check className="size-9 sm:size-10" strokeWidth={3} />
         ) : unlocked ? (
-          <Icon className="size-9 sm:size-10" />
+          <AnimatedIcon icon={categoryIcon} size={44} label={topic.title} />
         ) : (
           <Lock className="size-7 sm:size-8" />
         )}
