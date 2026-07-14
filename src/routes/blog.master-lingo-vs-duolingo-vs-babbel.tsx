@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Check, X, Sparkles, ArrowRight } from "lucide-react";
+import { Check, Sparkles, ArrowRight } from "lucide-react";
 
 const TITLE = "Master Lingo vs Duolingo vs Babbel: The AI Language Learning Comparison (2026)";
 const DESCRIPTION =
