@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, redirect, Link, useNavigate, useRouterState } 
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
-import { Home, BookOpen, Sparkles, Library, User as UserIcon, LogOut, Globe, Menu, X, Award, HelpCircle, Star, Mic, BookOpenCheck } from "lucide-react";
+import { Home, BookOpen, Sparkles, Library, User as UserIcon, LogOut, Globe, Menu, X, Award, HelpCircle, Star, Mic, BookOpenCheck, MessagesSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -22,6 +22,7 @@ const NAV = [
   { to: "/dashboard", label: "Dashboard", icon: Home },
   { to: "/learn", label: "Learn", icon: BookOpen },
   { to: "/tutor", label: "AI Tutor", icon: Sparkles },
+  { to: "/conversations", label: "Conversations", icon: MessagesSquare },
   { to: "/speaking", label: "Speaking", icon: Mic },
   { to: "/review", label: "Review", icon: BookOpenCheck },
   { to: "/vocabulary", label: "Vocabulary", icon: Library },

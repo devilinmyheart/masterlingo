@@ -30,7 +30,9 @@ import { Route as AuthenticatedCertificationsRouteImport } from './routes/_authe
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated/learn/index'
+import { Route as AuthenticatedConversationsIndexRouteImport } from './routes/_authenticated/conversations/index'
 import { Route as AuthenticatedLearnLessonIdRouteImport } from './routes/_authenticated/learn/$lessonId'
+import { Route as AuthenticatedConversationsScenarioIdRouteImport } from './routes/_authenticated/conversations/$scenarioId'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 
@@ -141,10 +143,22 @@ const AuthenticatedLearnIndexRoute = AuthenticatedLearnIndexRouteImport.update({
   path: '/learn/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedConversationsIndexRoute =
+  AuthenticatedConversationsIndexRouteImport.update({
+    id: '/conversations/',
+    path: '/conversations/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedLearnLessonIdRoute =
   AuthenticatedLearnLessonIdRouteImport.update({
     id: '/learn/$lessonId',
     path: '/learn/$lessonId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedConversationsScenarioIdRoute =
+  AuthenticatedConversationsScenarioIdRouteImport.update({
+    id: '/conversations/$scenarioId',
+    path: '/conversations/$scenarioId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const Char91DotmcpChar93InvokeToolToolRoute =
@@ -181,7 +195,9 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/conversations/$scenarioId': typeof AuthenticatedConversationsScenarioIdRoute
   '/learn/$lessonId': typeof AuthenticatedLearnLessonIdRoute
+  '/conversations/': typeof AuthenticatedConversationsIndexRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
 }
 export interface FileRoutesByTo {
@@ -206,7 +222,9 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/conversations/$scenarioId': typeof AuthenticatedConversationsScenarioIdRoute
   '/learn/$lessonId': typeof AuthenticatedLearnLessonIdRoute
+  '/conversations': typeof AuthenticatedConversationsIndexRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
 }
 export interface FileRoutesById {
@@ -233,7 +251,9 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/_authenticated/conversations/$scenarioId': typeof AuthenticatedConversationsScenarioIdRoute
   '/_authenticated/learn/$lessonId': typeof AuthenticatedLearnLessonIdRoute
+  '/_authenticated/conversations/': typeof AuthenticatedConversationsIndexRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
 }
 export interface FileRouteTypes {
@@ -260,7 +280,9 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/conversations/$scenarioId'
     | '/learn/$lessonId'
+    | '/conversations/'
     | '/learn/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -285,7 +307,9 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/conversations/$scenarioId'
     | '/learn/$lessonId'
+    | '/conversations'
     | '/learn'
   id:
     | '__root__'
@@ -311,7 +335,9 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/_authenticated/conversations/$scenarioId'
     | '/_authenticated/learn/$lessonId'
+    | '/_authenticated/conversations/'
     | '/_authenticated/learn/'
   fileRoutesById: FileRoutesById
 }
@@ -479,11 +505,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLearnIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/conversations/': {
+      id: '/_authenticated/conversations/'
+      path: '/conversations'
+      fullPath: '/conversations/'
+      preLoaderRoute: typeof AuthenticatedConversationsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/learn/$lessonId': {
       id: '/_authenticated/learn/$lessonId'
       path: '/learn/$lessonId'
       fullPath: '/learn/$lessonId'
       preLoaderRoute: typeof AuthenticatedLearnLessonIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/conversations/$scenarioId': {
+      id: '/_authenticated/conversations/$scenarioId'
+      path: '/conversations/$scenarioId'
+      fullPath: '/conversations/$scenarioId'
+      preLoaderRoute: typeof AuthenticatedConversationsScenarioIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/.mcp/invoke-tool/$tool': {
@@ -514,7 +554,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSpeakingRoute: typeof AuthenticatedSpeakingRoute
   AuthenticatedTutorRoute: typeof AuthenticatedTutorRoute
   AuthenticatedVocabularyRoute: typeof AuthenticatedVocabularyRoute
+  AuthenticatedConversationsScenarioIdRoute: typeof AuthenticatedConversationsScenarioIdRoute
   AuthenticatedLearnLessonIdRoute: typeof AuthenticatedLearnLessonIdRoute
+  AuthenticatedConversationsIndexRoute: typeof AuthenticatedConversationsIndexRoute
   AuthenticatedLearnIndexRoute: typeof AuthenticatedLearnIndexRoute
 }
 
@@ -529,7 +571,10 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSpeakingRoute: AuthenticatedSpeakingRoute,
   AuthenticatedTutorRoute: AuthenticatedTutorRoute,
   AuthenticatedVocabularyRoute: AuthenticatedVocabularyRoute,
+  AuthenticatedConversationsScenarioIdRoute:
+    AuthenticatedConversationsScenarioIdRoute,
   AuthenticatedLearnLessonIdRoute: AuthenticatedLearnLessonIdRoute,
+  AuthenticatedConversationsIndexRoute: AuthenticatedConversationsIndexRoute,
   AuthenticatedLearnIndexRoute: AuthenticatedLearnIndexRoute,
 }
 
