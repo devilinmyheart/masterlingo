@@ -195,15 +195,24 @@ function LessonPage() {
             {phase === "learn" && (
               <>
                 <div className="text-xs font-bold uppercase tracking-widest text-brand">New word · {idx + 1} of {total}</div>
-                <div className="mt-4 flex items-center gap-3">
-                  <div className="font-display text-4xl font-bold md:text-5xl">{current.front}</div>
-                  <button onClick={() => speak(current.front)} className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground">
-                    <Volume2 className="size-5" />
-                  </button>
+                <div className="mt-4 flex flex-col-reverse items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-3">
+                      <div className="font-display text-4xl font-bold md:text-5xl">{current.front}</div>
+                      <button onClick={() => speak(current.front)} className="rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground">
+                        <Volume2 className="size-5" />
+                      </button>
+                    </div>
+                    {current.pronunciation && (
+                      <div className="mt-1 font-mono text-sm text-muted-foreground">/{current.pronunciation}/</div>
+                    )}
+                  </div>
+                  {current.icon && (
+                    <div className="grid size-32 shrink-0 place-items-center rounded-3xl bg-brand-soft sm:size-40">
+                      <AnimatedIcon icon={current.icon} size={96} label={current.back} />
+                    </div>
+                  )}
                 </div>
-                {current.pronunciation && (
-                  <div className="mt-1 font-mono text-sm text-muted-foreground">/{current.pronunciation}/</div>
-                )}
                 <div className="mt-6 rounded-2xl border border-border bg-background/60 p-5">
                   <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                     {language.id === "hindi_english" ? "अर्थ (Hindi)" : "Meaning in English"}
