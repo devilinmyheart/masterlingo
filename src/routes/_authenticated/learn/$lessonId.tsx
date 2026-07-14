@@ -7,10 +7,12 @@ import { STARTER_VOCAB, FOUNDATIONS, type FoundationKind, type Word } from "@/da
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Check, Sparkles, Volume2, X } from "lucide-react";
+import { ArrowLeft, Check, PartyPopper, Volume2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { speakWithSlot, useVoicePrefs } from "@/lib/voice-prefs";
+import { AnimatedIcon } from "@/components/AnimatedIcon";
+import { getAnimationFor, type IconSpec } from "@/data/animations";
 
 export const Route = createFileRoute("/_authenticated/learn/$lessonId")({
   head: ({ params }) => {
