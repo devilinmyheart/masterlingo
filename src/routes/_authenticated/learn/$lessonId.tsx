@@ -30,7 +30,14 @@ export const Route = createFileRoute("/_authenticated/learn/$lessonId")({
   component: LessonPage,
 });
 
-type Card = { front: string; back: string; pronunciation?: string; options: string[] };
+type Card = {
+  front: string;
+  back: string;
+  pronunciation?: string;
+  options: string[];
+  icon: IconSpec | null;
+  optionIcons: (IconSpec | null)[];
+};
 
 function LessonPage() {
   const { lessonId } = Route.useParams();
