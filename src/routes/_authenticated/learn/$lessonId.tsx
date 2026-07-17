@@ -63,7 +63,7 @@ function LessonPage() {
   const cards = useMemo<Card[]>(() => buildDeck(language.id, lessonId, isReview), [language.id, lessonId, isReview]);
 
   const [idx, setIdx] = useState(0);
-  // Review lessons skip straight to quiz. Every other lesson teaches first, then quizzes, then (optionally) translates.
+  // Review lessons skip straight to quiz. Every other lesson teaches the whole module first, then quizzes at the end.
   const [phase, setPhase] = useState<"learn" | "quiz" | "translate">(isReview ? "quiz" : "learn");
   const [correct, setCorrect] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
@@ -82,9 +82,14 @@ function LessonPage() {
     !!current?.exampleTranslation &&
     current.exampleTranslation.trim().split(/\s+/).length >= 2;
 
-  const phaseFrac = phase === "learn" ? 0 : phase === "quiz" ? 0.34 : 0.67;
-  const answered = phase === "quiz" && chosen ? 0.17 : 0;
-  const progress = ((idx + phaseFrac + answered) / total) * 100;
+  const learningUnits = isReview ? 0 : total;
+  const completedLearnUnits = !isReview && phase !== "learn" ? total : phase === "learn" ? idx : 0;
+  const completedQuizUnits =
+    done ? total :
+    phase === "quiz" ? idx + (chosen ? 0.5 : 0) :
+    phase === "translate" ? idx + 0.75 :
+    0;
+  const progress = ((completedLearnUnits + completedQuizUnits) / (learningUnits + total)) * 100;
   const isCorrect = chosen === current?.back;
 
   function chooseAnswer(option: string) {
@@ -102,10 +107,20 @@ function LessonPage() {
     }
     advance();
   }
+  function nextLearningCard() {
+    setChosen(null);
+    setShowBack(false);
+    if (idx + 1 >= total) {
+      setIdx(0);
+      setPhase("quiz");
+      return;
+    }
+    setIdx((n) => n + 1);
+  }
   function advance() {
     setChosen(null);
     setShowBack(false);
-    setPhase(isReview ? "quiz" : "learn");
+    setPhase("quiz");
     if (idx + 1 >= total) setDone(true);
     else setIdx((n) => n + 1);
   }
@@ -194,7 +209,9 @@ function LessonPage() {
       <div className="mt-6">
         <div className="flex items-baseline justify-between">
           <h1 className="font-display text-2xl font-bold md:text-3xl">{topic.title}</h1>
-          <span className="text-sm font-semibold text-muted-foreground">{correct} / {total} correct</span>
+          <span className="text-sm font-semibold text-muted-foreground">
+            {phase === "learn" ? `${idx + 1} / ${total}` : `${correct} / ${total} correct`}
+          </span>
         </div>
         <Progress value={progress} className="mt-3 h-2" />
         {isReview && (
@@ -270,12 +287,12 @@ function LessonPage() {
                 )}
                 <p className="mt-6 text-sm text-muted-foreground">
                   {current.isFoundation
-                    ? "Tap the speaker to hear it. Say it out loud, then we'll check your recall."
-                    : "Take a moment to read it and listen. When you're ready, we'll check your recall."}
+                    ? "Tap the speaker to hear it. Repeat it out loud, then continue."
+                    : "Listen, repeat, and continue when ready."}
                 </p>
                 <div className="mt-6 flex justify-end">
-                  <Button onClick={() => setPhase("quiz")} className="rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/90">
-                    Got it — quiz me
+                  <Button onClick={nextLearningCard} className="rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/90">
+                    Next
                   </Button>
                 </div>
               </>
@@ -456,9 +473,7 @@ function buildDeck(language: LanguageId, seed: string, isReview: boolean): Card[
   if (foundation === "alphabet" || foundation === "numbers") {
     const deck = FOUNDATION_CARDS[language]?.[foundation] ?? [];
     if (deck.length > 0) {
-      const size = Math.min(6, deck.length);
-      const start = h % deck.length;
-      const picked = Array.from({ length: size }, (_, i) => deck[(start + i) % deck.length]);
+      const picked = foundation === "alphabet" ? deck : deck.slice(0, Math.min(10, deck.length));
       return picked.map((c) => {
         const wrongs = deck.filter((x) => x.name !== c.name);
         const distractors = shuffle(wrongs, h + c.symbol.length).slice(0, 3).map((x) => x.name);
