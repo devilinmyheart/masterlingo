@@ -232,7 +232,7 @@ function LessonPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.35 }}
-            className="glass-panel mt-8 rounded-3xl p-8 shadow-xl md:p-12"
+            className="glass-panel mt-8 rounded-3xl p-4 shadow-xl sm:p-8 md:p-12"
           >
             {phase === "learn" && isSymbolFoundation && (
               <>
