@@ -272,10 +272,9 @@ function LessonPage() {
             {phase === "learn" && !isSymbolFoundation && (
               <>
                 <div className="text-xs font-bold uppercase tracking-widest text-brand">
-                  {current.isFoundation
-                    ? (foundation === "numbers" ? "New number" : "New letter")
-                    : "New word"} · {idx + 1} of {total}
+                  New word · {idx + 1} of {total}
                 </div>
+
                 <div className="mt-4 flex flex-col-reverse items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
                   <div className="min-w-0">
                     <div className="flex items-center gap-3">
