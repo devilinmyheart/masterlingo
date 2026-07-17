@@ -217,7 +217,7 @@ function AnimatedGlobe() {
         <div className="text-center">
           <Globe className="mx-auto size-10 text-brand" strokeWidth={1.5} />
           <div className="mt-2 font-display text-2xl font-bold">Master Lingo</div>
-          <div className="text-[10px] font-semibold uppercase tracking-widest text-foreground/70">BEGINNER → ADVANCE</div>
+          <div className="text-[10px] font-semibold uppercase tracking-widest text-foreground">BEGINNER → ADVANCE</div>
         </div>
       </div>
       {/* Floating language chips */}
@@ -442,9 +442,9 @@ function Pricing() {
           <div className="absolute right-4 top-4 rounded-full bg-german px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-german-ink">Most Popular</div>
           <h3 className="text-lg font-bold uppercase tracking-wide">Pro Plan</h3>
           <div className="mt-4 font-display text-4xl font-bold">
-            $1<span className="text-base font-normal opacity-60">/month</span>
+            $1<span className="text-base font-normal opacity-90">/month</span>
           </div>
-          <ul className="mt-6 space-y-3 text-sm opacity-90">
+          <ul className="mt-6 space-y-3 text-sm text-background">
             {["All languages", "Unlimited AI tutor", "Native audio downloads", "Offline mode", "No ads"].map((f) => (
               <li key={f} className="flex items-center gap-2"><Check className="size-4 text-german" /> {f}</li>
             ))}
