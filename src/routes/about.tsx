@@ -27,6 +27,25 @@ export const Route = createFileRoute("/about")({
       },
     ],
     links: [{ rel: "canonical", href: "https://masterlingo.lovable.app/about" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "Master Lingo",
+          url: "https://masterlingo.lovable.app/about",
+          founder: { "@type": "Person", name: "Mohammad Saduddin Atahar" },
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Maharajganj",
+            addressRegion: "Uttar Pradesh",
+            postalCode: "273303",
+            addressCountry: "IN",
+          },
+        }),
+      },
+    ],
   }),
   component: AboutPage,
 });
