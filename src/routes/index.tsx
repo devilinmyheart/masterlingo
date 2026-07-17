@@ -217,7 +217,7 @@ function AnimatedGlobe() {
         <div className="text-center">
           <Globe className="mx-auto size-10 text-brand" strokeWidth={1.5} />
           <div className="mt-2 font-display text-2xl font-bold">Master Lingo</div>
-          <div className="text-[10px] font-semibold uppercase tracking-widest text-foreground/70">BEGINNER → ADVANCE</div>
+          <div className="text-[10px] font-semibold uppercase tracking-widest text-foreground">BEGINNER → ADVANCE</div>
         </div>
       </div>
       {/* Floating language chips */}
