@@ -71,6 +71,7 @@ function LessonPage() {
   const [done, setDone] = useState(false);
   const [saving, setSaving] = useState(false);
   const [startedAt] = useState(() => Date.now());
+  const [activeTile, setActiveTile] = useState<string | null>(null);
 
   const foundation = detectFoundation(lessonId);
   const total = cards.length;
