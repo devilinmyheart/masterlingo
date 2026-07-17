@@ -14,6 +14,6 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
-    plugins: [mcpPlugin()],
+    plugins: [mcpPlugin({ routesDir: ".lovable/mcp-routes", restRoutes: false, protectedResourceMetadataRoute: false })],
   },
 });
