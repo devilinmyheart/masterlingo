@@ -82,8 +82,11 @@ function LessonPage() {
     !!current?.exampleTranslation &&
     current.exampleTranslation.trim().split(/\s+/).length >= 2;
 
-  const learningUnits = isReview ? 0 : total;
-  const completedLearnUnits = !isReview && phase !== "learn" ? total : phase === "learn" ? idx : 0;
+  const isSymbolFoundation = foundation === "alphabet" || foundation === "numbers";
+  const learningUnits = isReview ? 0 : isSymbolFoundation ? 1 : total;
+  const completedLearnUnits =
+    !isReview && phase !== "learn" ? learningUnits :
+    phase === "learn" ? (isSymbolFoundation ? 0 : idx) : 0;
   const completedQuizUnits =
     done ? total :
     phase === "quiz" ? idx + (chosen ? 0.5 : 0) :

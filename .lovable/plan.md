@@ -1,27 +1,38 @@
-## Plan
+# Show the full alphabet on a single page
 
-1. **Change lesson progression from “teach then quiz every card” to “teach all cards first, then final quiz”**
-   - Replace the current per-card button text `Got it — quiz me` with `Next`.
-   - During normal lessons, tapping `Next` will move through the teaching cards only.
-   - Only after the last teaching card will the lesson enter quiz mode.
-   - Keep review/checkpoint lessons as quiz-only because those are already the final quiz modules.
+Right now the Alphabet (and Numbers) foundation lessons walk the learner through one symbol at a time with a "Next" button, then run a quiz. You want the whole set visible on one page so learners can browse it at once.
 
-2. **Show the full alphabet in alphabet lessons**
-   - Update the foundation alphabet decks so alphabet lessons use the full available alphabet list instead of only 6 cards.
-   - Expand the currently shortened alphabet data where needed, especially French/English/Hindi-for-English, so learners see the full alphabet rather than A–L only.
-   - Keep number lessons compact unless you want those expanded separately.
+## What changes
 
-3. **Adjust quiz behavior to happen at the end of the module**
-   - After all teaching cards are complete, show the quiz cards for the same module.
-   - Quiz answers will remain multiple choice, but users will no longer be forced into selection after each individual learning card.
-   - Update progress calculations so the bar reflects learning first, then quiz completion.
+Only the Alphabet / Numbers foundation lessons in `src/routes/_authenticated/learn/$lessonId.tsx`. Vocabulary lessons (French words, greetings, etc.) keep the current one-card teaching flow — they're not alphabets and one-per-page pacing still fits.
 
-4. **Clean up learner-facing wording**
-   - Remove copy that says “we’ll check your recall” on every teaching card.
-   - Use neutral learning copy such as “Listen, repeat, and continue when ready.”
-   - Make foundation alphabet cards say “Say it” / “As in …” without implying the letter has an English meaning.
+### New "grid" learning phase for foundations
 
-5. **Review plan after implementation**
-   - Open an alphabet lesson and confirm the first action says `Next`, not `Got it — quiz me`.
-   - Confirm the lesson teaches through all alphabet entries before any quiz appears.
-   - Confirm the final quiz still works and completion saving is unchanged.
+When the lesson is an alphabet or numbers lesson:
+
+- Replace the single-card "learn" screen with a responsive grid showing every letter/number in the deck at once.
+- Each tile shows:
+  - The big symbol (e.g. `A`, `あ`, `1`)
+  - Its spoken name / sound (e.g. "ay", "a", "one")
+  - Example word underneath when available (e.g. "as in Apple")
+  - A speaker button to hear it
+- Tiles are tappable — tapping plays the audio (and briefly highlights the tile) so learners can drill any letter in any order.
+- A single "Start quiz" button at the bottom moves to the existing quiz phase, which stays unchanged (multiple-choice for each symbol at the end, as you already asked).
+
+### Progress bar
+
+Update the progress calculation so the learning phase for foundations counts as one step (viewing the grid) rather than N steps (one per card). The quiz portion still fills the rest of the bar as answers come in.
+
+### Everything else stays the same
+
+- Vocabulary lessons: unchanged (teach one word at a time, quiz at the end).
+- Greetings foundation: unchanged (uses translation-style cards, not symbol drill).
+- Quiz behavior, translate exercise, completion screen, XP saving: unchanged.
+- No data changes — the full alphabet is already in `FOUNDATION_CARDS` in `src/data/vocabulary.ts`.
+
+## Technical notes
+
+- In `LessonPage`, branch the `phase === "learn"` render on `current.isFoundation` (or on `foundation === "alphabet" | "numbers"`) to render the grid instead of the single-card layout.
+- Keep `buildDeck` as-is; the grid just maps over `cards` rather than indexing by `idx`.
+- Adjust the `progress` formula so foundation lessons treat "learn" as 1 unit total; quiz units unchanged.
+- Tile grid: `grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3`, each tile a rounded card with symbol, sound, optional example word, and a small `Volume2` button that calls the existing `speak(...)`.
