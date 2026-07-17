@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, Sparkles, ArrowRight } from "lucide-react";
 
-const TITLE = "Master Lingo vs Duolingo vs Babbel: The AI Language Learning Comparison (2026)";
+const TITLE = "Master Lingo vs Duolingo vs Babbel (2026 Comparison)";
 const DESCRIPTION =
   "An honest, side-by-side comparison of Master Lingo, Duolingo and Babbel — pricing, AI tutoring, speaking practice and which app actually gets you to fluency.";
 const URL = "https://masterlingo.lovable.app/blog/master-lingo-vs-duolingo-vs-babbel";

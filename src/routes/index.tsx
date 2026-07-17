@@ -162,7 +162,7 @@ function Hero() {
             <Sparkles className="size-3.5" /> AI-Powered Mastery
           </span>
           <h1 className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl">
-            Fluency is a <em className="not-italic text-brand">feeling</em>,<br className="hidden sm:block" /> not a chore.
+            Learn English, French, German &amp; Japanese with an <em className="not-italic text-brand">AI tutor</em> that adapts to you
           </h1>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
             Master English, French, German and Japanese with a curriculum that adapts to how you think — powered by an AI tutor that never sleeps.
@@ -268,6 +268,7 @@ function LanguageSection() {
               <Link
                 to="/auth"
                 search={{ mode: "signup" }}
+                aria-label={`Start learning ${lang.name} (${lang.nativeName}) — ${lessonCount} lessons from A1 to C2`}
                 className={`glass-panel group relative flex h-full flex-col overflow-hidden rounded-3xl p-8 shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${s.ring}`}
               >
                 <div className={`absolute -right-12 -top-12 size-40 rounded-full ${s.chipBg} opacity-40 transition-transform duration-700 group-hover:scale-150`} />
