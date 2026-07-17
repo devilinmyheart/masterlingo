@@ -1,7 +1,3 @@
-// Load TanStack Start's `server` route option augmentation for createFileRoute.
-// @tanstack/react-start uses `export type *` which does not propagate
-// `declare module` augmentations, so we import the source module directly.
-import "@tanstack/start-client-core/dist/esm/serverRoute.js";
 import { createStart, createMiddleware } from "@tanstack/react-start";
 
 import { renderErrorPage } from "./lib/error-page";
