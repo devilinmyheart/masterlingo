@@ -137,9 +137,6 @@ function TopNav() {
           <a href="#faq" className="transition-colors hover:text-foreground">FAQ</a>
         </div>
         <div className="flex items-center gap-2">
-          <Button asChild variant="ghost" className="rounded-full">
-            <Link to="/auth">Sign in</Link>
-          </Button>
           <Button asChild className="rounded-full bg-foreground text-background hover:bg-foreground/90">
             <Link to="/auth" search={{ mode: "signup" }}>Start free</Link>
           </Button>
