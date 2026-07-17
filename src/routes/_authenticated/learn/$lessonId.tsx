@@ -245,20 +245,30 @@ function LessonPage() {
                   Take your time — listen, repeat aloud, and drill any letter in any order. When you feel ready, start the quiz.
                 </p>
                 <div className="mt-6 grid grid-cols-4 gap-2 sm:grid-cols-5 sm:gap-3 md:grid-cols-6 lg:grid-cols-7">
-                  {cards.map((c) => (
-                    <button
-                      key={c.front}
-                      onClick={() => speak(c.pronunciation || c.front)}
-                      className="group flex min-w-0 flex-col items-center gap-1 rounded-xl border-2 border-border bg-background/60 p-2 text-center transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand-soft sm:rounded-2xl sm:p-3"
-                    >
-                      <div className="font-display text-2xl font-bold leading-none sm:text-3xl md:text-4xl">{c.front}</div>
-                      <div className="w-full truncate text-[10px] font-semibold text-muted-foreground sm:text-xs">"{c.back}"</div>
-                      {c.exampleWord && (
-                        <div className="hidden w-full truncate text-[10px] text-muted-foreground/80 sm:block">as in {c.exampleWord}</div>
-                      )}
-                      <Volume2 className="mt-0.5 size-3 shrink-0 text-muted-foreground group-hover:text-brand sm:size-3.5" />
-                    </button>
-                  ))}
+                  {cards.map((c) => {
+                    const isActive = activeTile === c.front;
+                    return (
+                      <button
+                        key={c.front}
+                        onClick={() => {
+                          speak(c.pronunciation || c.front);
+                          setActiveTile(c.front);
+                          window.setTimeout(() => setActiveTile((v) => (v === c.front ? null : v)), 700);
+                        }}
+                        className={cn(
+                          "group flex min-w-0 flex-col items-center gap-1 rounded-xl border-2 p-2 text-center transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand-soft sm:rounded-2xl sm:p-3",
+                          isActive ? "border-brand bg-brand-soft scale-[1.04] shadow-md" : "border-border bg-background/60"
+                        )}
+                      >
+                        <div className="font-display text-2xl font-bold leading-none sm:text-3xl md:text-4xl">{c.front}</div>
+                        <div className="w-full truncate text-[10px] font-semibold text-muted-foreground sm:text-xs">"{c.back}"</div>
+                        {c.exampleWord && (
+                          <div className="hidden w-full truncate text-[10px] text-muted-foreground/80 sm:block">as in {c.exampleWord}</div>
+                        )}
+                        <Volume2 className={cn("mt-0.5 size-3 shrink-0 sm:size-3.5", isActive ? "text-brand animate-pulse" : "text-muted-foreground group-hover:text-brand")} />
+                      </button>
+                    );
+                  })}
                 </div>
                 <div className="mt-6 flex justify-center sm:justify-end">
                   <Button
