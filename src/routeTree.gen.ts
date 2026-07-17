@@ -20,6 +20,7 @@ import { Route as LegalTermsRouteImport } from './routes/legal.terms'
 import { Route as LegalRefundRouteImport } from './routes/legal.refund'
 import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
 import { Route as BlogMasterLingoVsDuolingoVsBabbelRouteImport } from './routes/blog.master-lingo-vs-duolingo-vs-babbel'
+import { Route as BlogFrenchConjugationGuideRouteImport } from './routes/blog.french-conjugation-guide'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedVocabularyRouteImport } from './routes/_authenticated/vocabulary'
 import { Route as AuthenticatedTutorRouteImport } from './routes/_authenticated/tutor'
@@ -94,6 +95,12 @@ const BlogMasterLingoVsDuolingoVsBabbelRoute =
   BlogMasterLingoVsDuolingoVsBabbelRouteImport.update({
     id: '/blog/master-lingo-vs-duolingo-vs-babbel',
     path: '/blog/master-lingo-vs-duolingo-vs-babbel',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const BlogFrenchConjugationGuideRoute =
+  BlogFrenchConjugationGuideRouteImport.update({
+    id: '/blog/french-conjugation-guide',
+    path: '/blog/french-conjugation-guide',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
@@ -225,6 +232,7 @@ export interface FileRoutesByFullPath {
   '/tutor': typeof AuthenticatedTutorRoute
   '/vocabulary': typeof AuthenticatedVocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/blog/french-conjugation-guide': typeof BlogFrenchConjugationGuideRoute
   '/blog/master-lingo-vs-duolingo-vs-babbel': typeof BlogMasterLingoVsDuolingoVsBabbelRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/refund': typeof LegalRefundRoute
@@ -257,6 +265,7 @@ export interface FileRoutesByTo {
   '/tutor': typeof AuthenticatedTutorRoute
   '/vocabulary': typeof AuthenticatedVocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/blog/french-conjugation-guide': typeof BlogFrenchConjugationGuideRoute
   '/blog/master-lingo-vs-duolingo-vs-babbel': typeof BlogMasterLingoVsDuolingoVsBabbelRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/refund': typeof LegalRefundRoute
@@ -291,6 +300,7 @@ export interface FileRoutesById {
   '/_authenticated/tutor': typeof AuthenticatedTutorRoute
   '/_authenticated/vocabulary': typeof AuthenticatedVocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/blog/french-conjugation-guide': typeof BlogFrenchConjugationGuideRoute
   '/blog/master-lingo-vs-duolingo-vs-babbel': typeof BlogMasterLingoVsDuolingoVsBabbelRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/refund': typeof LegalRefundRoute
@@ -325,6 +335,7 @@ export interface FileRouteTypes {
     | '/tutor'
     | '/vocabulary'
     | '/api/chat'
+    | '/blog/french-conjugation-guide'
     | '/blog/master-lingo-vs-duolingo-vs-babbel'
     | '/legal/privacy'
     | '/legal/refund'
@@ -357,6 +368,7 @@ export interface FileRouteTypes {
     | '/tutor'
     | '/vocabulary'
     | '/api/chat'
+    | '/blog/french-conjugation-guide'
     | '/blog/master-lingo-vs-duolingo-vs-babbel'
     | '/legal/privacy'
     | '/legal/refund'
@@ -390,6 +402,7 @@ export interface FileRouteTypes {
     | '/_authenticated/tutor'
     | '/_authenticated/vocabulary'
     | '/api/chat'
+    | '/blog/french-conjugation-guide'
     | '/blog/master-lingo-vs-duolingo-vs-babbel'
     | '/legal/privacy'
     | '/legal/refund'
@@ -414,6 +427,7 @@ export interface RootRouteChildren {
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ApiChatRoute: typeof ApiChatRoute
+  BlogFrenchConjugationGuideRoute: typeof BlogFrenchConjugationGuideRoute
   BlogMasterLingoVsDuolingoVsBabbelRoute: typeof BlogMasterLingoVsDuolingoVsBabbelRoute
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalRefundRoute: typeof LegalRefundRoute
@@ -500,6 +514,13 @@ declare module '@tanstack/react-router' {
       path: '/blog/master-lingo-vs-duolingo-vs-babbel'
       fullPath: '/blog/master-lingo-vs-duolingo-vs-babbel'
       preLoaderRoute: typeof BlogMasterLingoVsDuolingoVsBabbelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/french-conjugation-guide': {
+      id: '/blog/french-conjugation-guide'
+      path: '/blog/french-conjugation-guide'
+      fullPath: '/blog/french-conjugation-guide'
+      preLoaderRoute: typeof BlogFrenchConjugationGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/chat': {
@@ -695,6 +716,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ApiChatRoute: ApiChatRoute,
+  BlogFrenchConjugationGuideRoute: BlogFrenchConjugationGuideRoute,
   BlogMasterLingoVsDuolingoVsBabbelRoute:
     BlogMasterLingoVsDuolingoVsBabbelRoute,
   LegalPrivacyRoute: LegalPrivacyRoute,
