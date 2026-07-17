@@ -232,7 +232,7 @@ function LessonPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.35 }}
-            className="glass-panel mt-8 rounded-3xl p-8 shadow-xl md:p-12"
+            className="glass-panel mt-8 rounded-3xl p-4 shadow-xl sm:p-8 md:p-12"
           >
             {phase === "learn" && isSymbolFoundation && (
               <>
@@ -243,26 +243,26 @@ function LessonPage() {
                 <p className="mt-1 text-sm text-muted-foreground">
                   Take your time — listen, repeat aloud, and drill any letter in any order. When you feel ready, start the quiz.
                 </p>
-                <div className="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
+                <div className="mt-6 grid grid-cols-4 gap-2 sm:grid-cols-5 sm:gap-3 md:grid-cols-6 lg:grid-cols-7">
                   {cards.map((c) => (
                     <button
                       key={c.front}
                       onClick={() => speak(c.pronunciation || c.front)}
-                      className="group flex flex-col items-center gap-1 rounded-2xl border-2 border-border bg-background/60 p-3 text-center transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand-soft"
+                      className="group flex min-w-0 flex-col items-center gap-1 rounded-xl border-2 border-border bg-background/60 p-2 text-center transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand-soft sm:rounded-2xl sm:p-3"
                     >
-                      <div className="font-display text-3xl font-bold md:text-4xl">{c.front}</div>
-                      <div className="text-xs font-semibold text-muted-foreground">"{c.back}"</div>
+                      <div className="font-display text-2xl font-bold leading-none sm:text-3xl md:text-4xl">{c.front}</div>
+                      <div className="w-full truncate text-[10px] font-semibold text-muted-foreground sm:text-xs">"{c.back}"</div>
                       {c.exampleWord && (
-                        <div className="text-[10px] text-muted-foreground/80">as in {c.exampleWord}</div>
+                        <div className="hidden w-full truncate text-[10px] text-muted-foreground/80 sm:block">as in {c.exampleWord}</div>
                       )}
-                      <Volume2 className="mt-1 size-3.5 text-muted-foreground group-hover:text-brand" />
+                      <Volume2 className="mt-0.5 size-3 shrink-0 text-muted-foreground group-hover:text-brand sm:size-3.5" />
                     </button>
                   ))}
                 </div>
-                <div className="mt-8 flex justify-end">
+                <div className="mt-6 flex justify-center sm:justify-end">
                   <Button
                     onClick={() => { setIdx(0); setPhase("quiz"); }}
-                    className="rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/90"
+                    className="w-full rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/90 sm:w-auto"
                   >
                     Start quiz
                   </Button>
