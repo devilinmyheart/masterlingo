@@ -105,6 +105,7 @@ function handleSitemapRequest() {
     { path: "/speaking", changefreq: "weekly", priority: "0.7" },
     { path: "/conversations", changefreq: "weekly", priority: "0.7" },
     { path: "/blog/master-lingo-vs-duolingo-vs-babbel", changefreq: "monthly", priority: "0.8" },
+    { path: "/blog/french-conjugation-guide", changefreq: "monthly", priority: "0.8" },
     { path: "/legal/terms", changefreq: "yearly", priority: "0.4" },
     { path: "/legal/privacy", changefreq: "yearly", priority: "0.4" },
     { path: "/legal/refund", changefreq: "yearly", priority: "0.4" },
