@@ -85,9 +85,10 @@ function LessonPage() {
   const learningUnits = isReview ? 0 : total;
   const completedLearnUnits = !isReview && phase !== "learn" ? total : phase === "learn" ? idx : 0;
   const completedQuizUnits =
+    done ? total :
     phase === "quiz" ? idx + (chosen ? 0.5 : 0) :
     phase === "translate" ? idx + 0.75 :
-    done ? total : 0;
+    0;
   const progress = ((completedLearnUnits + completedQuizUnits) / (learningUnits + total)) * 100;
   const isCorrect = chosen === current?.back;
 
