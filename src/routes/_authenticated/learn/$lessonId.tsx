@@ -234,7 +234,42 @@ function LessonPage() {
             transition={{ duration: 0.35 }}
             className="glass-panel mt-8 rounded-3xl p-8 shadow-xl md:p-12"
           >
-            {phase === "learn" && (
+            {phase === "learn" && isSymbolFoundation && (
+              <>
+                <div className="text-xs font-bold uppercase tracking-widest text-brand">
+                  {foundation === "numbers" ? "Numbers" : "Alphabet"} · {total} to learn
+                </div>
+                <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">Tap any tile to hear it</h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Take your time — listen, repeat aloud, and drill any letter in any order. When you feel ready, start the quiz.
+                </p>
+                <div className="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
+                  {cards.map((c) => (
+                    <button
+                      key={c.front}
+                      onClick={() => speak(c.pronunciation || c.front)}
+                      className="group flex flex-col items-center gap-1 rounded-2xl border-2 border-border bg-background/60 p-3 text-center transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand-soft"
+                    >
+                      <div className="font-display text-3xl font-bold md:text-4xl">{c.front}</div>
+                      <div className="text-xs font-semibold text-muted-foreground">"{c.back}"</div>
+                      {c.exampleWord && (
+                        <div className="text-[10px] text-muted-foreground/80">as in {c.exampleWord}</div>
+                      )}
+                      <Volume2 className="mt-1 size-3.5 text-muted-foreground group-hover:text-brand" />
+                    </button>
+                  ))}
+                </div>
+                <div className="mt-8 flex justify-end">
+                  <Button
+                    onClick={() => { setIdx(0); setPhase("quiz"); }}
+                    className="rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/90"
+                  >
+                    Start quiz
+                  </Button>
+                </div>
+              </>
+            )}
+            {phase === "learn" && !isSymbolFoundation && (
               <>
                 <div className="text-xs font-bold uppercase tracking-widest text-brand">
                   {current.isFoundation
