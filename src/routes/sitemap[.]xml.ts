@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type {} from "@tanstack/react-start";
 import { CURRICULUM } from "@/data/curriculum";
 
 const BASE_URL = "https://masterlingo.lovable.app";
