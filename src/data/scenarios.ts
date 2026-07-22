@@ -2,7 +2,7 @@
 // Each scenario is a short roleplay used by the Conversations feature.
 
 export type ScenarioLevel = "A1" | "A2" | "B1" | "B2" | "C1";
-export type ScenarioTrack = "french" | "german" | "japanese" | "english" | "hindi_english";
+export type ScenarioTrack = "french" | "german" | "japanese" | "english" | "hindi_english" | "korean";
 
 export type Scenario = {
   id: string;
@@ -260,7 +260,58 @@ const HI: Scenario[] = [
   },
 ];
 
-export const ALL_SCENARIOS: Scenario[] = [...FR, ...DE, ...JA, ...EN, ...HI];
+const KO: Scenario[] = [
+  {
+    id: "ko-cafe",
+    track: "korean",
+    level: "A1",
+    title: "Order at a Seoul café",
+    emoji: "☕",
+    setting: "A cosy café in Hongdae. You want a coffee and a pastry.",
+    role: "friendly Korean barista",
+    goal: "Greet, order politely with 주세요, ask the price, pay.",
+    opening: "어서 오세요! 무엇을 도와드릴까요? (Eoseo oseyo! Mueoseul dowadeurilkkayo?)",
+    openingTranslation: "Welcome! How can I help you?",
+  },
+  {
+    id: "ko-subway",
+    track: "korean",
+    level: "A2",
+    title: "Ask for the right subway line",
+    emoji: "🚇",
+    setting: "You need to get to Gangnam from Seoul Station.",
+    role: "helpful station attendant",
+    goal: "Ask which line, confirm the platform, thank them politely.",
+    opening: "네, 어디까지 가세요? (Ne, eodikkaji gaseyo?)",
+    openingTranslation: "Yes, where are you heading to?",
+  },
+  {
+    id: "ko-bbq",
+    track: "korean",
+    level: "B1",
+    title: "Dinner at a Korean BBQ",
+    emoji: "🥩",
+    setting: "A lively 고깃집 with friends.",
+    role: "friendly server",
+    goal: "Order meat, sides, and drinks; ask for recommendations.",
+    opening: "안녕하세요! 몇 분이세요? 뭐 드릴까요? (Myeot bun-i-se-yo? Mwo deurilkkayo?)",
+    openingTranslation: "Hello! How many people? What can I get you?",
+  },
+  {
+    id: "ko-kdrama",
+    track: "korean",
+    level: "B2",
+    title: "Discuss a K-drama with a friend",
+    emoji: "📺",
+    setting: "You just finished a popular K-drama and are chatting about it.",
+    role: "opinionated K-drama fan",
+    goal: "Share your opinion, agree/disagree politely, use natural connectors.",
+    opening: "그 드라마 마지막 회 봤어? 결말이 진짜 별로였어. 너는 어떻게 생각해?",
+    openingTranslation: "Did you see the final episode? The ending was really disappointing. What do you think?",
+  },
+];
+
+export const ALL_SCENARIOS: Scenario[] = [...FR, ...DE, ...JA, ...KO, ...EN, ...HI];
 
 export function scenariosForTrack(track: ScenarioTrack): Scenario[] {
   return ALL_SCENARIOS.filter((s) => s.track === track);
