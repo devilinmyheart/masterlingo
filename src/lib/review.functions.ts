@@ -12,7 +12,7 @@ import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
  * and English for the english track since that IS the target).
  */
 
-const LANGS = ["french", "german", "japanese", "english", "hindi_english"] as const;
+const LANGS = ["french", "german", "japanese", "english", "hindi_english", "korean"] as const;
 const LanguageEnum = z.enum(LANGS);
 type Lang = z.infer<typeof LanguageEnum>;
 
@@ -38,6 +38,13 @@ function languageProfile(language: Lang): LangProfile {
         explainIn: "clear, level-appropriate English",
         scriptNote: "Always show Japanese in kanji + kana first, then romaji in parentheses. If the word has kanji, list the readings and note common compounds.",
         translationLabel: "English translation (romaji in parentheses)",
+      };
+    case "korean":
+      return {
+        targetLang: "Korean",
+        explainIn: "clear, level-appropriate English",
+        scriptNote: "Always show Korean in Hangul first, then romanization in parentheses. Mark politeness level (-요 / -ㅂ니다) and particles when relevant.",
+        translationLabel: "English translation (romanization in parentheses)",
       };
     case "english":
       return {

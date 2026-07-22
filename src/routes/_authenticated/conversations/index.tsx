@@ -34,6 +34,7 @@ const TRACK_LABEL: Record<ScenarioTrack, { label: string; flag: string; accent: 
   french: { label: "French", flag: "🇫🇷", accent: "from-french/20 to-brand/10" },
   german: { label: "German", flag: "🇩🇪", accent: "from-german/20 to-brand/10" },
   japanese: { label: "Japanese", flag: "🇯🇵", accent: "from-japanese/20 to-brand/10" },
+  korean: { label: "Korean", flag: "🇰🇷", accent: "from-korean/20 to-brand/10" },
   english: { label: "English", flag: "🇬🇧", accent: "from-english/20 to-brand/10" },
   hindi_english: { label: "Hindi → English", flag: "🇮🇳", accent: "from-hindi/20 to-brand/10" },
 };

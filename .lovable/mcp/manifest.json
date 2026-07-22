@@ -37,7 +37,8 @@
                 "german",
                 "japanese",
                 "english",
-                "hindi_english"
+                "hindi_english",
+                "korean"
               ]
             },
             "limit": {
@@ -74,7 +75,8 @@
                 "german",
                 "japanese",
                 "english",
-                "hindi_english"
+                "hindi_english",
+                "korean"
               ],
               "description": "Target language."
             },

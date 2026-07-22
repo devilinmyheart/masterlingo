@@ -1,38 +1,59 @@
-# Show the full alphabet on a single page
+# Add Korean 🇰🇷 as a Fully Supported Language
 
-Right now the Alphabet (and Numbers) foundation lessons walk the learner through one symbol at a time with a "Next" button, then run a quiz. You want the whole set visible on one page so learners can browse it at once.
+Extend the app so Korean is a first-class track alongside French, German, Japanese, English and Hindi→English — with visual-first foundations (Hangul chart, tap-to-hear tiles, animated emoji cards) that make learning fun.
 
-## What changes
+## What users will get
 
-Only the Alphabet / Numbers foundation lessons in `src/routes/_authenticated/learn/$lessonId.tsx`. Vocabulary lessons (French words, greetings, etc.) keep the current one-card teaching flow — they're not alphabets and one-per-page pacing still fits.
+- **Onboarding**: pick Korean 🇰🇷 as primary or secondary language.
+- **Learn path**: Foundations (Hangul consonants, Hangul vowels, Numbers 1–10) → Greetings → Food & Drink → Family → Travel basics → end-of-level quiz. Alphabet lessons use the same single-page tap-to-hear grid used for Japanese kana.
+- **Vocabulary**: ~60 seed words with Hangul + romanization + English meaning, each mapped to an animated emoji (☕ 커피, 🍚 밥, 👋 안녕하세요 …) so cards feel lively.
+- **Conversations**: 4 roleplay scenarios (café order, asking directions, self-intro, shopping) in Korean with English gloss.
+- **Tutor / Speaking / Review**: Gemini prompts get a Korean persona (Hangul first, romanization in parens, English explanations).
+- **Certifications**: TOPIK I & II cards on the certifications page.
+- **Voice/TTS**: `ko-KR` default voice + user override in Voice Preferences.
+- **Marketing surfaces**: landing hero, footer language list, blog comparison, sitemap, JSON-LD `inLanguage` include Korean.
 
-### New "grid" learning phase for foundations
+## Files to change
 
-When the lesson is an alphabet or numbers lesson:
+### New content
+- `src/data/curriculum.ts` — add `"korean"` to `LanguageId`, add `CURRICULUM.korean` (Hangul consonants, Hangul vowels, numbers, greetings, food, family, travel, level review), append to `ALL_LANGUAGES`.
+- `src/data/vocabulary.ts` — add `korean` foundation sets (Hangul jamo grid with romanization, numbers) and topic vocab (greetings, food, family, travel).
+- `src/data/scenarios.ts` — extend `ScenarioTrack` with `"korean"`, add 4 scenarios.
+- `src/data/certifications.ts` — add `korean: [TOPIK I, TOPIK II]` with official links/prices.
+- `src/data/animations.ts` — no schema change; existing English-keyed emoji map already covers Korean vocab because translations are in English.
 
-- Replace the single-card "learn" screen with a responsive grid showing every letter/number in the deck at once.
-- Each tile shows:
-  - The big symbol (e.g. `A`, `あ`, `1`)
-  - Its spoken name / sound (e.g. "ay", "a", "one")
-  - Example word underneath when available (e.g. "as in Apple")
-  - A speaker button to hear it
-- Tiles are tappable — tapping plays the audio (and briefly highlights the tile) so learners can drill any letter in any order.
-- A single "Start quiz" button at the bottom moves to the existing quiz phase, which stays unchanged (multiple-choice for each symbol at the end, as you already asked).
+### Track plumbing (add `"korean"` to unions + switches)
+- `src/lib/voice-prefs.ts` — add `korean` default (`ko-KR`, rate 0.95).
+- `src/lib/conversation.functions.ts` — extend `TrackEnum` + `personaFor` with a Korean persona (Hangul + romanization).
+- `src/lib/review.functions.ts` — add Korean prompt branch.
+- `src/lib/speaking.functions.ts` — add Korean recognition locale + prompt branch.
+- `src/routes/api/chat.ts` (or the handler it delegates to in `src/lib/http-handlers.server.ts`) — add Korean tutor persona.
+- `src/hooks/useLanguageGate.ts` — include Korean in allowed set.
+- `src/components/VoicePreferences.tsx` — render Korean row.
 
-### Progress bar
+### UI surfaces
+- `src/routes/_authenticated/onboarding.tsx` — Korean option (🇰🇷).
+- `src/routes/_authenticated/dashboard.tsx`, `learn/index.tsx`, `vocabulary.tsx`, `conversations/index.tsx`, `certifications.tsx` — add Korean label/flag entries in local `TRACK_LABEL` maps.
+- `src/routes/_authenticated/learn/$lessonId.tsx` — mark Korean Hangul/number lessons as `isSymbolFoundation` so they use the tap-to-hear grid (already generic — driven by lesson id pattern).
+- `src/routes/index.tsx` — hero copy ("English, French, German, Japanese & Korean"), footer language list, add 🇰🇷 card.
+- `src/routes/about.tsx`, `blog.master-lingo-vs-duolingo-vs-babbel.tsx` — mention Korean where languages are listed.
+- `src/lib/http-handlers.server.ts` — no sitemap change needed (no per-language routes), but update any JSON-LD `inLanguage`/`availableLanguage` arrays.
+- `src/styles.css` — add a `--korean` accent color token (matching pattern of `--french`, `--german`, `--japanese`).
 
-Update the progress calculation so the learning phase for foundations counts as one step (viewing the grid) rather than N steps (one per card). The quiz portion still fills the rest of the bar as answers come in.
-
-### Everything else stays the same
-
-- Vocabulary lessons: unchanged (teach one word at a time, quiz at the end).
-- Greetings foundation: unchanged (uses translation-style cards, not symbol drill).
-- Quiz behavior, translate exercise, completion screen, XP saving: unchanged.
-- No data changes — the full alphabet is already in `FOUNDATION_CARDS` in `src/data/vocabulary.ts`.
+### Visuals to make it fun
+- Hangul grid tiles reuse the existing animated highlight + pulsing speaker used for Japanese kana.
+- Every vocab card shows the `AnimatedIcon` for its English meaning (bouncing 🍚, steaming ☕, waving 👋 for 안녕).
+- Category node on the learn path uses `categoryIconFor` (already generic).
+- Add a couple of Korean-specific emoji hooks to `src/data/animations.ts` if any new meanings appear (e.g. "kimchi" → 🥬 pulse) — only additive.
 
 ## Technical notes
 
-- In `LessonPage`, branch the `phase === "learn"` render on `current.isFoundation` (or on `foundation === "alphabet" | "numbers"`) to render the grid instead of the single-card layout.
-- Keep `buildDeck` as-is; the grid just maps over `cards` rather than indexing by `idx`.
-- Adjust the `progress` formula so foundation lessons treat "learn" as 1 unit total; quiz units unchanged.
-- Tile grid: `grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3`, each tile a rounded card with symbol, sound, optional example word, and a small `Volume2` button that calls the existing `speak(...)`.
+- Enum extension is the only breaking type change; TypeScript will surface every missing `case` in `switch(track)` blocks so we catch all sites during build.
+- No DB migration required — `user_onboarding.language` is a free-form text column already storing strings like `"hindi_english"`.
+- No new package installs. No payment/entitlement changes (features are currently unlocked for all users).
+- TTS falls back gracefully if the browser lacks a `ko-KR` voice; Voice Preferences lets users pick any installed voice.
+
+## Out of scope
+
+- No new blog article for Korean this round (can be added later as a separate SEO task).
+- No Korean grammar deep-dives beyond what the tutor generates on demand.

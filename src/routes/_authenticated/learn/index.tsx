@@ -12,7 +12,7 @@ import { categoryIconFor } from "@/data/animations";
 import { useLanguageGate } from "@/hooks/useLanguageGate";
 
 const searchSchema = z.object({
-  language: z.enum(["french", "german", "japanese", "english", "hindi_english"]).optional(),
+  language: z.enum(["french", "german", "japanese", "english", "hindi_english", "korean"]).optional(),
 });
 
 export const Route = createFileRoute("/_authenticated/learn/")({
@@ -40,7 +40,7 @@ export const Route = createFileRoute("/_authenticated/learn/")({
               name: "Master Lingo",
               sameAs: "https://masterlingo.lovable.app/",
             },
-            inLanguage: { french: "fr", german: "de", japanese: "ja", english: "en", hindi_english: "en" }[lang.id],
+            inLanguage: { french: "fr", german: "de", japanese: "ja", english: "en", hindi_english: "en", korean: "ko" }[lang.id],
             educationalLevel: "A1, A2, B1, B2, C1, C2",
           })),
         }),
@@ -135,6 +135,15 @@ const LANG_ACCENT: Record<LanguageId, Accent> = {
     ink: "text-hindi-ink",
     shadow: "shadow-[0_6px_0_0_rgba(170,110,10,0.55)]",
     softBg: "bg-hindi-soft",
+  },
+  korean: {
+    ring: "border-korean",
+    solidBg: "bg-korean",
+    solidText: "text-white",
+    chip: "bg-korean-soft",
+    ink: "text-korean",
+    shadow: "shadow-[0_6px_0_0_rgba(170,30,50,0.55)]",
+    softBg: "bg-korean-soft",
   },
 };
 

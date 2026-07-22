@@ -100,6 +100,12 @@ const LANG_STYLES: Record<string, { chipBg: string; chipText: string; ring: stri
     ring: "hover:shadow-hindi/20",
     bar: "bg-hindi",
   },
+  korean: {
+    chipBg: "bg-korean-soft",
+    chipText: "text-korean",
+    ring: "hover:shadow-korean/20",
+    bar: "bg-korean",
+  },
 };
 
 function Landing() {
@@ -159,10 +165,10 @@ function Hero() {
             <Sparkles className="size-3.5" /> AI-Powered Mastery
           </span>
           <h1 className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl">
-            Learn English, French, German &amp; Japanese with an <em className="not-italic text-brand">AI tutor</em> that adapts to you
+            Learn English, French, German, Japanese &amp; Korean with an <em className="not-italic text-brand">AI tutor</em> that adapts to you
           </h1>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-            Master English, French, German and Japanese with a curriculum that adapts to how you think — powered by an AI tutor that never sleeps.
+            Master English, French, German, Japanese and Korean with a curriculum that adapts to how you think — powered by an AI tutor that never sleeps.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg" className="rounded-full bg-brand px-8 py-6 text-base font-semibold text-brand-foreground shadow-2xl shadow-brand/25 hover:bg-brand/90">
@@ -226,6 +232,7 @@ function AnimatedGlobe() {
         { label: "🇩🇪 Hallo", pos: "top-14 right-6", color: "text-german-ink", delay: 0.6 },
         { label: "🇯🇵 こんにちは", pos: "bottom-24 left-2", color: "text-japanese", delay: 1.2 },
         { label: "🇬🇧 Hello", pos: "top-32 left-4", color: "text-english", delay: 0.9 },
+        { label: "🇰🇷 안녕", pos: "top-40 right-4", color: "text-korean", delay: 1.1 },
         { label: "🇮🇳 नमस्ते", pos: "bottom-6 left-16", color: "text-hindi-ink", delay: 1.5 },
         { label: "🇫🇷 Merci", pos: "bottom-4 right-12", color: "text-french", delay: 0.3 },
       ].map((chip) => (

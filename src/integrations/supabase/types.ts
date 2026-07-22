@@ -404,6 +404,7 @@ export type Database = {
         | "japanese"
         | "english"
         | "hindi_english"
+        | "korean"
       learning_goal: "travel" | "work" | "exams" | "conversation" | "culture"
       skill_level: "beginner" | "intermediate" | "advanced"
     }
@@ -540,6 +541,7 @@ export const Constants = {
         "japanese",
         "english",
         "hindi_english",
+        "korean",
       ],
       learning_goal: ["travel", "work", "exams", "conversation", "culture"],
       skill_level: ["beginner", "intermediate", "advanced"],

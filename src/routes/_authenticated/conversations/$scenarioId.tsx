@@ -78,6 +78,7 @@ const SR_LANG: Record<ScenarioTrack, string> = {
   japanese: "ja-JP",
   english: "en-US",
   hindi_english: "en-IN",
+  korean: "ko-KR",
 };
 
 function trackVoice(track: ScenarioTrack): VoiceSlot {

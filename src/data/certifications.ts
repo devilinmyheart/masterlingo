@@ -323,4 +323,66 @@ export const CERTIFICATIONS: Record<LanguageId, Certification[]> = {
       url: "https://www.du.ac.in/",
     },
   ],
+  korean: [
+    {
+      name: "TOPIK I & II (Test of Proficiency in Korean)",
+      provider: "National Institute for International Education (Korea)",
+      kind: "Certification",
+      levels: "TOPIK I (1–2) · TOPIK II (3–6)",
+      format: "Exam center",
+      duration: "~2 to 3 hours",
+      priceUSD: "$35–$60",
+      description:
+        "The official Korean government proficiency exam. Required for Korean university admission, KGSP scholarships, and many jobs at Korean companies.",
+      url: "https://www.topik.go.kr/",
+    },
+    {
+      name: "Sejong Institute — Standardized Korean Courses",
+      provider: "King Sejong Institute Foundation",
+      kind: "Course",
+      levels: "A1 to B2",
+      format: "Hybrid",
+      duration: "10–40 weeks",
+      priceUSD: "Free–$300",
+      description:
+        "Government-backed Korean courses offered at 250+ Sejong Institutes worldwide plus a free online academy (nuri-sejonghakdang.go.kr).",
+      url: "https://www.iksi.or.kr/eng/",
+    },
+    {
+      name: "Coursera — First Step Korean (Yonsei University)",
+      provider: "Coursera · Yonsei University",
+      kind: "Course",
+      levels: "A1",
+      format: "Online",
+      duration: "~4 weeks",
+      priceUSD: "Free (certificate $49)",
+      description:
+        "Beginner Korean course from Yonsei University with Hangul, greetings, and everyday phrases. Ideal first step before TOPIK I.",
+      url: "https://www.coursera.org/learn/learn-korean",
+    },
+    {
+      name: "KLPT — Korean Language Proficiency Test",
+      provider: "Korean Language Ability Evaluation Institute",
+      kind: "Certification",
+      levels: "Beginner to advanced",
+      format: "Exam center",
+      duration: "~2 hours",
+      priceUSD: "$40–$70",
+      description:
+        "Alternative Korean proficiency test focused on practical communication, accepted by many Korean employers and institutions.",
+      url: "https://www.klpt.org/",
+    },
+    {
+      name: "Korean Language Program",
+      provider: "Seoul National University · Language Education Institute",
+      kind: "Degree",
+      levels: "A1 to C2",
+      format: "In-person",
+      duration: "10 weeks – 4 years",
+      priceUSD: "$1,700/term (intensive) · higher for BA/MA",
+      description:
+        "Intensive Korean language programs and full BA/MA degrees at Korea's top-ranked national university.",
+      url: "https://lei.snu.ac.kr/site/en/klec/regular/regular01",
+    },
+  ],
 };

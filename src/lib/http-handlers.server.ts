@@ -183,11 +183,13 @@ async function handleChatRequest(request: Request) {
       ? { targetLang: "German", explainIn: "English", scriptNote: "" }
       : language === "japanese"
         ? { targetLang: "Japanese", explainIn: "English", scriptNote: "Always show Japanese in kanji + kana, followed by romaji in parentheses and an English gloss." }
-        : language === "english"
-          ? { targetLang: "English", explainIn: "English", scriptNote: "The learner is studying English, so respond fully in English at a level appropriate to their CEFR band. Do NOT translate into another language unless the learner explicitly asks." }
-          : language === "hindi_english"
-            ? { targetLang: "English", explainIn: "Hindi (Devanagari script, with the occasional Hinglish word where it's clearer)", scriptNote: "The learner is a Hindi speaker learning English. Give English example sentences first, then explain the grammar/meaning in Hindi. Use Devanagari for Hindi (नमस्ते, क्रिया, काल). Keep English simple and grade it to their level." }
-            : { targetLang: "French", explainIn: "English", scriptNote: "" };
+        : language === "korean"
+          ? { targetLang: "Korean", explainIn: "English", scriptNote: "Always show Korean in Hangul, followed by romanization in parentheses and an English gloss. Note politeness level (-요 / -ㅂ니다) and particles when relevant." }
+          : language === "english"
+            ? { targetLang: "English", explainIn: "English", scriptNote: "The learner is studying English, so respond fully in English at a level appropriate to their CEFR band. Do NOT translate into another language unless the learner explicitly asks." }
+            : language === "hindi_english"
+              ? { targetLang: "English", explainIn: "Hindi (Devanagari script, with the occasional Hinglish word where it's clearer)", scriptNote: "The learner is a Hindi speaker learning English. Give English example sentences first, then explain the grammar/meaning in Hindi. Use Devanagari for Hindi (नमस्ते, क्रिया, काल). Keep English simple and grade it to their level." }
+              : { targetLang: "French", explainIn: "English", scriptNote: "" };
 
   const system = `You are a friendly, patient Master Lingo AI tutor helping the learner master ${profile.targetLang}.
 - Write your explanations in ${profile.explainIn}. Always include ${profile.targetLang} example sentences with a short translation.

@@ -9,7 +9,7 @@ export default defineTool({
     "List saved words from the signed-in learner's Master Lingo vocabulary notebook, optionally filtered by language.",
   inputSchema: {
     language: z
-      .enum(["french", "german", "japanese", "english", "hindi_english"])
+      .enum(["french", "german", "japanese", "english", "hindi_english", "korean"])
       .optional()
       .describe("Filter by target language."),
     limit: z

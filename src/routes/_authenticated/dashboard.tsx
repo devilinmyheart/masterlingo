@@ -52,6 +52,7 @@ const LANG_ACCENT: Record<LanguageId, { chip: string; bar: string; ring: string;
   french: { chip: "bg-french-soft", bar: "bg-french", ring: "ring-french/30", ink: "text-french" },
   german: { chip: "bg-german-soft", bar: "bg-german", ring: "ring-german/30", ink: "text-german-ink" },
   japanese: { chip: "bg-japanese-soft", bar: "bg-japanese", ring: "ring-japanese/30", ink: "text-japanese" },
+  korean: { chip: "bg-korean-soft", bar: "bg-korean", ring: "ring-korean/30", ink: "text-korean" },
   english: { chip: "bg-english-soft", bar: "bg-english", ring: "ring-english/30", ink: "text-english" },
   hindi_english: { chip: "bg-hindi-soft", bar: "bg-hindi", ring: "ring-hindi/30", ink: "text-hindi-ink" },
 };
@@ -122,7 +123,7 @@ function Dashboard() {
               {greeting()}
             </div>
             <h1 className="mt-1 font-display text-4xl font-bold tracking-tight md:text-5xl">
-              {({ french: "Bonjour", german: "Hallo", japanese: "こんにちは", english: "Hello", hindi_english: "नमस्ते" } as Record<LanguageId, string>)[language]}, {displayName} 👋
+              {({ french: "Bonjour", german: "Hallo", japanese: "こんにちは", korean: "안녕하세요", english: "Hello", hindi_english: "नमस्ते" } as Record<LanguageId, string>)[language]}, {displayName} 👋
             </h1>
             <p className="mt-1 text-muted-foreground">
               Currently learning <span className={`font-semibold ${accent.ink}`}>{course.flag} {course.nativeName}</span> · {levelObj.label}

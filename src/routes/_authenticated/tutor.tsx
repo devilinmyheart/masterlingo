@@ -38,6 +38,7 @@ const SUGGESTIONS: Record<LanguageId, string[]> = {
   japanese: ["Difference between は and が?", "Teach me polite request forms", "Speaking practice: 5 Tokyo restaurant phrases"],
   english: ["Explain present perfect vs past simple", "Fix this sentence: I have went to school yesterday", "Speaking practice: introduce myself in a job interview"],
   hindi_english: ["Present perfect का इस्तेमाल कब होता है?", "इसे ठीक कीजिए: I am going to home", "Speaking practice: दुकान पर English में बात करना सिखाइए"],
+  korean: ["When do I use 은/는 vs 이/가?", "Politeness levels: -요 vs -ㅂ니다?", "Roleplay: ordering coffee at a Seoul café"],
 };
 
 
