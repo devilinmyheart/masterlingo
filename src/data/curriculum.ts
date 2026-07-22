@@ -1,7 +1,7 @@
 // Full Master Lingo curriculum data. Kept as a static module so the router
 // tree and dashboards can render without a network round-trip.
 
-export type LanguageId = "french" | "german" | "japanese" | "english" | "hindi_english";
+export type LanguageId = "french" | "german" | "japanese" | "english" | "hindi_english" | "korean";
 
 export interface Topic {
   id: string;
@@ -423,12 +423,90 @@ export const CURRICULUM: Record<LanguageId, LanguageCourse> = {
       }
     }),
   },
+
+  korean: {
+    id: "korean",
+    name: "Korean",
+    nativeName: "한국어",
+    tagline: "K-pop, K-drama, and the elegant logic of Hangul.",
+    flag: "🇰🇷",
+    levels: makeLevels("ko", (label) => {
+      switch (label) {
+        case "A1":
+          return {
+            headline: "Hangul, greetings, and your first 100 words.",
+            topics: [
+              { id: "ko-a1-hangul", title: "Hangul (한글) — Consonants & Vowels", description: "Learn all 24 basic letters — read your first words in a day.", minutes: 20, xp: 90 },
+              { id: "ko-a1-numbers", title: "Numbers 1–20 (both systems)", description: "Sino-Korean 일이삼 and native 하나둘셋 — when to use each.", minutes: 12, xp: 50 },
+              { id: "ko-a1-greetings", title: "Greetings (인사)", description: "안녕하세요, 감사합니다, 죄송합니다.", minutes: 10, xp: 40 },
+              { id: "ko-a1-family", title: "Family & People", description: "엄마, 아빠, 형/누나/오빠/언니 — Korean family terms.", minutes: 12, xp: 50 },
+              { id: "ko-a1-food", title: "Food & Ordering", description: "김치, 비빔밥, 김밥 — order at a Korean restaurant.", minutes: 15, xp: 60 },
+              { id: "ko-a1-particles", title: "Particles 은/는, 이/가, 을/를", description: "The building blocks of every Korean sentence.", minutes: 18, xp: 80 },
+              { id: "ko-a1-verbs", title: "이다 / 있다 / 하다", description: "The three most useful verbs to start with.", minutes: 15, xp: 60 },
+              { id: "ko-a1-travel", title: "Travel Essentials", description: "Airport, subway, taxi — get around Seoul.", minutes: 15, xp: 60 },
+            ],
+          };
+        case "A2":
+          return {
+            headline: "Politeness levels and past-tense conversations.",
+            topics: [
+              { id: "ko-a2-past", title: "Past Tense: -았/었어요", description: "Talk about what you did.", minutes: 20, xp: 90 },
+              { id: "ko-a2-polite", title: "Politeness Levels (-요 vs -ㅂ니다)", description: "Casual, polite, formal — pick the right one.", minutes: 18, xp: 80 },
+              { id: "ko-a2-daily", title: "Daily Routine", description: "일어나다, 자다, 먹다 — describe your day.", minutes: 15, xp: 60 },
+              { id: "ko-a2-shopping", title: "Shopping & Prices", description: "Myeongdong markets, sizes and bargaining.", minutes: 12, xp: 50 },
+              { id: "ko-a2-directions", title: "Directions in a City", description: "왼쪽, 오른쪽, 직진 — ask and understand.", minutes: 12, xp: 50 },
+              { id: "ko-a2-topik1", title: "TOPIK I Practice", description: "Sample beginner exam questions.", minutes: 25, xp: 110 },
+            ],
+          };
+        case "B1":
+          return {
+            headline: "Richer grammar and real conversation.",
+            topics: [
+              { id: "ko-b1-connectors", title: "Connectors: -고, -지만, -아서/어서", description: "Chain ideas smoothly.", minutes: 18, xp: 80 },
+              { id: "ko-b1-future", title: "Future & Intention: -을 거예요 / -을게요", description: "Plans and promises.", minutes: 18, xp: 80 },
+              { id: "ko-b1-opinion", title: "Giving Opinions", description: "저는 …라고 생각해요.", minutes: 15, xp: 60 },
+              { id: "ko-b1-kdrama", title: "K-Drama Listening", description: "Real speed dialogue with subtitles.", minutes: 20, xp: 90 },
+              { id: "ko-b1-topik2", title: "TOPIK II Foundations", description: "Grammar and vocabulary for intermediate exam.", minutes: 25, xp: 110 },
+            ],
+          };
+        case "B2":
+          return {
+            headline: "Nuanced grammar, honorifics, and idiom.",
+            topics: [
+              { id: "ko-b2-honorifics", title: "Honorifics (존댓말)", description: "-시-, 드리다, 계시다 — respect built into grammar.", minutes: 22, xp: 100 },
+              { id: "ko-b2-idioms", title: "Idioms & 사자성어", description: "Four-character idioms that Koreans actually use.", minutes: 18, xp: 80 },
+              { id: "ko-b2-news", title: "Reading Korean News", description: "Naver headlines and short articles.", minutes: 20, xp: 90 },
+              { id: "ko-b2-kpop", title: "K-Pop Lyrics", description: "Poetry, rhyme, and slang in lyrics.", minutes: 18, xp: 80 },
+            ],
+          };
+        case "C1":
+          return {
+            headline: "Business Korean and academic reading.",
+            topics: [
+              { id: "ko-c1-business", title: "Business Korean", description: "Emails, meetings, and workplace etiquette.", minutes: 25, xp: 110 },
+              { id: "ko-c1-essay", title: "Essay Writing", description: "TOPIK II 쓰기 essay structure.", minutes: 25, xp: 110 },
+              { id: "ko-c1-media", title: "Korean Cinema", description: "Bong Joon-ho, Park Chan-wook — dialogue analysis.", minutes: 22, xp: 100 },
+            ],
+          };
+        default:
+          return {
+            headline: "Near-native mastery and literary depth.",
+            topics: [
+              { id: "ko-c2-lit", title: "Modern Literature", description: "Han Kang, Kim Young-ha excerpts.", minutes: 30, xp: 130 },
+              { id: "ko-c2-classical", title: "Classical Korean & Hanja", description: "Read older texts with Chinese characters.", minutes: 30, xp: 130 },
+              { id: "ko-c2-poetry", title: "Sijo & Modern Poetry", description: "Compose your own sijo.", minutes: 25, xp: 110 },
+            ],
+          };
+      }
+    }),
+  },
 };
 
 export const LANGUAGE_LIST: LanguageCourse[] = [
   CURRICULUM.french,
   CURRICULUM.german,
   CURRICULUM.japanese,
+  CURRICULUM.korean,
   CURRICULUM.english,
   CURRICULUM.hindi_english,
 ];
