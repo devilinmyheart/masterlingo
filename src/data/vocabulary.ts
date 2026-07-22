@@ -91,6 +91,20 @@ export const STARTER_VOCAB: Record<LanguageId, Word[]> = {
     { word: "water", translation: "पानी", pronunciation: "वॉटर", example: "A glass of water, please.", exampleTranslation: "एक गिलास पानी, कृपया।" },
     { word: "food", translation: "खाना", pronunciation: "फ़ूड", example: "The food is delicious.", exampleTranslation: "खाना बहुत स्वादिष्ट है।" },
   ],
+  korean: [
+    { word: "안녕하세요", translation: "hello", pronunciation: "an-nyeong-ha-se-yo", example: "안녕하세요, 만나서 반갑습니다.", exampleTranslation: "Hello, nice to meet you." },
+    { word: "감사합니다", translation: "thank you", pronunciation: "gam-sa-ham-ni-da", example: "정말 감사합니다.", exampleTranslation: "Thank you very much." },
+    { word: "죄송합니다", translation: "sorry / excuse me", pronunciation: "joe-song-ham-ni-da", example: "늦어서 죄송합니다.", exampleTranslation: "Sorry I'm late." },
+    { word: "네", translation: "yes", pronunciation: "ne", example: "네, 맞아요.", exampleTranslation: "Yes, that's right." },
+    { word: "아니요", translation: "no", pronunciation: "a-ni-yo", example: "아니요, 괜찮아요.", exampleTranslation: "No, it's okay." },
+    { word: "오늘", translation: "today", pronunciation: "o-neul", example: "오늘 날씨가 좋아요.", exampleTranslation: "The weather is nice today." },
+    { word: "내일", translation: "tomorrow", pronunciation: "nae-il", example: "내일 봐요!", exampleTranslation: "See you tomorrow!" },
+    { word: "물", translation: "water", pronunciation: "mul", example: "물 한 잔 주세요.", exampleTranslation: "A glass of water, please." },
+    { word: "커피", translation: "coffee", pronunciation: "keo-pi", example: "커피 한 잔 주세요.", exampleTranslation: "A coffee, please." },
+    { word: "친구", translation: "friend", pronunciation: "chin-gu", example: "그는 제 친구예요.", exampleTranslation: "He is my friend." },
+    { word: "사랑", translation: "love", pronunciation: "sa-rang", example: "사랑해요.", exampleTranslation: "I love you." },
+    { word: "학생", translation: "student", pronunciation: "hak-saeng", example: "저는 학생이에요.", exampleTranslation: "I am a student." },
+  ],
 };
 
 // Beginner foundations: alphabet, numbers, greetings — used for the first A1 lessons
