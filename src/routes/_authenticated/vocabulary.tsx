@@ -84,6 +84,7 @@ function Vocabulary() {
     u.lang =
       lang === "french" ? "fr-FR" :
       lang === "german" ? "de-DE" :
+      lang === "korean" ? "ko-KR" :
       "ja-JP";
     window.speechSynthesis.speak(u);
   }

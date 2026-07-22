@@ -191,7 +191,7 @@ export function getAnimationFor(translation: string): IconSpec | null {
 // Category icons for the lesson-path nodes on /learn.
 export function categoryIconFor(topicId: string): IconSpec {
   if (/-review$/.test(topicId)) return { emoji: "🏆", motion: "bounce" };
-  if (/alphabet|hiragana|katakana|pron/i.test(topicId)) return { emoji: "🔤", motion: "wiggle" };
+  if (/alphabet|hiragana|katakana|hangul|pron/i.test(topicId)) return { emoji: "🔤", motion: "wiggle" };
   if (/number|counting|time/i.test(topicId)) return { emoji: "🔢", motion: "spin" };
   if (/greeting|small.?talk|introduc/i.test(topicId)) return { emoji: "👋", motion: "wave" };
   if (/grammar|articles|verbs|tense|conjug/i.test(topicId)) return { emoji: "⚙️", motion: "spin" };

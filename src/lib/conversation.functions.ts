@@ -5,7 +5,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 import { assertPro } from "@/lib/entitlement";
 
-const TrackEnum = z.enum(["french", "german", "japanese", "english", "hindi_english"]);
+const TrackEnum = z.enum(["french", "german", "japanese", "english", "hindi_english", "korean"]);
 
 const TurnInput = z.object({
   track: TrackEnum,
@@ -50,6 +50,13 @@ function personaFor(track: z.infer<typeof TrackEnum>) {
         explainIn: "English",
         scriptNote:
           "Always show Japanese in kanji + kana, followed by romaji in parentheses.",
+      };
+    case "korean":
+      return {
+        target: "Korean",
+        explainIn: "English",
+        scriptNote:
+          "Always show Korean in Hangul, followed by romanization in parentheses. Match the learner's politeness level (default to -요 polite form).",
       };
     case "english":
       return { target: "English", explainIn: "English", scriptNote: "" };

@@ -186,6 +186,7 @@ function LessonPage() {
     u.lang =
       language.id === "french" ? "fr-FR" :
       language.id === "german" ? "de-DE" :
+      language.id === "korean" ? "ko-KR" :
       "ja-JP";
     window.speechSynthesis.speak(u);
   }
@@ -507,7 +508,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 }
 
 function detectFoundation(lessonId: string): FoundationKind | null {
-  if (/alphabet|pron|hiragana|katakana/i.test(lessonId)) return "alphabet";
+  if (/alphabet|pron|hiragana|katakana|hangul/i.test(lessonId)) return "alphabet";
   if (/number/i.test(lessonId)) return "numbers";
   if (/greeting/i.test(lessonId)) return "greetings";
   return null;
