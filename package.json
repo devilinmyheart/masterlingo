@@ -75,10 +75,10 @@
     "zod": "^4.4.3"
   },
   "overrides": {
-    "@tanstack/router-core": "1.171.14"
+    "@tanstack/router-core": "1.171.34"
   },
   "resolutions": {
-    "@tanstack/router-core": "1.171.14"
+    "@tanstack/router-core": "1.171.34"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
